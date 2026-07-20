@@ -69,3 +69,121 @@ Keep it under 40 words.
     response = model.generate_content(prompt)
 
     return response.text
+# ---------------------------------
+# Smart Timetable Generator
+# ---------------------------------
+def generate_smart_timetable(
+    model,
+    school_hours,
+    tuition_hours,
+    study_hours,
+    sleep_hours,
+    meal_times,
+    weak_subjects
+):
+
+    prompt = f"""
+Create a weekly smart timetable.
+
+Details:
+- School Hours: {school_hours}
+- Tuition Hours: {tuition_hours}
+- Daily Study Hours: {study_hours}
+- Sleep Hours: {sleep_hours}
+- Meal Times: {meal_times}
+- Weak Subjects: {weak_subjects}
+
+Return ONLY a markdown table.
+
+Columns:
+
+| Time | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
+
+Rules:
+- Include breaks.
+- Balance all subjects.
+- Give extra time for weak subjects.
+- Include revision sessions.
+- Keep Sunday lighter with revision.
+"""
+
+    response = model.generate_content(prompt)
+
+    return response.text
+
+
+# ---------------------------------
+# Subject Priority Analyzer
+# ---------------------------------
+def analyze_subject_priority(
+    model,
+    subjects,
+    weak_subjects,
+    goal
+):
+
+    prompt = f"""
+You are an AI Study Advisor.
+
+Subjects:
+{subjects}
+
+Weak Subjects:
+{weak_subjects}
+
+Goal:
+{goal}
+
+Rank every subject as:
+
+High
+Medium
+Low
+
+Return ONLY a markdown table.
+
+Columns:
+
+| Subject | Priority | Reason |
+"""
+
+    response = model.generate_content(prompt)
+
+    return response.text
+
+
+# ---------------------------------
+# Study Session Planner
+# ---------------------------------
+def generate_study_session(
+    model,
+    subject,
+    available_hours
+):
+
+    prompt = f"""
+Create a study session for:
+
+Subject:
+{subject}
+
+Available Hours:
+{available_hours}
+
+Split the session into:
+
+- Learning
+- Practice
+- Revision
+- Short Breaks
+
+Return ONLY a markdown table.
+
+Columns:
+
+| Time | Activity |
+"""
+
+    response = model.generate_content(prompt)
+
+    return response.text
