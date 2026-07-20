@@ -187,3 +187,89 @@ Columns:
     response = model.generate_content(prompt)
 
     return response.text
+# ---------------------------------
+# AI Quiz Generator
+# ---------------------------------
+def generate_quiz(
+    model,
+    subject,
+    student_class,
+    difficulty
+):
+
+    prompt = f"""
+Generate exactly 15 multiple-choice questions.
+
+Subject: {subject}
+Class: {student_class}
+Difficulty: {difficulty}
+
+Rules:
+- Exactly 15 questions
+- 4 options (A, B, C, D)
+- Mention the correct answer after each question
+- Return in Markdown format
+"""
+
+    response = model.generate_content(prompt)
+
+    return response.text
+
+
+# ---------------------------------
+# Progress Tracker
+# ---------------------------------
+def generate_progress(completed_topics, total_topics):
+
+    if total_topics == 0:
+        return 0
+
+    percentage = (completed_topics / total_topics) * 100
+
+    return round(percentage, 2)
+
+
+# ---------------------------------
+# AI Motivation Generator
+# ---------------------------------
+def generate_daily_motivation(model):
+
+    prompt = """
+Generate one short motivational quote for students.
+
+Maximum 30 words.
+"""
+
+    response = model.generate_content(prompt)
+
+    return response.text
+
+
+# ---------------------------------
+# AI Study Assistant
+# ---------------------------------
+def ask_ai(model, question):
+
+    response = model.generate_content(question)
+
+    return response.text
+
+
+# ---------------------------------
+# Study Notifications
+# ---------------------------------
+def study_notification():
+
+    return "⏰ Time to study! Stay focused and achieve your goal."
+
+
+# ---------------------------------
+# Pomodoro Timer
+# ---------------------------------
+def pomodoro_timer():
+
+    return {
+        "Study": 25,
+        "Short Break": 5,
+        "Long Break": 15
+    }
