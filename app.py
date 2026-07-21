@@ -1,6 +1,6 @@
 import streamlit as st
 from database import create_database
-from auth import register_user, login_user
+from auth import signup_page, login_page, logout
 from utils import get_greeting
 from modules import configure_gemini
 
@@ -68,3 +68,28 @@ menu = st.sidebar.selectbox(
     "Menu",
     ["Login", "Sign Up"]
 )
+# -----------------------------
+# Login & Sign Up Pages
+# -----------------------------
+
+if not st.session_state.logged_in:
+
+    if menu == "Login":
+        login_page()
+
+    elif menu == "Sign Up":
+        signup_page()
+
+else:
+
+    st.sidebar.success("✅ Logged In")
+
+    if st.sidebar.button("Logout"):
+        logout()
+        st.rerun()
+
+    st.success(f"Welcome {st.session_state.user[1]} 🎉")
+
+    st.write("You have successfully logged into AI Powered Study Companion.")
+
+    st.info("➡️ Dashboard modules will appear in the next step.")
