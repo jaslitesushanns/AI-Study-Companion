@@ -7,7 +7,8 @@ from modules import (
     generate_study_plan,
     generate_smart_timetable,
     analyze_subject_priority,
-    generate_study_session
+    generate_study_session,
+    generate_quiz
 )
 
 # -----------------------------
@@ -368,3 +369,47 @@ elif page == "📖 Study Session":
             )
 
             st.markdown(session)
+# ==============================
+# AI QUIZ GENERATOR
+# ==============================
+
+elif page == "❓ AI Quiz":
+
+    st.header("❓ AI Quiz Generator")
+
+    subject = st.text_input("Subject")
+
+    student_class = st.selectbox(
+        "Class",
+        ["8", "9", "10", "11", "12"],
+        key="quiz_class"
+    )
+
+    difficulty = st.selectbox(
+        "Difficulty",
+        ["Easy", "Medium", "Hard"]
+    )
+
+    api_key = st.text_input(
+        "Gemini API Key",
+        type="password",
+        key="quiz_api"
+    )
+
+    if st.button("Generate Quiz"):
+
+        if api_key == "":
+            st.error("Please enter your Gemini API Key.")
+
+        else:
+
+            model = configure_gemini(api_key)
+
+            quiz = generate_quiz(
+                model,
+                subject,
+                student_class,
+                difficulty
+            )
+
+            st.markdown(quiz)
