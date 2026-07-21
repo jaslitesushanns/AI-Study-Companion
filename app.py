@@ -9,7 +9,8 @@ from modules import (
     analyze_subject_priority,
     generate_study_session,
     generate_quiz,
-    generate_progress
+    generate_progress,
+    generate_daily_motivation
 )
 
 # -----------------------------
@@ -444,3 +445,29 @@ elif page == "📈 Progress":
         st.progress(progress / 100)
 
         st.success(f"Overall Progress: {progress}%")
+# ==============================
+# MOTIVATION GENERATOR
+# ==============================
+
+elif page == "💪 Motivation":
+
+    st.header("💪 Daily Motivation")
+
+    api_key = st.text_input(
+        "Gemini API Key",
+        type="password",
+        key="motivation_api"
+    )
+
+    if st.button("Generate Motivation"):
+
+        if api_key == "":
+            st.error("Please enter your Gemini API Key.")
+
+        else:
+
+            model = configure_gemini(api_key)
+
+            motivation = generate_daily_motivation(model)
+
+            st.success(motivation)
