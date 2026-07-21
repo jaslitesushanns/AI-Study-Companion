@@ -10,7 +10,8 @@ from modules import (
     generate_study_session,
     generate_quiz,
     generate_progress,
-    generate_daily_motivation
+    generate_daily_motivation,
+    ask_ai
 )
 
 # -----------------------------
@@ -471,3 +472,39 @@ elif page == "💪 Motivation":
             motivation = generate_daily_motivation(model)
 
             st.success(motivation)
+# ==============================
+# AI STUDY ASSISTANT
+# ==============================
+
+elif page == "🤖 AI Assistant":
+
+    st.header("🤖 AI Study Assistant")
+
+    question = st.text_area(
+        "Ask any study-related question"
+    )
+
+    api_key = st.text_input(
+        "Gemini API Key",
+        type="password",
+        key="assistant_api"
+    )
+
+    if st.button("Ask AI"):
+
+        if api_key == "":
+            st.error("Please enter your Gemini API Key.")
+
+        elif question.strip() == "":
+            st.error("Please enter a question.")
+
+        else:
+
+            model = configure_gemini(api_key)
+
+            answer = ask_ai(
+                model,
+                question
+            )
+
+            st.markdown(answer)
