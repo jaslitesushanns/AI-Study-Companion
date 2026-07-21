@@ -6,7 +6,8 @@ from modules import (
     configure_gemini,
     generate_study_plan,
     generate_smart_timetable,
-    analyze_subject_priority
+    analyze_subject_priority,
+    generate_study_session
 )
 
 # -----------------------------
@@ -328,3 +329,42 @@ elif page == "📊 Subject Priority":
             )
 
             st.markdown(result)
+# ==============================
+# STUDY SESSION PLANNER
+# ==============================
+
+elif page == "📖 Study Session":
+
+    st.header("📖 AI Study Session Planner")
+
+    subject = st.text_input("Subject")
+
+    available_hours = st.slider(
+        "Available Study Hours",
+        1,
+        12,
+        3
+    )
+
+    api_key = st.text_input(
+        "Gemini API Key",
+        type="password",
+        key="session_api"
+    )
+
+    if st.button("Generate Study Session"):
+
+        if api_key == "":
+            st.error("Please enter your Gemini API Key.")
+
+        else:
+
+            model = configure_gemini(api_key)
+
+            session = generate_study_session(
+                model,
+                subject,
+                available_hours
+            )
+
+            st.markdown(session)
