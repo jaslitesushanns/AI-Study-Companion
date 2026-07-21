@@ -1,8 +1,9 @@
 import streamlit as st
 from reportlab.pdfgen import canvas
+
 from database import create_database
 from auth import signup_page, login_page, logout
-from utils import get_greeting
+
 from modules import (
     configure_gemini,
     generate_study_plan,
@@ -11,9 +12,91 @@ from modules import (
     generate_study_session,
     generate_quiz,
     generate_progress,
+    generate_motivation,
     generate_daily_motivation,
-    ask_ai
+    ask_ai,
+    study_notification,
+    pomodoro_timer
 )
+# ---------------------------------
+# Page Configuration
+# ---------------------------------
+
+st.set_page_config(
+    page_title="AI Powered Study Companion",
+    page_icon="📚",
+    layout="wide"
+)
+
+# ---------------------------------
+# Database Initialization
+# ---------------------------------
+
+create_database()
+
+# ---------------------------------
+# Session State
+# ---------------------------------
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if "user" not in st.session_state:
+    st.session_state.user = None
+    # ---------------------------------
+# Custom CSS
+# ---------------------------------
+
+st.markdown("""
+<style>
+
+.main {
+    background-color: #f8fff8;
+}
+
+h1, h2, h3 {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.stButton>button {
+    background-color: #2e7d32;
+    color: white;
+    border-radius: 10px;
+    width: 100%;
+    height: 45px;
+    border: none;
+    font-weight: bold;
+}
+
+.stButton>button:hover {
+    background-color: #1b5e20;
+    color: white;
+}
+
+section[data-testid="stSidebar"] {
+    background-color: #e8f5e9;
+}
+
+div[data-testid="stMetric"] {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #2e7d32;
+}
+
+.stTextInput input,
+.stTextArea textarea,
+.stSelectbox div {
+    border-radius: 8px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+# ---------------------------------
+# PDF Generator
+# ---------------------------------
+
 def create_pdf(content):
 
     pdf_file = "Study_Report.pdf"
@@ -22,134 +105,81 @@ def create_pdf(content):
 
     y = 800
 
-    for line in content.split("\n"):
+    for line in str(content).split("\n"):
         c.drawString(40, y, line)
         y -= 20
+
+        if y < 40:
+            c.showPage()
+            y = 800
 
     c.save()
 
     return pdf_file
-# -----------------------------
-# Page Configuration
-# -----------------------------
-st.set_page_config(
-    page_title="AI Study Companion",
-    page_icon="📚",
-    layout="wide"
-)
+       # ---------------------------------
+# Main Title
+# ---------------------------------
 
-# -----------------------------
-# Create Database
-# -----------------------------
-create_database()
-
-# -----------------------------
-# Custom Green & White Theme
-# -----------------------------
-st.markdown("""
-<style>
-
-.stApp{
-    background-color:#f8fff8;
-}
-
-h1,h2,h3{
-    color:#1B5E20;
-}
-
-.stButton>button{
-    background:#2E7D32;
-    color:white;
-    border-radius:10px;
-    height:45px;
-    width:100%;
-    border:none;
-}
-
-.stButton>button:hover{
-    background:#1B5E20;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# -----------------------------
-# Session State
-# -----------------------------
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-
-if "user_name" not in st.session_state:
-    st.session_state.user_name = ""
-
-# -----------------------------
-# Title
-# -----------------------------
 st.title("📚 AI Powered Study Companion")
 
-st.write(get_greeting())
-
-menu = st.sidebar.selectbox(
-    "Menu",
-    ["Login", "Sign Up"]
-)
-# -----------------------------
-# Login & Sign Up Pages
-# -----------------------------
+st.caption("Your Personal AI Learning Partner")
+# ---------------------------------
+# Login / Signup Menu
+# ---------------------------------
 
 if not st.session_state.logged_in:
+
+    menu = st.sidebar.selectbox(
+        "Menu",
+        ["Login", "Create Account"]
+    )
 
     if menu == "Login":
         login_page()
 
-    elif menu == "Sign Up":
+    else:
         signup_page()
 
-else:
+    st.stop()
+    # ---------------------------------
+# Sidebar
+# ---------------------------------
 
-    st.sidebar.success("✅ Logged In")
+st.sidebar.title("📚 Navigation")
 
-    if st.sidebar.button("Logout"):
-        logout()
-        st.rerun()
+page = st.sidebar.radio(
+    "Choose a Module",
+    [
+        "🏠 Dashboard",
+        "📅 Study Plan",
+        "🗓 Smart Timetable",
+        "📊 Subject Priority",
+        "📖 Study Session",
+        "❓ AI Quiz",
+        "📈 Progress",
+        "💪 Motivation",
+        "🤖 AI Assistant",
+        "⏱ Study Timer",
+        "🔔 Notifications"
+    ]
+)
 
-    st.success(f"Welcome {st.session_state.user[1]} 🎉")
+st.sidebar.write("---")
 
-    st.write("You have successfully logged into AI Powered Study Companion.")
+if st.sidebar.button("🚪 Logout"):
+    logout()
+    st.rerun()
+    # ---------------------------------
+# Dashboard
+# ---------------------------------
 
-    st.info("➡️ Dashboard modules will appear in the next step.")
-# ==============================
-# STUDENT DASHBOARD
-# ==============================
+if page == "🏠 Dashboard":
 
-if st.session_state.logged_in:
+    user = st.session_state.user
 
-    st.sidebar.title("📚 Navigation")
+    st.header("🏠 Student Dashboard")
 
-    page = st.sidebar.radio(
-        "Choose Module",
-        [
-    "🏠 Dashboard",
-    "📅 Study Plan",
-    "🗓 Smart Timetable",
-    "📊 Subject Priority",
-    "📖 Study Session",
-    "❓ AI Quiz",
-    "📈 Progress",
-    "💪 Motivation",
-    "🤖 AI Assistant",
-    "⏱ Study Timer",
-    "🔔 Notifications"
-]
-    )
-
-    if page == "🏠 Dashboard":
-
-        st.header("🏠 Student Dashboard")   
-
-       user = st.session_state.user
-
-       st.subheader(f"Welcome, {user[1]} 👋")
+    st.success(f"Welcome, {user[1]} 👋")
 
     col1, col2 = st.columns(2)
 
@@ -163,23 +193,23 @@ if st.session_state.logged_in:
 
     st.divider()
 
-    st.subheader("📈 Overall Progress")
+    st.subheader("📊 Progress")
 
-    progress = 0
+    st.progress(0)
 
-    st.progress(progress)
+    st.write("Completed Topics: 0")
 
     st.write("Progress: 0%")
 
     st.divider()
 
-    st.subheader("💪 Today's Motivation")
+    st.subheader("💡 Daily Motivation")
 
-    st.success("Small progress each day leads to big success!")
+    st.success("Small progress every day leads to big success.")
 
     st.divider()
 
-    st.subheader("📅 Quick Access")
+    st.subheader("🚀 Quick Access")
 
     c1, c2, c3 = st.columns(3)
 
@@ -191,26 +221,26 @@ if st.session_state.logged_in:
 
     with c3:
         st.button("❓ Quiz")
-# ==============================
-# AI STUDY PLAN GENERATOR
-# ==============================
+        # ---------------------------------
+# Study Plan Generator
+# ---------------------------------
 
 elif page == "📅 Study Plan":
 
     st.header("📅 AI Study Plan Generator")
 
-    st.write("Fill in your study details below.")
-
     student_name = st.text_input("Student Name")
 
     student_class = st.selectbox(
         "Class",
-        ["8", "9", "10", "11", "12"]
+        ["8", "9", "10", "11", "12"],
+        key="sp_class"
     )
 
     board = st.selectbox(
         "Board",
-        ["CBSE", "ICSE", "State Board", "IB", "Other"]
+        ["CBSE", "ICSE", "State Board", "IB", "Other"],
+        key="sp_board"
     )
 
     subjects = st.text_area(
@@ -218,9 +248,7 @@ elif page == "📅 Study Plan":
         placeholder="Maths, Science, English..."
     )
 
-    weak_subjects = st.text_input(
-        "Weak Subjects"
-    )
+    weak_subjects = st.text_input("Weak Subjects")
 
     study_hours = st.slider(
         "Daily Study Hours",
@@ -238,10 +266,10 @@ elif page == "📅 Study Plan":
 
     api_key = st.text_input(
         "Gemini API Key",
-        type="password"
+        type="password",
+        key="study_api"
     )
-
-    if st.button("Generate Study Plan"):
+        if st.button("Generate Study Plan"):
 
         if api_key == "":
             st.error("Please enter your Gemini API Key.")
@@ -262,21 +290,21 @@ elif page == "📅 Study Plan":
                 goal
             )
 
-            st.markdown(result) 
-          
+            st.markdown(result)
+
             pdf = create_pdf(result)
 
-with open(pdf, "rb") as file:
+            with open(pdf, "rb") as file:
 
-    st.download_button(
-        label="📥 Download Study Plan PDF",
-        data=file,
-        file_name="Study_Plan.pdf",
-        mime="application/pdf"
-    )
-# ==============================
-# SMART TIMETABLE
-# ==============================
+                st.download_button(
+                    label="📥 Download Study Plan PDF",
+                    data=file,
+                    file_name="Study_Plan.pdf",
+                    mime="application/pdf"
+                )
+                # ---------------------------------
+# Smart Timetable
+# ---------------------------------
 
 elif page == "🗓 Smart Timetable":
 
@@ -284,7 +312,7 @@ elif page == "🗓 Smart Timetable":
 
     school_hours = st.text_input(
         "School Hours",
-        placeholder="8:30 AM - 3:30 PM"
+        placeholder="8:00 AM - 3:00 PM"
     )
 
     tuition_hours = st.text_input(
@@ -296,13 +324,14 @@ elif page == "🗓 Smart Timetable":
         "Daily Study Hours",
         1,
         12,
-        4
+        4,
+        key="tt_hours"
     )
 
     sleep_hours = st.slider(
         "Sleep Hours",
-        5,
-        10,
+        4,
+        12,
         8
     )
 
@@ -311,14 +340,16 @@ elif page == "🗓 Smart Timetable":
         placeholder="8 AM, 1 PM, 8 PM"
     )
 
-    weak_subjects = st.text_input("Weak Subjects")
+    weak_subjects = st.text_input(
+        "Weak Subjects",
+        key="tt_weak"
+    )
 
     api_key = st.text_input(
         "Gemini API Key",
         type="password",
         key="tt_api"
     )
-
     if st.button("Generate Timetable"):
 
         if api_key == "":
@@ -340,30 +371,33 @@ elif page == "🗓 Smart Timetable":
 
             st.markdown(timetable)
 
-pdf = create_pdf(timetable)
+            pdf = create_pdf(timetable)
 
-with open(pdf, "rb") as file:
+            with open(pdf, "rb") as file:
 
-    st.download_button(
-        label="📥 Download Timetable PDF",
-        data=file,
-        file_name="Smart_Timetable.pdf",
-        mime="application/pdf"
-    )
-# ==============================
-# SUBJECT PRIORITY ANALYZER
-# ==============================
+                st.download_button(
+                    label="📥 Download Timetable PDF",
+                    data=file,
+                    file_name="Smart_Timetable.pdf",
+                    mime="application/pdf"
+                )
+                # ---------------------------------
+# Subject Priority Analyzer
+# ---------------------------------
 
 elif page == "📊 Subject Priority":
 
     st.header("📊 Subject Priority Analyzer")
 
     subjects = st.text_area(
-        "Enter all subjects",
-        placeholder="Maths, Science, English, Social..."
+        "Enter All Subjects",
+        placeholder="Maths, Science, English, Social, Tamil"
     )
 
-    weak_subjects = st.text_input("Weak Subjects")
+    weak_subjects = st.text_input(
+        "Weak Subjects",
+        key="priority_weak"
+    )
 
     goal = st.text_input(
         "Goal",
@@ -375,7 +409,6 @@ elif page == "📊 Subject Priority":
         type="password",
         key="priority_api"
     )
-
     if st.button("Analyze Priority"):
 
         if api_key == "":
@@ -385,23 +418,36 @@ elif page == "📊 Subject Priority":
 
             model = configure_gemini(api_key)
 
-            result = analyze_subject_priority(
+            priority = analyze_subject_priority(
                 model,
                 subjects,
                 weak_subjects,
                 goal
             )
 
-            st.markdown(result)
-# ==============================
-# STUDY SESSION PLANNER
-# ==============================
+            st.markdown(priority)
+
+            pdf = create_pdf(priority)
+
+            with open(pdf, "rb") as file:
+
+                st.download_button(
+                    label="📥 Download Priority Report",
+                    data=file,
+                    file_name="Subject_Priority.pdf",
+                    mime="application/pdf"
+                )
+                # ---------------------------------
+# Study Session Planner
+# ---------------------------------
 
 elif page == "📖 Study Session":
 
     st.header("📖 AI Study Session Planner")
 
-    subject = st.text_input("Subject")
+    subject = st.text_input(
+        "Subject"
+    )
 
     available_hours = st.slider(
         "Available Study Hours",
@@ -415,7 +461,6 @@ elif page == "📖 Study Session":
         type="password",
         key="session_api"
     )
-
     if st.button("Generate Study Session"):
 
         if api_key == "":
@@ -432,15 +477,29 @@ elif page == "📖 Study Session":
             )
 
             st.markdown(session)
-# ==============================
-# AI QUIZ GENERATOR
-# ==============================
+
+            pdf = create_pdf(session)
+
+            with open(pdf, "rb") as file:
+
+                st.download_button(
+                    label="📥 Download Study Session PDF",
+                    data=file,
+                    file_name="Study_Session.pdf",
+                    mime="application/pdf"
+                )
+                # ---------------------------------
+# AI Quiz Generator
+# ---------------------------------
 
 elif page == "❓ AI Quiz":
 
     st.header("❓ AI Quiz Generator")
 
-    subject = st.text_input("Subject")
+    subject = st.text_input(
+        "Subject",
+        key="quiz_subject"
+    )
 
     student_class = st.selectbox(
         "Class",
@@ -458,7 +517,6 @@ elif page == "❓ AI Quiz":
         type="password",
         key="quiz_api"
     )
-
     if st.button("Generate Quiz"):
 
         if api_key == "":
@@ -477,19 +535,19 @@ elif page == "❓ AI Quiz":
 
             st.markdown(quiz)
 
-pdf = create_pdf(quiz)
+            pdf = create_pdf(quiz)
 
-with open(pdf, "rb") as file:
+            with open(pdf, "rb") as file:
 
-    st.download_button(
-        label="📥 Download Quiz PDF",
-        data=file,
-        file_name="Quiz.pdf",
-        mime="application/pdf"
-    )
-# ==============================
-# PROGRESS TRACKER
-# ==============================
+                st.download_button(
+                    label="📥 Download Quiz PDF",
+                    data=file,
+                    file_name="AI_Quiz.pdf",
+                    mime="application/pdf"
+                )
+                # ---------------------------------
+# Progress Tracker
+# ---------------------------------
 
 elif page == "📈 Progress":
 
@@ -517,13 +575,18 @@ elif page == "📈 Progress":
         st.progress(progress / 100)
 
         st.success(f"Overall Progress: {progress}%")
-# ==============================
-# MOTIVATION GENERATOR
-# ==============================
+        # ---------------------------------
+# Motivation Generator
+# ---------------------------------
 
 elif page == "💪 Motivation":
 
     st.header("💪 Daily Motivation")
+
+    goal = st.text_input(
+        "Enter Your Goal",
+        placeholder="Example: Score above 95%"
+    )
 
     api_key = st.text_input(
         "Gemini API Key",
@@ -536,34 +599,40 @@ elif page == "💪 Motivation":
         if api_key == "":
             st.error("Please enter your Gemini API Key.")
 
+        elif goal.strip() == "":
+            st.error("Please enter your goal.")
+
         else:
 
             model = configure_gemini(api_key)
 
-            motivation = generate_daily_motivation(model)
+            motivation = generate_motivation(
+                model,
+                goal
+            )
 
             st.success(motivation)
 
-pdf = create_pdf(motivation)
+            pdf = create_pdf(motivation)
 
-with open(pdf, "rb") as file:
+            with open(pdf, "rb") as file:
 
-    st.download_button(
-        label="📥 Download Motivation PDF",
-        data=file,
-        file_name="Motivation.pdf",
-        mime="application/pdf"
-    )
-# ==============================
-# AI STUDY ASSISTANT
-# ==============================
+                st.download_button(
+                    label="📥 Download Motivation PDF",
+                    data=file,
+                    file_name="Motivation.pdf",
+                    mime="application/pdf"
+                )
+                # ---------------------------------
+# AI Study Assistant
+# ---------------------------------
 
 elif page == "🤖 AI Assistant":
 
     st.header("🤖 AI Study Assistant")
 
     question = st.text_area(
-        "Ask any study-related question"
+        "Ask your question"
     )
 
     api_key = st.text_input(
@@ -591,34 +660,36 @@ elif page == "🤖 AI Assistant":
 
             st.markdown(answer)
 
-pdf = create_pdf(answer)
+            pdf = create_pdf(answer)
 
-with open(pdf, "rb") as file:
+            with open(pdf, "rb") as file:
 
-    st.download_button(
-        label="📥 Download Answer PDF",
-        data=file,
-        file_name="AI_Answer.pdf",
-        mime="application/pdf"
-    )
-# ==============================
-# STUDY TIMER
-# ==============================
+                st.download_button(
+                    label="📥 Download Answer PDF",
+                    data=file,
+                    file_name="AI_Answer.pdf",
+                    mime="application/pdf"
+                )
+                # ---------------------------------
+# Study Timer
+# ---------------------------------
 
 elif page == "⏱ Study Timer":
 
     st.header("⏱ Study Timer")
 
     timer_type = st.radio(
-        "Select Timer",
+        "Choose Timer",
         ["Pomodoro", "Custom"]
     )
 
     if timer_type == "Pomodoro":
 
-        st.success("📚 Study: 25 Minutes")
-        st.info("☕ Short Break: 5 Minutes")
-        st.warning("🌴 Long Break: 15 Minutes")
+        timer = pomodoro_timer()
+
+        st.success(f"📚 Study Time : {timer['Study']} Minutes")
+        st.info(f"☕ Short Break : {timer['Short Break']} Minutes")
+        st.warning(f"🌴 Long Break : {timer['Long Break']} Minutes")
 
     else:
 
@@ -640,21 +711,27 @@ elif page == "⏱ Study Timer":
 
             total_seconds = (hours * 3600) + (minutes * 60)
 
-            st.success(f"✅ Timer Started for {hours} hour(s) {minutes} minute(s).")
+            st.success(
+                f"Timer Started for {hours} hour(s) and {minutes} minute(s)"
+            )
 
             st.info(f"Total Time: {total_seconds} seconds")
-            # ==============================
-# STUDY NOTIFICATIONS
-# ==============================
+            # ---------------------------------
+# Notifications
+# ---------------------------------
 
 elif page == "🔔 Notifications":
 
     st.header("🔔 Study Notifications")
 
-    st.success("📚 Time to study!")
+    notification = study_notification()
 
-    st.info("⏰ Complete today's study plan.")
+    st.success(notification)
 
-    st.warning("💧 Drink water and take short breaks.")
+    st.info("📚 Complete today's study plan.")
 
-    st.success("🎯 Stay focused and achieve your goal!")
+    st.warning("💧 Drink water regularly.")
+
+    st.info("😴 Get enough sleep.")
+
+    st.success("🎯 Stay focused and keep learning!")
