@@ -5,7 +5,8 @@ from utils import get_greeting
 from modules import (
     configure_gemini,
     generate_study_plan,
-    generate_smart_timetable
+    generate_smart_timetable,
+    analyze_subject_priority
 )
 
 # -----------------------------
@@ -284,3 +285,46 @@ elif page == "🗓 Smart Timetable":
             )
 
             st.markdown(timetable)
+# ==============================
+# SUBJECT PRIORITY ANALYZER
+# ==============================
+
+elif page == "📊 Subject Priority":
+
+    st.header("📊 Subject Priority Analyzer")
+
+    subjects = st.text_area(
+        "Enter all subjects",
+        placeholder="Maths, Science, English, Social..."
+    )
+
+    weak_subjects = st.text_input("Weak Subjects")
+
+    goal = st.text_input(
+        "Goal",
+        placeholder="Example: Score above 95%"
+    )
+
+    api_key = st.text_input(
+        "Gemini API Key",
+        type="password",
+        key="priority_api"
+    )
+
+    if st.button("Analyze Priority"):
+
+        if api_key == "":
+            st.error("Please enter your Gemini API Key.")
+
+        else:
+
+            model = configure_gemini(api_key)
+
+            result = analyze_subject_priority(
+                model,
+                subjects,
+                weak_subjects,
+                goal
+            )
+
+            st.markdown(result)
