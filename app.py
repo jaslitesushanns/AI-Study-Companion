@@ -2,7 +2,7 @@ import streamlit as st
 from database import create_database
 from auth import signup_page, login_page, logout
 from utils import get_greeting
-from modules import configure_gemini
+from modules import configure_gemini, generate_study_plan
 
 # -----------------------------
 # Page Configuration
