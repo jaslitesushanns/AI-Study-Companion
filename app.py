@@ -144,7 +144,8 @@ if st.session_state.logged_in:
     )
 
     if page == "🏠 Dashboard":
-       st.header("🏠 Student Dashboard")
+
+        st.header("🏠 Student Dashboard")   
 
        user = st.session_state.user
 
