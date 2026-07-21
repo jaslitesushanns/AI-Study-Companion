@@ -8,7 +8,8 @@ from modules import (
     generate_smart_timetable,
     analyze_subject_priority,
     generate_study_session,
-    generate_quiz
+    generate_quiz,
+    generate_progress
 )
 
 # -----------------------------
@@ -413,3 +414,33 @@ elif page == "❓ AI Quiz":
             )
 
             st.markdown(quiz)
+# ==============================
+# PROGRESS TRACKER
+# ==============================
+
+elif page == "📈 Progress":
+
+    st.header("📈 Progress Tracker")
+
+    completed_topics = st.number_input(
+        "Completed Topics",
+        min_value=0,
+        value=0
+    )
+
+    total_topics = st.number_input(
+        "Total Topics",
+        min_value=1,
+        value=1
+    )
+
+    if st.button("Calculate Progress"):
+
+        progress = generate_progress(
+            completed_topics,
+            total_topics
+        )
+
+        st.progress(progress / 100)
+
+        st.success(f"Overall Progress: {progress}%")
