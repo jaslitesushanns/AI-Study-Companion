@@ -93,3 +93,53 @@ else:
     st.write("You have successfully logged into AI Powered Study Companion.")
 
     st.info("➡️ Dashboard modules will appear in the next step.")
+# ==============================
+# STUDENT DASHBOARD
+# ==============================
+
+if st.session_state.logged_in:
+
+    st.sidebar.title("📚 Navigation")
+
+    page = st.sidebar.radio(
+        "Choose Module",
+        [
+            "🏠 Dashboard",
+            "📅 Study Plan",
+            "🗓 Smart Timetable",
+            "📊 Subject Priority",
+            "📖 Study Session",
+            "❓ AI Quiz",
+            "📈 Progress",
+            "💪 Motivation",
+            "🤖 AI Assistant",
+            "⏱ Study Timer",
+            "🔔 Notifications"
+        ]
+    )
+
+    if page == "🏠 Dashboard":
+
+        st.header("🏠 Student Dashboard")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric("Completed Topics", "0")
+
+        with col2:
+            st.metric("Progress", "0%")
+
+        st.write("---")
+
+        st.subheader("🎯 Today's Goal")
+
+        st.info("No goal set yet.")
+
+        st.subheader("📅 Today's Study Plan")
+
+        st.info("Generate your study plan from the Study Plan module.")
+
+        st.subheader("💪 Daily Motivation")
+
+        st.success("Every small step today builds your success tomorrow.")
