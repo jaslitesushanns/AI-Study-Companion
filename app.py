@@ -1,4 +1,5 @@
 import streamlit as st
+from reportlab.pdfgen import canvas
 from database import create_database
 from auth import signup_page, login_page, logout
 from utils import get_greeting
@@ -13,7 +14,21 @@ from modules import (
     generate_daily_motivation,
     ask_ai
 )
+def create_pdf(content):
 
+    pdf_file = "Study_Report.pdf"
+
+    c = canvas.Canvas(pdf_file)
+
+    y = 800
+
+    for line in content.split("\n"):
+        c.drawString(40, y, line)
+        y -= 20
+
+    c.save()
+
+    return pdf_file
 # -----------------------------
 # Page Configuration
 # -----------------------------
