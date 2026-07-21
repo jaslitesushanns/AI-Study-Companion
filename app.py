@@ -143,3 +143,75 @@ if st.session_state.logged_in:
         st.subheader("💪 Daily Motivation")
 
         st.success("Every small step today builds your success tomorrow.")
+# ==============================
+# AI STUDY PLAN GENERATOR
+# ==============================
+
+elif page == "📅 Study Plan":
+
+    st.header("📅 AI Study Plan Generator")
+
+    st.write("Fill in your study details below.")
+
+    student_name = st.text_input("Student Name")
+
+    student_class = st.selectbox(
+        "Class",
+        ["8", "9", "10", "11", "12"]
+    )
+
+    board = st.selectbox(
+        "Board",
+        ["CBSE", "ICSE", "State Board", "IB", "Other"]
+    )
+
+    subjects = st.text_area(
+        "Subjects",
+        placeholder="Maths, Science, English..."
+    )
+
+    weak_subjects = st.text_input(
+        "Weak Subjects"
+    )
+
+    study_hours = st.slider(
+        "Daily Study Hours",
+        1,
+        12,
+        4
+    )
+
+    exam_date = st.date_input("Exam Date")
+
+    goal = st.text_input(
+        "Goal",
+        placeholder="Example: Score above 90%"
+    )
+
+    api_key = st.text_input(
+        "Gemini API Key",
+        type="password"
+    )
+
+    if st.button("Generate Study Plan"):
+
+        if api_key == "":
+            st.error("Please enter your Gemini API Key.")
+
+        else:
+
+            model = configure_gemini(api_key)
+
+            result = generate_study_plan(
+                model,
+                student_name,
+                student_class,
+                board,
+                subjects,
+                weak_subjects,
+                study_hours,
+                exam_date,
+                goal
+            )
+
+            st.markdown(result)
