@@ -2,7 +2,11 @@ import streamlit as st
 from database import create_database
 from auth import signup_page, login_page, logout
 from utils import get_greeting
-from modules import configure_gemini, generate_study_plan
+from modules import (
+    configure_gemini,
+    generate_study_plan,
+    generate_smart_timetable
+)
 
 # -----------------------------
 # Page Configuration
@@ -215,3 +219,68 @@ elif page == "📅 Study Plan":
             )
 
             st.markdown(result)
+# ==============================
+# SMART TIMETABLE
+# ==============================
+
+elif page == "🗓 Smart Timetable":
+
+    st.header("🗓 AI Smart Timetable")
+
+    school_hours = st.text_input(
+        "School Hours",
+        placeholder="8:30 AM - 3:30 PM"
+    )
+
+    tuition_hours = st.text_input(
+        "Tuition Hours",
+        placeholder="5:00 PM - 6:30 PM"
+    )
+
+    study_hours = st.slider(
+        "Daily Study Hours",
+        1,
+        12,
+        4
+    )
+
+    sleep_hours = st.slider(
+        "Sleep Hours",
+        5,
+        10,
+        8
+    )
+
+    meal_times = st.text_input(
+        "Meal Times",
+        placeholder="8 AM, 1 PM, 8 PM"
+    )
+
+    weak_subjects = st.text_input("Weak Subjects")
+
+    api_key = st.text_input(
+        "Gemini API Key",
+        type="password",
+        key="tt_api"
+    )
+
+    if st.button("Generate Timetable"):
+
+        if api_key == "":
+            st.error("Please enter your Gemini API Key.")
+
+        else:
+
+            model = configure_gemini(api_key)
+
+            timetable = generate_smart_timetable(
+                model,
+                school_hours,
+                tuition_hours,
+                study_hours,
+                sleep_hours,
+                meal_times,
+                weak_subjects
+            )
+
+            st.markdown(timetable)
