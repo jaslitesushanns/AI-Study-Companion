@@ -129,45 +129,68 @@ if st.session_state.logged_in:
     page = st.sidebar.radio(
         "Choose Module",
         [
-            "🏠 Dashboard",
-            "📅 Study Plan",
-            "🗓 Smart Timetable",
-            "📊 Subject Priority",
-            "📖 Study Session",
-            "❓ AI Quiz",
-            "📈 Progress",
-            "💪 Motivation",
-            "🤖 AI Assistant",
-            "⏱ Study Timer",
-            "🔔 Notifications"
-        ]
+    "🏠 Dashboard",
+    "📅 Study Plan",
+    "🗓 Smart Timetable",
+    "📊 Subject Priority",
+    "📖 Study Session",
+    "❓ AI Quiz",
+    "📈 Progress",
+    "💪 Motivation",
+    "🤖 AI Assistant",
+    "⏱ Study Timer",
+    "🔔 Notifications"
+]
     )
 
     if page == "🏠 Dashboard":
 
-        st.header("🏠 Student Dashboard")
+    st.header("🏠 Student Dashboard")
 
-        col1, col2 = st.columns(2)
+    user = st.session_state.user
 
-        with col1:
-            st.metric("Completed Topics", "0")
+    st.subheader(f"Welcome, {user[1]} 👋")
 
-        with col2:
-            st.metric("Progress", "0%")
+    col1, col2 = st.columns(2)
 
-        st.write("---")
+    with col1:
+        st.info(f"📧 Email: {user[2]}")
+        st.info(f"🎓 Class: {user[4]}")
 
-        st.subheader("🎯 Today's Goal")
+    with col2:
+        st.info(f"📖 Board: {user[5]}")
+        st.info("🔥 Study Streak: 0 Days")
 
-        st.info("No goal set yet.")
+    st.divider()
 
-        st.subheader("📅 Today's Study Plan")
+    st.subheader("📈 Overall Progress")
 
-        st.info("Generate your study plan from the Study Plan module.")
+    progress = 0
 
-        st.subheader("💪 Daily Motivation")
+    st.progress(progress)
 
-        st.success("Every small step today builds your success tomorrow.")
+    st.write("Progress: 0%")
+
+    st.divider()
+
+    st.subheader("💪 Today's Motivation")
+
+    st.success("Small progress each day leads to big success!")
+
+    st.divider()
+
+    st.subheader("📅 Quick Access")
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.button("📅 Study Plan")
+
+    with c2:
+        st.button("🗓 Timetable")
+
+    with c3:
+        st.button("❓ Quiz")
 # ==============================
 # AI STUDY PLAN GENERATOR
 # ==============================
@@ -239,7 +262,18 @@ elif page == "📅 Study Plan":
                 goal
             )
 
-            st.markdown(result)
+            st.markdown(result) 
+          
+            pdf = create_pdf(result)
+
+with open(pdf, "rb") as file:
+
+    st.download_button(
+        label="📥 Download Study Plan PDF",
+        data=file,
+        file_name="Study_Plan.pdf",
+        mime="application/pdf"
+    )
 # ==============================
 # SMART TIMETABLE
 # ==============================
@@ -305,6 +339,17 @@ elif page == "🗓 Smart Timetable":
             )
 
             st.markdown(timetable)
+
+pdf = create_pdf(timetable)
+
+with open(pdf, "rb") as file:
+
+    st.download_button(
+        label="📥 Download Timetable PDF",
+        data=file,
+        file_name="Smart_Timetable.pdf",
+        mime="application/pdf"
+    )
 # ==============================
 # SUBJECT PRIORITY ANALYZER
 # ==============================
@@ -431,6 +476,17 @@ elif page == "❓ AI Quiz":
             )
 
             st.markdown(quiz)
+
+pdf = create_pdf(quiz)
+
+with open(pdf, "rb") as file:
+
+    st.download_button(
+        label="📥 Download Quiz PDF",
+        data=file,
+        file_name="Quiz.pdf",
+        mime="application/pdf"
+    )
 # ==============================
 # PROGRESS TRACKER
 # ==============================
@@ -487,6 +543,17 @@ elif page == "💪 Motivation":
             motivation = generate_daily_motivation(model)
 
             st.success(motivation)
+
+pdf = create_pdf(motivation)
+
+with open(pdf, "rb") as file:
+
+    st.download_button(
+        label="📥 Download Motivation PDF",
+        data=file,
+        file_name="Motivation.pdf",
+        mime="application/pdf"
+    )
 # ==============================
 # AI STUDY ASSISTANT
 # ==============================
@@ -523,6 +590,17 @@ elif page == "🤖 AI Assistant":
             )
 
             st.markdown(answer)
+
+pdf = create_pdf(answer)
+
+with open(pdf, "rb") as file:
+
+    st.download_button(
+        label="📥 Download Answer PDF",
+        data=file,
+        file_name="AI_Answer.pdf",
+        mime="application/pdf"
+    )
 # ==============================
 # STUDY TIMER
 # ==============================
