@@ -265,12 +265,12 @@ elif page == "📅 Study Plan":
     )
 
     api_key = st.text_input(
-    "Gemini API Key",
-    type="password",
-    key="study_api"
-)
+        "Gemini API Key",
+        type="password",
+        key="study_api"
+    )
 
-        if st.button("Generate Study Plan"):
+    if st.button("Generate Study Plan"):
 
         if api_key == "":
             st.error("Please enter your Gemini API Key.")
