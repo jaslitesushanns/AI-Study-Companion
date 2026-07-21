@@ -508,3 +508,60 @@ elif page == "🤖 AI Assistant":
             )
 
             st.markdown(answer)
+# ==============================
+# STUDY TIMER
+# ==============================
+
+elif page == "⏱ Study Timer":
+
+    st.header("⏱ Study Timer")
+
+    timer_type = st.radio(
+        "Select Timer",
+        ["Pomodoro", "Custom"]
+    )
+
+    if timer_type == "Pomodoro":
+
+        st.success("📚 Study: 25 Minutes")
+        st.info("☕ Short Break: 5 Minutes")
+        st.warning("🌴 Long Break: 15 Minutes")
+
+    else:
+
+        hours = st.number_input(
+            "Hours",
+            min_value=0,
+            max_value=10,
+            value=1
+        )
+
+        minutes = st.number_input(
+            "Minutes",
+            min_value=0,
+            max_value=59,
+            value=0
+        )
+
+        if st.button("Start Timer"):
+
+            total_seconds = (hours * 3600) + (minutes * 60)
+
+            st.success(f"✅ Timer Started for {hours} hour(s) {minutes} minute(s).")
+
+            st.info(f"Total Time: {total_seconds} seconds")
+            # ==============================
+# STUDY NOTIFICATIONS
+# ==============================
+
+elif page == "🔔 Notifications":
+
+    st.header("🔔 Study Notifications")
+
+    st.success("📚 Time to study!")
+
+    st.info("⏰ Complete today's study plan.")
+
+    st.warning("💧 Drink water and take short breaks.")
+
+    st.success("🎯 Stay focused and achieve your goal!")
