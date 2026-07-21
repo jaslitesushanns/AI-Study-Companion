@@ -144,12 +144,11 @@ if st.session_state.logged_in:
     )
 
     if page == "🏠 Dashboard":
+       st.header("🏠 Student Dashboard")
 
-    st.header("🏠 Student Dashboard")
+       user = st.session_state.user
 
-    user = st.session_state.user
-
-    st.subheader(f"Welcome, {user[1]} 👋")
+       st.subheader(f"Welcome, {user[1]} 👋")
 
     col1, col2 = st.columns(2)
 
