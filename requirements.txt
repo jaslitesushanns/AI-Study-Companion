@@ -2,3 +2,4 @@ streamlit
 google-generativeai
 pandas
 sqlite3-api
+reportlab
