@@ -57,13 +57,16 @@ def login_page():
 
         user = login_user(email, password)
 
-        if user:
-            st.session_state.logged_in = True
-            st.session_state.user = user
-            st.success("Login Successful!")
+    if user:
+        st.session_state.logged_in = True
+        st.session_state.user = user
+        st.success("Login Successful!")
 
+        st.rerun()
+        
         else:
             st.error("Invalid Email or Password")
+            
 
 
 def logout():
