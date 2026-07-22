@@ -269,16 +269,14 @@ elif page == "📅 Study Plan":
         type="password",
         key="study_api"
     )
-
     if st.button("Generate Study Plan"):
 
         if api_key == "":
             st.error("Please enter your Gemini API Key.")
 
         else:
-
             model = configure_gemini(api_key)
-
+            
             result = generate_study_plan(
                 model,
                 student_name,
