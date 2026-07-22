@@ -32,19 +32,20 @@ def signup_page():
             st.error("Passwords do not match.")
 
         else:
+
             success = register_user(
                 full_name,
                 email,
                 password,
                 class_name,
                 board
-           )
+            )
 
-           if success:
-               st.success("✅ Account Created Successfully!")
+            if success:
+                st.success("✅ Account Created Successfully!")
 
-           else:
-               st.error("Email already exists.")
+            else:
+                st.error("Email already exists.")
 
 
 def login_page():
@@ -65,7 +66,6 @@ def login_page():
 
         else:
             st.error("Invalid Email or Password")
-            
 
 
 def logout():
