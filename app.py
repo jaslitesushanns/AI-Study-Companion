@@ -221,7 +221,7 @@ if page == "🏠 Dashboard":
 
     with c3:
         st.button("❓ Quiz")
-        # ---------------------------------
+       # ---------------------------------
 # Study Plan Generator
 # ---------------------------------
 
@@ -248,7 +248,9 @@ elif page == "📅 Study Plan":
         placeholder="Maths, Science, English..."
     )
 
-    weak_subjects = st.text_input("Weak Subjects")
+    weak_subjects = st.text_input(
+        "Weak Subjects"
+    )
 
     study_hours = st.slider(
         "Daily Study Hours",
@@ -264,19 +266,12 @@ elif page == "📅 Study Plan":
         placeholder="Example: Score above 90%"
     )
 
-    api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        key="study_api"
-    )
     if st.button("Generate Study Plan"):
 
-        if api_key == "":
-            st.error("Please enter your Gemini API Key.")
+        with st.spinner("Generating your personalized study plan..."):
 
-        else:
-            model = configure_gemini(api_key)
-            
+            model = configure_gemini()
+
             result = generate_study_plan(
                 model,
                 student_name,
@@ -289,19 +284,21 @@ elif page == "📅 Study Plan":
                 goal
             )
 
-            st.markdown(result)
+        st.success("✅ Study Plan Generated Successfully!")
 
-            pdf = create_pdf(result)
+        st.markdown(result)
 
-            with open(pdf, "rb") as file:
+        pdf = create_pdf(result)
 
-                st.download_button(
-                    label="📥 Download Study Plan PDF",
-                    data=file,
-                    file_name="Study_Plan.pdf",
-                    mime="application/pdf"
-                )
-                # ---------------------------------
+        with open(pdf, "rb") as file:
+
+            st.download_button(
+                label="📥 Download Study Plan PDF",
+                data=file,
+                file_name="Study_Plan.pdf",
+                mime="application/pdf"
+            )
+               # ---------------------------------
 # Smart Timetable
 # ---------------------------------
 
@@ -344,19 +341,11 @@ elif page == "🗓 Smart Timetable":
         key="tt_weak"
     )
 
-    api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        key="tt_api"
-    )
     if st.button("Generate Timetable"):
 
-        if api_key == "":
-            st.error("Please enter your Gemini API Key.")
+        with st.spinner("Generating Smart Timetable..."):
 
-        else:
-
-            model = configure_gemini(api_key)
+            model = configure_gemini()
 
             timetable = generate_smart_timetable(
                 model,
@@ -368,19 +357,21 @@ elif page == "🗓 Smart Timetable":
                 weak_subjects
             )
 
-            st.markdown(timetable)
+        st.success("✅ Timetable Generated Successfully!")
 
-            pdf = create_pdf(timetable)
+        st.markdown(timetable)
 
-            with open(pdf, "rb") as file:
+        pdf = create_pdf(timetable)
 
-                st.download_button(
-                    label="📥 Download Timetable PDF",
-                    data=file,
-                    file_name="Smart_Timetable.pdf",
-                    mime="application/pdf"
-                )
-                # ---------------------------------
+        with open(pdf, "rb") as file:
+
+            st.download_button(
+                label="📥 Download Timetable PDF",
+                data=file,
+                file_name="Smart_Timetable.pdf",
+                mime="application/pdf"
+            )
+               # ---------------------------------
 # Subject Priority Analyzer
 # ---------------------------------
 
@@ -403,19 +394,11 @@ elif page == "📊 Subject Priority":
         placeholder="Example: Score above 95%"
     )
 
-    api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        key="priority_api"
-    )
     if st.button("Analyze Priority"):
 
-        if api_key == "":
-            st.error("Please enter your Gemini API Key.")
+        with st.spinner("Analyzing subject priority..."):
 
-        else:
-
-            model = configure_gemini(api_key)
+            model = configure_gemini()
 
             priority = analyze_subject_priority(
                 model,
@@ -424,19 +407,21 @@ elif page == "📊 Subject Priority":
                 goal
             )
 
-            st.markdown(priority)
+        st.success("✅ Analysis Completed!")
 
-            pdf = create_pdf(priority)
+        st.markdown(priority)
 
-            with open(pdf, "rb") as file:
+        pdf = create_pdf(priority)
 
-                st.download_button(
-                    label="📥 Download Priority Report",
-                    data=file,
-                    file_name="Subject_Priority.pdf",
-                    mime="application/pdf"
-                )
-                # ---------------------------------
+        with open(pdf, "rb") as file:
+
+            st.download_button(
+                label="📥 Download Priority Report",
+                data=file,
+                file_name="Subject_Priority.pdf",
+                mime="application/pdf"
+            )
+               # ---------------------------------
 # Study Session Planner
 # ---------------------------------
 
@@ -455,19 +440,11 @@ elif page == "📖 Study Session":
         3
     )
 
-    api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        key="session_api"
-    )
     if st.button("Generate Study Session"):
 
-        if api_key == "":
-            st.error("Please enter your Gemini API Key.")
+        with st.spinner("Generating study session..."):
 
-        else:
-
-            model = configure_gemini(api_key)
+            model = configure_gemini()
 
             session = generate_study_session(
                 model,
@@ -475,18 +452,20 @@ elif page == "📖 Study Session":
                 available_hours
             )
 
-            st.markdown(session)
+        st.success("✅ Study Session Generated Successfully!")
 
-            pdf = create_pdf(session)
+        st.markdown(session)
 
-            with open(pdf, "rb") as file:
+        pdf = create_pdf(session)
 
-                st.download_button(
-                    label="📥 Download Study Session PDF",
-                    data=file,
-                    file_name="Study_Session.pdf",
-                    mime="application/pdf"
-                )
+        with open(pdf, "rb") as file:
+
+            st.download_button(
+                label="📥 Download Study Session PDF",
+                data=file,
+                file_name="Study_Session.pdf",
+                mime="application/pdf"
+            )
                 # ---------------------------------
 # AI Quiz Generator
 # ---------------------------------
@@ -511,19 +490,11 @@ elif page == "❓ AI Quiz":
         ["Easy", "Medium", "Hard"]
     )
 
-    api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        key="quiz_api"
-    )
     if st.button("Generate Quiz"):
 
-        if api_key == "":
-            st.error("Please enter your Gemini API Key.")
+        with st.spinner("Generating quiz..."):
 
-        else:
-
-            model = configure_gemini(api_key)
+            model = configure_gemini()
 
             quiz = generate_quiz(
                 model,
@@ -532,18 +503,20 @@ elif page == "❓ AI Quiz":
                 difficulty
             )
 
-            st.markdown(quiz)
+        st.success("✅ Quiz Generated Successfully!")
 
-            pdf = create_pdf(quiz)
+        st.markdown(quiz)
 
-            with open(pdf, "rb") as file:
+        pdf = create_pdf(quiz)
 
-                st.download_button(
-                    label="📥 Download Quiz PDF",
-                    data=file,
-                    file_name="AI_Quiz.pdf",
-                    mime="application/pdf"
-                )
+        with open(pdf, "rb") as file:
+
+            st.download_button(
+                label="📥 Download Quiz PDF",
+                data=file,
+                file_name="AI_Quiz.pdf",
+                mime="application/pdf"
+            )
                 # ---------------------------------
 # Progress Tracker
 # ---------------------------------
@@ -574,7 +547,7 @@ elif page == "📈 Progress":
         st.progress(progress / 100)
 
         st.success(f"Overall Progress: {progress}%")
-        # ---------------------------------
+     # ---------------------------------
 # Motivation Generator
 # ---------------------------------
 
@@ -587,28 +560,23 @@ elif page == "💪 Motivation":
         placeholder="Example: Score above 95%"
     )
 
-    api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        key="motivation_api"
-    )
-
     if st.button("Generate Motivation"):
 
-        if api_key == "":
-            st.error("Please enter your Gemini API Key.")
-
-        elif goal.strip() == "":
+        if goal.strip() == "":
             st.error("Please enter your goal.")
 
         else:
 
-            model = configure_gemini(api_key)
+            with st.spinner("Generating motivation..."):
 
-            motivation = generate_motivation(
-                model,
-                goal
-            )
+                model = configure_gemini()
+
+                motivation = generate_motivation(
+                    model,
+                    goal
+                )
+
+            st.success("✅ Motivation Generated!")
 
             st.success(motivation)
 
@@ -622,7 +590,7 @@ elif page == "💪 Motivation":
                     file_name="Motivation.pdf",
                     mime="application/pdf"
                 )
-                # ---------------------------------
+               # ---------------------------------
 # AI Study Assistant
 # ---------------------------------
 
@@ -634,28 +602,23 @@ elif page == "🤖 AI Assistant":
         "Ask your question"
     )
 
-    api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        key="assistant_api"
-    )
-
     if st.button("Ask AI"):
 
-        if api_key == "":
-            st.error("Please enter your Gemini API Key.")
-
-        elif question.strip() == "":
+        if question.strip() == "":
             st.error("Please enter a question.")
 
         else:
 
-            model = configure_gemini(api_key)
+            with st.spinner("Thinking..."):
 
-            answer = ask_ai(
-                model,
-                question
-            )
+                model = configure_gemini()
+
+                answer = ask_ai(
+                    model,
+                    question
+                )
+
+            st.success("✅ Answer Generated!")
 
             st.markdown(answer)
 
