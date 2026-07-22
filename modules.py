@@ -1,11 +1,12 @@
-import pandas as pd
+import streamlit as st
 import google.generativeai as genai
 
 
 # ---------------------------------
 # Configure Gemini
 # ---------------------------------
-def configure_gemini(api_key):
+def configure_gemini():
+    api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
     return genai.GenerativeModel("gemini-2.0-flash")
 
