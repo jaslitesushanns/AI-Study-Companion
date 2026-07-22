@@ -38,13 +38,13 @@ def signup_page():
                 password,
                 class_name,
                 board
-            )
+           )
 
-            if success:
-                st.success("✅ Account Created Successfully!")
+           if success:
+               st.success("✅ Account Created Successfully!")
 
-            else:
-                st.error("Email already exists.")
+           else:
+               st.error("Email already exists.")
 
 
 def login_page():
@@ -57,13 +57,12 @@ def login_page():
 
         user = login_user(email, password)
 
-    if user:
-        st.session_state.logged_in = True
-        st.session_state.user = user
-        st.success("Login Successful!")
+        if user:
+            st.session_state.logged_in = True
+            st.session_state.user = user
+            st.success("Login Successful!")
+            st.rerun()
 
-        st.rerun()
-        
         else:
             st.error("Invalid Email or Password")
             
