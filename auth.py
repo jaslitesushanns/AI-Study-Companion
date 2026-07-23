@@ -1,124 +1,83 @@
-import streamlit as st
 import sqlite3
-from database import (
-    create_session,
-    delete_session
-)
+import hashlib
 
-DB_NAME = "students.db"
+DATABASE = "students.db"
 
 
-# ---------------------------------------
-# LOGIN
-# ---------------------------------------
+def create_users_table():
 
-def login():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
 
-    st.subheader("🔐 Login")
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        password TEXT
+    )
+    """)
 
-    email = st.text_input("Email")
-    password = st.text_input("Password", type="password")
+    conn.commit()
+    conn.close()
 
-    if st.button("Login", use_container_width=True):
 
-        conn = sqlite3.connect(DB_NAME)
-        cursor = conn.cursor()
+
+def hash_password(password):
+
+    return hashlib.sha256(
+        password.encode()
+    ).hexdigest()
+
+
+
+def register_user(username, password):
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    try:
 
         cursor.execute("""
-        SELECT *
-        FROM users
-        WHERE email=? AND password=?
-        """, (email, password))
+        INSERT INTO users(username,password)
+        VALUES(?,?)
+        """,
+        (
+            username,
+            hash_password(password)
+        ))
 
-        user = cursor.fetchone()
+        conn.commit()
+        result = True
 
-        conn.close()
+    except sqlite3.IntegrityError:
 
-        if user:
+        result = False
 
-            session_id = create_session(user[0])
+    conn.close()
 
-            st.session_state.logged_in = True
-            st.session_state.user = user
-            st.session_state.session_id = session_id
-
-            st.success("✅ Login Successful")
-
-            st.rerun()
-
-        else:
-
-            st.error("Invalid Email or Password")
+    return result
 
 
-# ---------------------------------------
-# SIGNUP
-# ---------------------------------------
 
-def signup():
+def login_user(username, password):
 
-    st.subheader("📝 Create Account")
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
 
-    name = st.text_input("Full Name")
+    cursor.execute("""
+    SELECT * FROM users
+    WHERE username=? AND password=?
+    """,
+    (
+        username,
+        hash_password(password)
+    ))
 
-    email = st.text_input("Email")
+    user = cursor.fetchone()
 
-    password = st.text_input("Password", type="password")
+    conn.close()
 
-    class_name = st.selectbox(
-        "Class",
-        ["8","9","10","11","12"]
-    )
-
-    board = st.selectbox(
-        "Board",
-        ["CBSE","ICSE","State Board","IB","Other"]
-    )
-
-    if st.button("Create Account", use_container_width=True):
-
-        conn = sqlite3.connect(DB_NAME)
-
-        cursor = conn.cursor()
-
-        try:
-
-            cursor.execute("""
-            INSERT INTO users
-            (full_name,email,password,class_name,board)
-            VALUES (?,?,?,?,?)
-            """,
-            (
-                name,
-                email,
-                password,
-                class_name,
-                board
-            ))
-
-            conn.commit()
-
-            st.success("✅ Account Created Successfully")
-
-        except:
-
-            st.error("Email already exists.")
-
-        conn.close()
-
-
-# ---------------------------------------
-# LOGOUT
-# ---------------------------------------
-
-def logout():
-
-    if "session_id" in st.session_state:
-
-        delete_session(
-            st.session_state.session_id
-        )
-
-    st.session_state.clear()
-
-    st.rerun()
+    if user:
+        return True
+    else:
+        return False
