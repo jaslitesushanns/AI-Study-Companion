@@ -1,73 +1,36 @@
-import random
-from datetime import datetime
+import google.generativeai as genai
+import os
 
 
-# -----------------------------
-# Greeting Message
-# -----------------------------
-def get_greeting():
-    hour = datetime.now().hour
+def configure_gemini(api_key):
 
-    if hour < 12:
-        return "🌞 Good Morning!"
+    genai.configure(api_key=api_key)
 
-    elif hour < 17:
-        return "☀️ Good Afternoon!"
+    model = genai.GenerativeModel(
+        "gemini-1.5-flash"
+    )
 
-    else:
-        return "🌙 Good Evening!"
+    return model
 
 
-# -----------------------------
-# Progress Calculator
-# -----------------------------
-def calculate_progress(completed, total):
-    if total == 0:
-        return 0
 
-    return round((completed / total) * 100, 2)
+def ask_gemini(model, prompt):
 
+    try:
 
-# -----------------------------
-# Study Streak
-# -----------------------------
-def calculate_streak(days):
-    return max(0, days)
+        response = model.generate_content(prompt)
+
+        return response.text
+
+    except Exception as e:
+
+        return f"Error: {e}"
 
 
-# -----------------------------
-# Motivational Quotes
-# -----------------------------
-def get_motivation():
-    quotes = [
-        "📚 Success is the sum of small efforts repeated every day.",
-        "🎯 Stay focused. Your future self will thank you.",
-        "💪 Every chapter you complete brings you closer to your goal.",
-        "🌟 Believe in yourself. You are capable of amazing things.",
-        "🚀 Dream big. Study smart. Achieve more."
-    ]
 
-    return random.choice(quotes)
+def clean_response(text):
 
+    if text is None:
+        return ""
 
-# -----------------------------
-# Timer Formatter
-# -----------------------------
-def format_time(seconds):
-    minutes = seconds // 60
-    seconds = seconds % 60
-    return f"{minutes:02d}:{seconds:02d}"
-
-
-# -----------------------------
-# Validate Email
-# -----------------------------
-def validate_email(email):
-    return "@" in email and "." in email
-
-
-# -----------------------------
-# Validate Password
-# -----------------------------
-def validate_password(password):
-    return len(password) >= 6
+    return text.strip()
