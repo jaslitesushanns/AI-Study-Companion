@@ -10,6 +10,20 @@ def create_database():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
+   # -----------------------------
+   # Users Table
+   # -----------------------------
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    full_name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    class_name TEXT,
+    board TEXT,
+    created_at TEXT
+)
+""")
     # -----------------------------
     # Student Profile
     # -----------------------------
