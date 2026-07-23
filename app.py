@@ -2,7 +2,11 @@ import streamlit as st
 from reportlab.pdfgen import canvas
 
 from database import create_database
-from auth import signup_page, login_page, logout
+from auth import (
+    create_users_table,
+    register_user,
+    login_user
+)
 
 from modules import (
     configure_gemini,
