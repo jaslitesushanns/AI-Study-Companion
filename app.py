@@ -3,9 +3,9 @@ from reportlab.pdfgen import canvas
 
 from database import create_database
 from auth import (
-    create_users_table,
-    register_user,
-    login_user
+    login,
+    signup,
+    logout
 )
 
 from modules import (
