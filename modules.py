@@ -1,275 +1,229 @@
-import streamlit as st
-import google.generativeai as genai
+from utils import ask_gemini
 
 
-# ---------------------------------
-# Configure Gemini
-# ---------------------------------
-def configure_gemini():
-    api_key = st.secrets["GEMINI_API_KEY"]
-    genai.configure(api_key=api_key)
-    return genai.GenerativeModel("gemini-3.5-flash")
+# 1. Study Plan Generator
 
-# ---------------------------------
-# Study Plan Generator
-# ---------------------------------
 def generate_study_plan(
     model,
     student_name,
     student_class,
     board,
-    subjects,
-    weak_subjects,
+    percentage,
     study_hours,
-    exam_date,
-    goal
+    goal,
+    weak_subjects
 ):
 
     prompt = f"""
-You are an expert AI Study Planner.
-
-Create a 7-day study plan.
+Create a 7 day study plan.
 
 Student Name: {student_name}
 Class: {student_class}
 Board: {board}
-Subjects: {subjects}
-Weak Subjects: {weak_subjects}
-Daily Study Hours: {study_hours}
-Exam Date: {exam_date}
+Percentage: {percentage}
+Available Study Hours: {study_hours}
 Goal: {goal}
+Weak Subjects: {weak_subjects}
 
 Return ONLY a markdown table.
 
 Columns:
-
 | Day | Subject | Topic | Hours |
 
-Do not explain anything.
+Do not write explanations.
 """
 
-    response = model.generate_content(prompt)
-
-    return response.text
+    return ask_gemini(model, prompt)
 
 
-# ---------------------------------
-# Motivation Generator
-# ---------------------------------
-def generate_motivation(model, goal):
 
-    prompt = f"""
-Give one short motivational quote for a student whose goal is:
+# 2. Smart Timetable Generator
 
-{goal}
-
-Keep it under 40 words.
-"""
-
-    response = model.generate_content(prompt)
-
-    return response.text
-# ---------------------------------
-# Smart Timetable Generator
-# ---------------------------------
 def generate_smart_timetable(
     model,
-    school_hours,
-    tuition_hours,
+    student_class,
     study_hours,
-    sleep_hours,
-    meal_times,
     weak_subjects
 ):
 
     prompt = f"""
 Create a weekly smart timetable.
 
-Details:
-- School Hours: {school_hours}
-- Tuition Hours: {tuition_hours}
-- Daily Study Hours: {study_hours}
-- Sleep Hours: {sleep_hours}
-- Meal Times: {meal_times}
-- Weak Subjects: {weak_subjects}
+Class: {student_class}
+Study Hours: {study_hours}
+Weak Subjects: {weak_subjects}
 
-Return ONLY a markdown table.
+Include:
+- Subjects
+- Breaks
+- Revision
+- Weak subject priority
+
+Return ONLY markdown table.
 
 Columns:
-
 | Time | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
-
-Rules:
-- Include breaks.
-- Balance all subjects.
-- Give extra time for weak subjects.
-- Include revision sessions.
-- Keep Sunday lighter with revision.
 """
 
-    response = model.generate_content(prompt)
-
-    return response.text
+    return ask_gemini(model, prompt)
 
 
-# ---------------------------------
-# Subject Priority Analyzer
-# ---------------------------------
+
+# 3. Subject Priority Analyzer
+
 def analyze_subject_priority(
     model,
-    subjects,
+    percentage,
     weak_subjects,
     goal
 ):
 
     prompt = f"""
-You are an AI Study Advisor.
+Analyze student's subject priorities.
 
-Subjects:
-{subjects}
+Percentage: {percentage}
+Weak Subjects: {weak_subjects}
+Goal: {goal}
 
-Weak Subjects:
-{weak_subjects}
-
-Goal:
-{goal}
-
-Rank every subject as:
-
-High
-Medium
-Low
-
-Return ONLY a markdown table.
-
-Columns:
-
+Return:
 | Subject | Priority | Reason |
+Only table format.
 """
 
-    response = model.generate_content(prompt)
-
-    return response.text
+    return ask_gemini(model, prompt)
 
 
-# ---------------------------------
-# Study Session Planner
-# ---------------------------------
+
+# 4. Study Session Planner
+
 def generate_study_session(
     model,
-    subject,
-    available_hours
+    study_hours
 ):
 
     prompt = f"""
-Create a study session for:
+Create a focused study session.
+
+Available time:
+{study_hours}
+
+Include:
+- Study time
+- Break time
+- Revision
+
+Return table format.
+"""
+
+    return ask_gemini(model, prompt)
+
+
+
+# 5. AI Quiz Generator
+
+def generate_quiz(
+    model,
+    subject,
+    student_class
+):
+
+    prompt = f"""
+Generate a quiz.
 
 Subject:
 {subject}
 
-Available Hours:
-{available_hours}
+Class:
+{student_class}
 
-Split the session into:
+Create 10 questions with options.
 
-- Learning
-- Practice
-- Revision
-- Short Breaks
+Format:
 
-Return ONLY a markdown table.
-
-Columns:
-
-| Time | Activity |
+Question |
+A |
+B |
+C |
+D |
+Answer |
 """
 
-    response = model.generate_content(prompt)
+    return ask_gemini(model, prompt)
 
-    return response.text
-# ---------------------------------
-# AI Quiz Generator
-# ---------------------------------
-def generate_quiz(
+
+
+# 6. Progress Tracker
+
+def generate_progress(
     model,
-    subject,
-    student_class,
-    difficulty
+    completed_topics,
+    total_topics
 ):
 
     prompt = f"""
-Generate exactly 15 multiple-choice questions.
+Calculate learning progress.
 
-Subject: {subject}
-Class: {student_class}
-Difficulty: {difficulty}
+Completed Topics:
+{completed_topics}
 
-Rules:
-- Exactly 15 questions
-- 4 options (A, B, C, D)
-- Mention the correct answer after each question
-- Return in Markdown format
+Total Topics:
+{total_topics}
+
+Give percentage and suggestions.
 """
 
-    response = model.generate_content(prompt)
-
-    return response.text
+    return ask_gemini(model, prompt)
 
 
-# ---------------------------------
-# Progress Tracker
-# ---------------------------------
-def generate_progress(completed_topics, total_topics):
 
-    if total_topics == 0:
-        return 0
+# 7. Motivation Generator
 
-    percentage = (completed_topics / total_topics) * 100
+def generate_motivation(
+    model,
+    goal
+):
 
-    return round(percentage, 2)
+    prompt = f"""
+Generate motivation message.
 
+Student Goal:
+{goal}
 
-# ---------------------------------
-# AI Motivation Generator
-# ---------------------------------
-def generate_daily_motivation(model):
-
-    prompt = """
-Generate one short motivational quote for students.
-
-Maximum 30 words.
+Make it inspiring.
 """
 
-    response = model.generate_content(prompt)
-
-    return response.text
+    return ask_gemini(model, prompt)
 
 
-# ---------------------------------
-# AI Study Assistant
-# ---------------------------------
-def ask_ai(model, question):
 
-    response = model.generate_content(question)
+# 8. AI Study Assistant
 
-    return response.text
+def ask_ai(
+    model,
+    question
+):
+
+    prompt = f"""
+You are an AI Study Assistant.
+
+Answer this student question:
+
+{question}
+
+Explain clearly.
+"""
+
+    return ask_gemini(model, prompt)
 
 
-# ---------------------------------
+
 # Study Notifications
-# ---------------------------------
-def study_notification():
 
-    return "⏰ Time to study! Stay focused and achieve your goal."
+def study_notifications():
 
+    return """
+📚 Study Reminder
 
-# ---------------------------------
-# Pomodoro Timer
-# ---------------------------------
-def pomodoro_timer():
-
-    return {
-        "Study": 25,
-        "Short Break": 5,
-        "Long Break": 15
-    }
+Stay consistent!
+Complete your daily goals and keep learning.
+"""
