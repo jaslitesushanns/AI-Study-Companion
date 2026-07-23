@@ -1,5 +1,8 @@
 streamlit
 google-generativeai
 pandas
+numpy
 reportlab
-streamlit-authenticator
+matplotlib
+plotly
+sqlite3
