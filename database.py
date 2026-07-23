@@ -1,56 +1,25 @@
 import sqlite3
-import uuid
-from datetime import datetime
 
-DB_NAME = "students.db"
+
+DATABASE = "students.db"
 
 
 def create_database():
 
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-   # -----------------------------
-   # Users Table
-   # -----------------------------
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    full_name TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    class_name TEXT,
-    board TEXT,
-    created_at TEXT
-)
-""")
-    # -----------------------------
-    # Student Profile
-    # -----------------------------
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS students(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
-        class_name TEXT,
+        age INTEGER,
+        course TEXT,
+        percentage REAL,
         board TEXT,
-        school TEXT,
-        subjects TEXT,
-        portions TEXT,
+        study_hours TEXT,
         goal TEXT,
-        exam_date TEXT,
-        study_hours TEXT
-    )
-    """)
-
-    # -----------------------------
-    # Login Sessions
-    # -----------------------------
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS user_sessions(
-        session_id TEXT PRIMARY KEY,
-        student_id INTEGER,
-        created_at TEXT,
-        FOREIGN KEY(student_id) REFERENCES students(id)
+        weak_subjects TEXT
     )
     """)
 
@@ -58,112 +27,49 @@ CREATE TABLE IF NOT EXISTS users(
     conn.close()
 
 
-# -----------------------------------
-# Save Student Profile
-# -----------------------------------
+def save_student(
+    name,
+    age,
+    course,
+    percentage,
+    board,
+    study_hours,
+    goal,
+    weak_subjects
+):
 
-def save_student_profile(data):
-
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     cursor.execute("""
     INSERT INTO students
-    (name, class_name, board, school, subjects, portions, goal, exam_date, study_hours)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (name, age, course, percentage, board, study_hours, goal, weak_subjects)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """,
     (
-        data["name"],
-        data["class_name"],
-        data["board"],
-        data["school"],
-        data["subjects"],
-        data["portions"],
-        data["goal"],
-        data["exam_date"],
-        data["study_hours"]
+        name,
+        age,
+        course,
+        percentage,
+        board,
+        study_hours,
+        goal,
+        weak_subjects
     ))
 
     conn.commit()
     conn.close()
 
 
-# -----------------------------------
-# Get Latest Student Profile
-# -----------------------------------
+def get_students():
 
-def get_student_profile():
-
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-    cursor.execute("""
-    SELECT *
-    FROM students
-    ORDER BY id DESC
-    LIMIT 1
-    """)
+    cursor.execute("SELECT * FROM students")
 
-    data = cursor.fetchone()
+    data = cursor.fetchall()
 
     conn.close()
 
     return data
-
-
-# -----------------------------------
-# Session Management
-# -----------------------------------
-
-def create_session(student_id):
-
-    session_id = str(uuid.uuid4())
-
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    INSERT INTO user_sessions
-    VALUES (?, ?, ?)
-    """, (
-        session_id,
-        student_id,
-        datetime.now().isoformat()
-    ))
-
-    conn.commit()
-    conn.close()
-
-    return session_id
-
-
-def get_session(session_id):
-
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    SELECT *
-    FROM user_sessions
-    WHERE session_id=?
-    """, (session_id,))
-
-    session = cursor.fetchone()
-
-    conn.close()
-
-    return session
-
-
-def delete_session(session_id):
-
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    DELETE FROM user_sessions
-    WHERE session_id=?
-    """, (session_id,))
-
-    conn.commit()
-    conn.close()
