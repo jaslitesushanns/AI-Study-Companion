@@ -1,15 +1,15 @@
 import streamlit as st
-from reportlab.pdfgen import canvas
 
-from database import create_database
+from database import create_database, save_student
 from auth import (
-    login,
-    signup,
-    logout
+    create_users_table,
+    register_user,
+    login_user
 )
 
+from utils import configure_gemini
+
 from modules import (
-    configure_gemini,
     generate_study_plan,
     generate_smart_timetable,
     analyze_subject_priority,
@@ -17,726 +17,404 @@ from modules import (
     generate_quiz,
     generate_progress,
     generate_motivation,
-    generate_daily_motivation,
     ask_ai,
-    study_notification,
-    pomodoro_timer
+    study_notifications
 )
-# ---------------------------------
-# Page Configuration
-# ---------------------------------
+
+
+# ---------------------------
+# Database Setup
+# ---------------------------
+
+create_database()
+create_users_table()
+
+
+# ---------------------------
+# Page Setup
+# ---------------------------
 
 st.set_page_config(
-    page_title="AI Powered Study Companion",
+    page_title="AI Study Companion",
     page_icon="📚",
     layout="wide"
 )
 
-# ---------------------------------
-# Database Initialization
-# ---------------------------------
 
-create_database()
-
-# ==========================================
-# SESSION STATE
-# ==========================================
-
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-
-if "user" not in st.session_state:
-    st.session_state.user = None
-
-if "remember_me" not in st.session_state:
-    st.session_state.remember_me = False
-    # ---------------------------------
-# Custom CSS
-# ---------------------------------
+# ---------------------------
+# CSS
+# ---------------------------
 
 st.markdown("""
 <style>
 
 .main {
-    background-color: #f8fff8;
+background-color:#f5f7ff;
 }
 
-h1, h2, h3 {
-    color: #2e7d32;
-    font-weight: bold;
+h1 {
+color:#4b4bff;
 }
 
-.stButton>button {
-    background-color: #2e7d32;
-    color: white;
-    border-radius: 10px;
-    width: 100%;
-    height: 45px;
-    border: none;
-    font-weight: bold;
-}
+.stButton button {
 
-.stButton>button:hover {
-    background-color: #1b5e20;
-    color: white;
-}
+background:#6c63ff;
+color:white;
+border-radius:10px;
 
-section[data-testid="stSidebar"] {
-    background-color: #e8f5e9;
-}
-
-div[data-testid="stMetric"] {
-    background-color: white;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #2e7d32;
-}
-
-.stTextInput input,
-.stTextArea textarea,
-.stSelectbox div {
-    border-radius: 8px;
 }
 
 </style>
-""", unsafe_allow_html=True)
-# ---------------------------------
-# PDF Generator
-# ---------------------------------
+""",
+unsafe_allow_html=True)
 
-def create_pdf(content):
 
-    pdf_file = "Study_Report.pdf"
 
-    c = canvas.Canvas(pdf_file)
+# ---------------------------
+# Session
+# ---------------------------
 
-    y = 800
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in=False
 
-    for line in str(content).split("\n"):
-        c.drawString(40, y, line)
-        y -= 20
 
-        if y < 40:
-            c.showPage()
-            y = 800
 
-    c.save()
-
-    return pdf_file
-       # ---------------------------------
-# Main Title
-# ---------------------------------
-
-st.title("📚 AI Powered Study Companion")
-
-st.caption("Your Personal AI Learning Partner")
-# ==========================================
-# LOGIN / SIGNUP
-# ==========================================
+# ---------------------------
+# Login / Register
+# ---------------------------
 
 if not st.session_state.logged_in:
 
-    st.title("🎓 AI Powered Study Companion")
+    st.title("📚 AI Powered Study Companion")
 
-    menu = st.sidebar.radio(
-        "Choose an Option",
+
+    choice = st.selectbox(
+        "Choose",
         [
-            "🔐 Login",
-            "📝 Create Account"
+            "Login",
+            "Register"
         ]
     )
 
-    if menu == "🔐 Login":
-        login_page()
+
+    username = st.text_input(
+        "Username"
+    )
+
+    password = st.text_input(
+        "Password",
+        type="password"
+    )
+
+
+    if choice=="Register":
+
+        if st.button("Create Account"):
+
+            if register_user(username,password):
+                st.success(
+                    "Account created!"
+                )
+
+            else:
+                st.error(
+                    "Username already exists"
+                )
+
 
     else:
-        signup_page()
+
+        if st.button("Login"):
+
+            if login_user(username,password):
+
+                st.session_state.logged_in=True
+                st.success(
+                    "Login successful"
+                )
+                st.rerun()
+
+            else:
+                st.error(
+                    "Wrong username/password"
+                )
+
 
     st.stop()
-    # ---------------------------------
-# Sidebar
-# ---------------------------------
 
-st.sidebar.title("📚 Navigation")
+
+
+# ---------------------------
+# Sidebar
+# ---------------------------
+
+
+st.sidebar.title(
+    "⚙️ Settings"
+)
+
+
+api_key = st.sidebar.text_input(
+    "Enter Gemini API Key",
+    type="password"
+)
+
+
+model=None
+
+if api_key:
+
+    model=configure_gemini(
+        api_key
+    )
+
+
 
 page = st.sidebar.radio(
-    "Choose a Module",
+    "Navigate",
     [
-        "🏠 Dashboard",
-        "📅 Study Plan",
-        "🗓 Smart Timetable",
-        "📊 Subject Priority",
-        "📖 Study Session",
-        "❓ AI Quiz",
-        "📈 Progress",
-        "💪 Motivation",
-        "🤖 AI Assistant",
-        "⏱ Study Timer",
-        "🔔 Notifications"
+        "Dashboard",
+        "Study Plan",
+        "Smart Timetable",
+        "Subject Priority",
+        "Study Session",
+        "Quiz Generator",
+        "Progress Tracker",
+        "Motivation",
+        "AI Assistant"
     ]
 )
 
-st.sidebar.write("---")
 
-if st.sidebar.button("🚪 Logout"):
-    logout()
-    st.rerun()
- # ==========================================
-# DASHBOARD
-# ==========================================
 
-if page == "🏠 Dashboard":
+# ---------------------------
+# Dashboard
+# ---------------------------
 
-    # Check whether a user is logged in
-    if st.session_state.user is None:
+if page=="Dashboard":
 
-        st.warning("⚠ Please login first.")
-        st.stop()
-
-    user = st.session_state.user
-
-    st.header(f"👋 Welcome, {user[1]}")
-
-    st.caption("Your AI Powered Study Companion")
-
-    st.divider()
-
-    # ===============================
-    # Student Information
-    # ===============================
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.info(f"📧 Email : {user[2]}")
-        st.info(f"🎓 Class : {user[4]}")
-
-    with col2:
-        st.info(f"📖 Board : {user[5]}")
-        st.info("🔥 Study Streak : 0 Days")
-
-    st.divider()
-
-    # ===============================
-    # Progress
-    # ===============================
-
-    st.subheader("📊 Study Progress")
-
-    progress = 0
-
-    st.progress(progress)
-
-    st.write(f"Completed Topics : 0")
-    st.write(f"Progress : {progress}%")
-
-    st.divider()
-
-    # ===============================
-    # Daily Motivation
-    # ===============================
-
-    st.subheader("🌟 Daily Motivation")
-
-    st.success(
-        "Success doesn't come from what you do occasionally. "
-        "It comes from what you do consistently."
+    st.title(
+        "🎓 Student Dashboard"
     )
 
-    st.divider()
 
-    # ===============================
-    # Quick Access
-    # ===============================
-
-    st.subheader("🚀 Quick Access")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        if st.button("📅 Study Plan"):
-            st.session_state.page = "📅 Study Plan"
-
-    with col2:
-        if st.button("🗓 Timetable"):
-            st.session_state.page = "🗓 Smart Timetable"
-
-    with col3:
-        if st.button("❓ Quiz"):
-            st.session_state.page = "❓ Quiz"
-       # ---------------------------------
-# Study Plan Generator
-# ---------------------------------
-
-elif page == "📅 Study Plan":
-
-    st.header("📅 AI Study Plan Generator")
-
-    student_name = st.text_input("Student Name")
-
-    student_class = st.selectbox(
-        "Class",
-        ["8", "9", "10", "11", "12"],
-        key="sp_class"
+    name=st.text_input(
+        "Student Name"
     )
 
-    board = st.selectbox(
-        "Board",
-        ["CBSE", "ICSE", "State Board", "IB", "Other"],
-        key="sp_board"
+    age=st.number_input(
+        "Age",
+        min_value=1
     )
 
-    subjects = st.text_area(
-        "Subjects",
-        placeholder="Maths, Science, English..."
+    course=st.text_input(
+        "Class / Course"
     )
 
-    weak_subjects = st.text_input(
+    percentage=st.number_input(
+        "Percentage"
+    )
+
+    board=st.text_input(
+        "Board"
+    )
+
+    hours=st.text_input(
+        "Daily Study Hours"
+    )
+
+    goal=st.text_input(
+        "Goal"
+    )
+
+    weak=st.text_input(
         "Weak Subjects"
     )
 
-    study_hours = st.slider(
-        "Daily Study Hours",
-        1,
-        12,
-        4
+
+    if st.button("Save Profile"):
+
+        save_student(
+            name,
+            age,
+            course,
+            percentage,
+            board,
+            hours,
+            goal,
+            weak
+        )
+
+        st.success(
+            "Profile Saved"
+        )
+
+
+
+# ---------------------------
+# AI Modules
+# ---------------------------
+
+elif page=="Study Plan":
+
+    st.header(
+        "📅 Study Plan Generator"
     )
 
-    exam_date = st.date_input("Exam Date")
+    if model:
 
-    goal = st.text_input(
-        "Goal",
-        placeholder="Example: Score above 90%"
-    )
+        if st.button("Generate"):
 
-    if st.button("Generate Study Plan"):
-
-        with st.spinner("Generating your personalized study plan..."):
-
-            model = configure_gemini()
-
-            result = generate_study_plan(
+            result=generate_study_plan(
                 model,
-                student_name,
-                student_class,
+                name,
+                course,
                 board,
-                subjects,
-                weak_subjects,
-                study_hours,
-                exam_date,
+                percentage,
+                hours,
+                goal,
+                weak
+            )
+
+            st.markdown(result)
+
+
+elif page=="Smart Timetable":
+
+    st.header(
+        "🕒 Smart Timetable"
+    )
+
+    if model:
+
+        if st.button("Generate"):
+
+            st.markdown(
+                generate_smart_timetable(
+                    model,
+                    course,
+                    hours,
+                    weak
+                )
+            )
+
+
+elif page=="Subject Priority":
+
+    st.header(
+        "📊 Subject Analyzer"
+    )
+
+    if model:
+
+        st.markdown(
+            analyze_subject_priority(
+                model,
+                percentage,
+                weak,
                 goal
             )
+        )
 
-        st.success("✅ Study Plan Generated Successfully!")
 
-        st.markdown(result)
+elif page=="Study Session":
 
-        pdf = create_pdf(result)
-
-        with open(pdf, "rb") as file:
-
-            st.download_button(
-                label="📥 Download Study Plan PDF",
-                data=file,
-                file_name="Study_Plan.pdf",
-                mime="application/pdf"
-            )
-               # ---------------------------------
-# Smart Timetable
-# ---------------------------------
-
-elif page == "🗓 Smart Timetable":
-
-    st.header("🗓 AI Smart Timetable")
-
-    school_hours = st.text_input(
-        "School Hours",
-        placeholder="8:00 AM - 3:00 PM"
+    st.header(
+        "⏳ Study Session Planner"
     )
 
-    tuition_hours = st.text_input(
-        "Tuition Hours",
-        placeholder="5:00 PM - 6:30 PM"
-    )
+    if model:
 
-    study_hours = st.slider(
-        "Daily Study Hours",
-        1,
-        12,
-        4,
-        key="tt_hours"
-    )
-
-    sleep_hours = st.slider(
-        "Sleep Hours",
-        4,
-        12,
-        8
-    )
-
-    meal_times = st.text_input(
-        "Meal Times",
-        placeholder="8 AM, 1 PM, 8 PM"
-    )
-
-    weak_subjects = st.text_input(
-        "Weak Subjects",
-        key="tt_weak"
-    )
-
-    if st.button("Generate Timetable"):
-
-        with st.spinner("Generating Smart Timetable..."):
-
-            model = configure_gemini()
-
-            timetable = generate_smart_timetable(
+        st.markdown(
+            generate_study_session(
                 model,
-                school_hours,
-                tuition_hours,
-                study_hours,
-                sleep_hours,
-                meal_times,
-                weak_subjects
+                hours
             )
+        )
 
-        st.success("✅ Timetable Generated Successfully!")
 
-        st.markdown(timetable)
+elif page=="Quiz Generator":
 
-        pdf = create_pdf(timetable)
-
-        with open(pdf, "rb") as file:
-
-            st.download_button(
-                label="📥 Download Timetable PDF",
-                data=file,
-                file_name="Smart_Timetable.pdf",
-                mime="application/pdf"
-            )
-               # ---------------------------------
-# Subject Priority Analyzer
-# ---------------------------------
-
-elif page == "📊 Subject Priority":
-
-    st.header("📊 Subject Priority Analyzer")
-
-    subjects = st.text_area(
-        "Enter All Subjects",
-        placeholder="Maths, Science, English, Social, Tamil"
+    st.header(
+        "📝 AI Quiz"
     )
 
-    weak_subjects = st.text_input(
-        "Weak Subjects",
-        key="priority_weak"
-    )
-
-    goal = st.text_input(
-        "Goal",
-        placeholder="Example: Score above 95%"
-    )
-
-    if st.button("Analyze Priority"):
-
-        with st.spinner("Analyzing subject priority..."):
-
-            model = configure_gemini()
-
-            priority = analyze_subject_priority(
-                model,
-                subjects,
-                weak_subjects,
-                goal
-            )
-
-        st.success("✅ Analysis Completed!")
-
-        st.markdown(priority)
-
-        pdf = create_pdf(priority)
-
-        with open(pdf, "rb") as file:
-
-            st.download_button(
-                label="📥 Download Priority Report",
-                data=file,
-                file_name="Subject_Priority.pdf",
-                mime="application/pdf"
-            )
-               # ---------------------------------
-# Study Session Planner
-# ---------------------------------
-
-elif page == "📖 Study Session":
-
-    st.header("📖 AI Study Session Planner")
-
-    subject = st.text_input(
+    subject=st.text_input(
         "Subject"
     )
 
-    available_hours = st.slider(
-        "Available Study Hours",
-        1,
-        12,
-        3
-    )
+    if model:
 
-    if st.button("Generate Study Session"):
-
-        with st.spinner("Generating study session..."):
-
-            model = configure_gemini()
-
-            session = generate_study_session(
+        st.markdown(
+            generate_quiz(
                 model,
                 subject,
-                available_hours
+                course
             )
+        )
 
-        st.success("✅ Study Session Generated Successfully!")
 
-        st.markdown(session)
+elif page=="Progress Tracker":
 
-        pdf = create_pdf(session)
-
-        with open(pdf, "rb") as file:
-
-            st.download_button(
-                label="📥 Download Study Session PDF",
-                data=file,
-                file_name="Study_Session.pdf",
-                mime="application/pdf"
-            )
-                # ---------------------------------
-# AI Quiz Generator
-# ---------------------------------
-
-elif page == "❓ AI Quiz":
-
-    st.header("❓ AI Quiz Generator")
-
-    subject = st.text_input(
-        "Subject",
-        key="quiz_subject"
+    st.header(
+        "📈 Progress"
     )
 
-    student_class = st.selectbox(
-        "Class",
-        ["8", "9", "10", "11", "12"],
-        key="quiz_class"
+    completed=st.number_input(
+        "Completed Topics"
     )
 
-    difficulty = st.selectbox(
-        "Difficulty",
-        ["Easy", "Medium", "Hard"]
+    total=st.number_input(
+        "Total Topics"
     )
 
-    if st.button("Generate Quiz"):
+    if model:
 
-        with st.spinner("Generating quiz..."):
-
-            model = configure_gemini()
-
-            quiz = generate_quiz(
+        st.markdown(
+            generate_progress(
                 model,
-                subject,
-                student_class,
-                difficulty
+                completed,
+                total
             )
-
-        st.success("✅ Quiz Generated Successfully!")
-
-        st.markdown(quiz)
-
-        pdf = create_pdf(quiz)
-
-        with open(pdf, "rb") as file:
-
-            st.download_button(
-                label="📥 Download Quiz PDF",
-                data=file,
-                file_name="AI_Quiz.pdf",
-                mime="application/pdf"
-            )
-                # ---------------------------------
-# Progress Tracker
-# ---------------------------------
-
-elif page == "📈 Progress":
-
-    st.header("📈 Progress Tracker")
-
-    completed_topics = st.number_input(
-        "Completed Topics",
-        min_value=0,
-        value=0
-    )
-
-    total_topics = st.number_input(
-        "Total Topics",
-        min_value=1,
-        value=1
-    )
-
-    if st.button("Calculate Progress"):
-
-        progress = generate_progress(
-            completed_topics,
-            total_topics
         )
 
-        st.progress(progress / 100)
 
-        st.success(f"Overall Progress: {progress}%")
-     # ---------------------------------
-# Motivation Generator
-# ---------------------------------
+elif page=="Motivation":
 
-elif page == "💪 Motivation":
-
-    st.header("💪 Daily Motivation")
-
-    goal = st.text_input(
-        "Enter Your Goal",
-        placeholder="Example: Score above 95%"
+    st.header(
+        "🔥 Motivation"
     )
 
-    if st.button("Generate Motivation"):
+    if model:
 
-        if goal.strip() == "":
-            st.error("Please enter your goal.")
-
-        else:
-
-            with st.spinner("Generating motivation..."):
-
-                model = configure_gemini()
-
-                motivation = generate_motivation(
-                    model,
-                    goal
-                )
-
-            st.success("✅ Motivation Generated!")
-
-            st.success(motivation)
-
-            pdf = create_pdf(motivation)
-
-            with open(pdf, "rb") as file:
-
-                st.download_button(
-                    label="📥 Download Motivation PDF",
-                    data=file,
-                    file_name="Motivation.pdf",
-                    mime="application/pdf"
-                )
-               # ---------------------------------
-# AI Study Assistant
-# ---------------------------------
-
-elif page == "🤖 AI Assistant":
-
-    st.header("🤖 AI Study Assistant")
-
-    question = st.text_area(
-        "Ask your question"
-    )
-
-    if st.button("Ask AI"):
-
-        if question.strip() == "":
-            st.error("Please enter a question.")
-
-        else:
-
-            with st.spinner("Thinking..."):
-
-                model = configure_gemini()
-
-                answer = ask_ai(
-                    model,
-                    question
-                )
-
-            st.success("✅ Answer Generated!")
-
-            st.markdown(answer)
-
-            pdf = create_pdf(answer)
-
-            with open(pdf, "rb") as file:
-
-                st.download_button(
-                    label="📥 Download Answer PDF",
-                    data=file,
-                    file_name="AI_Answer.pdf",
-                    mime="application/pdf"
-                )
-                # ---------------------------------
-# Study Timer
-# ---------------------------------
-
-elif page == "⏱ Study Timer":
-
-    st.header("⏱ Study Timer")
-
-    timer_type = st.radio(
-        "Choose Timer",
-        ["Pomodoro", "Custom"]
-    )
-
-    if timer_type == "Pomodoro":
-
-        timer = pomodoro_timer()
-
-        st.success(f"📚 Study Time : {timer['Study']} Minutes")
-        st.info(f"☕ Short Break : {timer['Short Break']} Minutes")
-        st.warning(f"🌴 Long Break : {timer['Long Break']} Minutes")
-
-    else:
-
-        hours = st.number_input(
-            "Hours",
-            min_value=0,
-            max_value=10,
-            value=1
-        )
-
-        minutes = st.number_input(
-            "Minutes",
-            min_value=0,
-            max_value=59,
-            value=0
-        )
-
-        if st.button("Start Timer"):
-
-            total_seconds = (hours * 3600) + (minutes * 60)
-
-            st.success(
-                f"Timer Started for {hours} hour(s) and {minutes} minute(s)"
+        st.write(
+            generate_motivation(
+                model,
+                goal
             )
+        )
 
-            st.info(f"Total Time: {total_seconds} seconds")
-            # ---------------------------------
-# Notifications
-# ---------------------------------
 
-elif page == "🔔 Notifications":
+elif page=="AI Assistant":
 
-    st.header("🔔 Study Notifications")
+    st.header(
+        "🤖 Ask AI"
+    )
 
-    notification = study_notification()
+    question=st.text_input(
+        "Your Question"
+    )
 
-    st.success(notification)
+    if model:
 
-    st.info("📚 Complete today's study plan.")
+        st.write(
+            ask_ai(
+                model,
+                question
+            )
+        )
 
-    st.warning("💧 Drink water regularly.")
 
-    st.info("😴 Get enough sleep.")
-
-    st.success("🎯 Stay focused and keep learning!")
+st.sidebar.info(
+    study_notifications()
+)
