@@ -34,15 +34,18 @@ st.set_page_config(
 
 create_database()
 
-# ---------------------------------
-# Session State
-# ---------------------------------
+# ==========================================
+# SESSION STATE
+# ==========================================
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 if "user" not in st.session_state:
     st.session_state.user = None
+
+if "remember_me" not in st.session_state:
+    st.session_state.remember_me = False
     # ---------------------------------
 # Custom CSS
 # ---------------------------------
@@ -123,18 +126,23 @@ def create_pdf(content):
 st.title("📚 AI Powered Study Companion")
 
 st.caption("Your Personal AI Learning Partner")
-# ---------------------------------
-# Login / Signup Menu
-# ---------------------------------
+# ==========================================
+# LOGIN / SIGNUP
+# ==========================================
 
 if not st.session_state.logged_in:
 
-    menu = st.sidebar.selectbox(
-        "Menu",
-        ["Login", "Create Account"]
+    st.title("🎓 AI Powered Study Companion")
+
+    menu = st.sidebar.radio(
+        "Choose an Option",
+        [
+            "🔐 Login",
+            "📝 Create Account"
+        ]
     )
 
-    if menu == "Login":
+    if menu == "🔐 Login":
         login_page()
 
     else:
@@ -169,58 +177,89 @@ st.sidebar.write("---")
 if st.sidebar.button("🚪 Logout"):
     logout()
     st.rerun()
-    # ---------------------------------
-# Dashboard
-# ---------------------------------
+ # ==========================================
+# DASHBOARD
+# ==========================================
 
 if page == "🏠 Dashboard":
 
+    # Check whether a user is logged in
+    if st.session_state.user is None:
+
+        st.warning("⚠ Please login first.")
+        st.stop()
+
     user = st.session_state.user
 
-    st.header("🏠 Student Dashboard")
+    st.header(f"👋 Welcome, {user[1]}")
 
-    st.success(f"Welcome, {user[1]} 👋")
+    st.caption("Your AI Powered Study Companion")
+
+    st.divider()
+
+    # ===============================
+    # Student Information
+    # ===============================
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.info(f"📧 Email: {user[2]}")
-        st.info(f"🎓 Class: {user[4]}")
+        st.info(f"📧 Email : {user[2]}")
+        st.info(f"🎓 Class : {user[4]}")
 
     with col2:
-        st.info(f"📖 Board: {user[5]}")
-        st.info("🔥 Study Streak: 0 Days")
+        st.info(f"📖 Board : {user[5]}")
+        st.info("🔥 Study Streak : 0 Days")
 
     st.divider()
 
-    st.subheader("📊 Progress")
+    # ===============================
+    # Progress
+    # ===============================
 
-    st.progress(0)
+    st.subheader("📊 Study Progress")
 
-    st.write("Completed Topics: 0")
+    progress = 0
 
-    st.write("Progress: 0%")
+    st.progress(progress)
+
+    st.write(f"Completed Topics : 0")
+    st.write(f"Progress : {progress}%")
 
     st.divider()
 
-    st.subheader("💡 Daily Motivation")
+    # ===============================
+    # Daily Motivation
+    # ===============================
 
-    st.success("Small progress every day leads to big success.")
+    st.subheader("🌟 Daily Motivation")
+
+    st.success(
+        "Success doesn't come from what you do occasionally. "
+        "It comes from what you do consistently."
+    )
 
     st.divider()
+
+    # ===============================
+    # Quick Access
+    # ===============================
 
     st.subheader("🚀 Quick Access")
 
-    c1, c2, c3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with c1:
-        st.button("📅 Study Plan")
+    with col1:
+        if st.button("📅 Study Plan"):
+            st.session_state.page = "📅 Study Plan"
 
-    with c2:
-        st.button("🗓 Timetable")
+    with col2:
+        if st.button("🗓 Timetable"):
+            st.session_state.page = "🗓 Smart Timetable"
 
-    with c3:
-        st.button("❓ Quiz")
+    with col3:
+        if st.button("❓ Quiz"):
+            st.session_state.page = "❓ Quiz"
        # ---------------------------------
 # Study Plan Generator
 # ---------------------------------
