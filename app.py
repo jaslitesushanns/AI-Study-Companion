@@ -290,11 +290,14 @@ if menu == "🏠 Dashboard":
     st.checkbox("📝 Revise yesterday's chapter")
 
     st.checkbox("🎮 Play Memory Booster")
+    if menu == "🏠 Dashboard":
+
 
     st.checkbox("😴 Sleep before 10 PM")
                     # ---------------- STUDY PLAN ---------------- #
 
-    elif menu == "📅 Study Plan":
+     elif menu == "📅 Study Plan":
+        st.title("📅 AI Study Plan")
 
     st.title("📅 AI Study Plan")
 
