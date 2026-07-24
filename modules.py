@@ -1,229 +1,171 @@
-from utils import ask_gemini
+from google import genai
+import streamlit as st
+
+client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+
+MODEL = "gemini-2.5-flash"
+
+# ---------------- COMMON FUNCTION ---------------- #
+
+def ask_gemini(prompt):
+    response = client.models.generate_content(
+        model=MODEL,
+        contents=prompt
+    )
+    return response.text
 
 
-# 1. Study Plan Generator
+# ---------------- AI TUTOR ---------------- #
 
-def generate_study_plan(
-    model,
-    student_name,
-    student_class,
-    board,
-    percentage,
-    study_hours,
-    goal,
-    weak_subjects
-):
-
+def ask_ai(question):
     prompt = f"""
-Create a 7 day study plan.
+You are a friendly AI Study Tutor.
 
-Student Name: {student_name}
-Class: {student_class}
-Board: {board}
-Percentage: {percentage}
-Available Study Hours: {study_hours}
-Goal: {goal}
-Weak Subjects: {weak_subjects}
-
-Return ONLY a markdown table.
-
-Columns:
-| Day | Subject | Topic | Hours |
-
-Do not write explanations.
-"""
-
-    return ask_gemini(model, prompt)
-
-
-
-# 2. Smart Timetable Generator
-
-def generate_smart_timetable(
-    model,
-    student_class,
-    study_hours,
-    weak_subjects
-):
-
-    prompt = f"""
-Create a weekly smart timetable.
-
-Class: {student_class}
-Study Hours: {study_hours}
-Weak Subjects: {weak_subjects}
-
-Include:
-- Subjects
-- Breaks
-- Revision
-- Weak subject priority
-
-Return ONLY markdown table.
-
-Columns:
-| Time | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
-"""
-
-    return ask_gemini(model, prompt)
-
-
-
-# 3. Subject Priority Analyzer
-
-def analyze_subject_priority(
-    model,
-    percentage,
-    weak_subjects,
-    goal
-):
-
-    prompt = f"""
-Analyze student's subject priorities.
-
-Percentage: {percentage}
-Weak Subjects: {weak_subjects}
-Goal: {goal}
-
-Return:
-| Subject | Priority | Reason |
-Only table format.
-"""
-
-    return ask_gemini(model, prompt)
-
-
-
-# 4. Study Session Planner
-
-def generate_study_session(
-    model,
-    study_hours
-):
-
-    prompt = f"""
-Create a focused study session.
-
-Available time:
-{study_hours}
-
-Include:
-- Study time
-- Break time
-- Revision
-
-Return table format.
-"""
-
-    return ask_gemini(model, prompt)
-
-
-
-# 5. AI Quiz Generator
-
-def generate_quiz(
-    model,
-    subject,
-    student_class
-):
-
-    prompt = f"""
-Generate a quiz.
-
-Subject:
-{subject}
-
-Class:
-{student_class}
-
-Create 10 questions with options.
-
-Format:
-
-Question |
-A |
-B |
-C |
-D |
-Answer |
-"""
-
-    return ask_gemini(model, prompt)
-
-
-
-# 6. Progress Tracker
-
-def generate_progress(
-    model,
-    completed_topics,
-    total_topics
-):
-
-    prompt = f"""
-Calculate learning progress.
-
-Completed Topics:
-{completed_topics}
-
-Total Topics:
-{total_topics}
-
-Give percentage and suggestions.
-"""
-
-    return ask_gemini(model, prompt)
-
-
-
-# 7. Motivation Generator
-
-def generate_motivation(
-    model,
-    goal
-):
-
-    prompt = f"""
-Generate motivation message.
-
-Student Goal:
-{goal}
-
-Make it inspiring.
-"""
-
-    return ask_gemini(model, prompt)
-
-
-
-# 8. AI Study Assistant
-
-def ask_ai(
-    model,
-    question
-):
-
-    prompt = f"""
-You are an AI Study Assistant.
-
-Answer this student question:
-
+Question:
 {question}
 
-Explain clearly.
+Explain clearly using simple English.
 """
-
-    return ask_gemini(model, prompt)
-
+    return ask_gemini(prompt)
 
 
-# Study Notifications
+# ---------------- STUDY PLAN ---------------- #
 
-def study_notifications():
+def generate_study_plan(subjects, exam_date, study_hours, goal, weak_subjects):
+    prompt = f"""
+Create a 7-day study plan.
 
-    return """
-📚 Study Reminder
+Subjects:
+{subjects}
 
-Stay consistent!
-Complete your daily goals and keep learning.
+Exam Date:
+{exam_date}
+
+Study Hours:
+{study_hours}
+
+Goal:
+{goal}
+
+Weak Subjects:
+{weak_subjects}
+
+Return ONLY a markdown table.
 """
+    return ask_gemini(prompt)
+
+
+# ---------------- TIMETABLE ---------------- #
+
+def generate_timetable(study_hours, weak_subjects):
+    prompt = f"""
+Create a weekly timetable.
+
+Study Hours:
+{study_hours}
+
+Weak Subjects:
+{weak_subjects}
+
+Return ONLY a markdown table.
+"""
+    return ask_gemini(prompt)
+
+
+# ---------------- STUDY SESSION ---------------- #
+
+def generate_study_session(study_hours):
+    prompt = f"""
+Create a productive study session for {study_hours} hours.
+"""
+    return ask_gemini(prompt)
+
+
+# ---------------- SUBJECT PRIORITY ---------------- #
+
+def analyze_subject_priority(weak_subjects, goal):
+    prompt = f"""
+Weak Subjects:
+{weak_subjects}
+
+Goal:
+{goal}
+
+Suggest subject priority.
+"""
+    return ask_gemini(prompt)
+
+
+# ---------------- NOTES ---------------- #
+
+def generate_notes(topic):
+    prompt = f"""
+Create detailed study notes for:
+
+{topic}
+
+Include:
+- Definition
+- Important Points
+- Examples
+- Summary
+"""
+    return ask_gemini(prompt)
+
+
+# ---------------- FLASHCARDS ---------------- #
+
+def generate_flashcards(topic):
+    prompt = f"""
+Create 15 flashcards for:
+
+{topic}
+
+Return as:
+
+Question
+Answer
+"""
+    return ask_gemini(prompt)
+
+
+# ---------------- STORY LEARNING ---------------- #
+
+def generate_story(topic):
+    prompt = f"""
+Explain
+
+{topic}
+
+using an interesting story for students.
+"""
+    return ask_gemini(prompt)
+
+
+# ---------------- QUIZ ---------------- #
+
+def generate_quiz(subject):
+    prompt = f"""
+Generate 10 MCQs on:
+
+{subject}
+
+Include answers at the end.
+"""
+    return ask_gemini(prompt)
+
+
+# ---------------- EXAM ---------------- #
+
+def generate_exam(subject):
+    prompt = f"""
+Generate a 25-mark exam paper for:
+
+{subject}
+
+Include:
+- MCQs
+- Short Answers
+- Long Answers
+"""
+    return ask_gemini(prompt)
