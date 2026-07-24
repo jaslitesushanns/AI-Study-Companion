@@ -15,16 +15,18 @@ def ask_gemini(prompt):
 
     try:
 
-        if model is None:
-            return "❌ Gemini API key not found."
+        models = genai.list_models()
 
-        response = model.generate_content(prompt)
+        output = ""
 
-        return response.text
+        for m in models:
+            output += f"{m.name}\n"
+
+        return output
 
     except Exception as e:
 
-        return f"AI Error: {e}"
+        return str(e)
 
 
 # ---------------- AI TUTOR ---------------- #
