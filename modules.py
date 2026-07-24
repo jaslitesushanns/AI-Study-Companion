@@ -466,24 +466,34 @@ Return the result in markdown.
 
 
 # ---------------- REPORT GENERATOR ---------------- #
-
-def generate_report(subject, score, total):
+def generate_report(
+    subject,
+    completed,
+    total
+):
 
     prompt = f"""
-Create a student report.
+Create a professional student report.
 
 Subject:
 {subject}
 
-Score:
-{score}/{total}
+Completed Topics:
+{completed}
+
+Total Topics:
+{total}
 
 Include:
-- Performance
-- Strengths
-- Weaknesses
-- Suggestions
+
+1. Percentage
+2. Performance
+3. Strengths
+4. Weaknesses
+5. Suggestions
+6. Motivation
+
+Return in markdown.
 """
 
     return ask_gemini(prompt)
-    
