@@ -658,17 +658,31 @@ elif menu == "🗓️ Timetable":
 
         elif menu == "🎮 Memory Booster":
 
-            st.title("🎮 Memory Booster")
+    st.title("🎮 AI Memory Booster")
 
-            topic = st.text_input(
-                "📚 Enter topic"
-            )
+    subject = st.text_input("📚 Subject")
 
-            if st.button("🧠 Create Memory Game"):
+    chapter = st.text_input("📖 Chapter")
 
-                result = memory_booster(topic)
+    game = st.selectbox(
+        "🎲 Game Type",
+        [
+            "Memory Match",
+            "Fill in the Blanks",
+            "Guess the Word",
+            "Rapid Recall"
+        ]
+    )
 
-                st.markdown(result)
+    if st.button("🧠 Generate Game"):
+
+        result = memory_booster(
+            subject,
+            chapter,
+            game
+        )
+
+        st.markdown(result)
 
 
         # ---------------- PROGRESS ---------------- #
