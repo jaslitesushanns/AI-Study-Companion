@@ -10,26 +10,24 @@ if api_key:
 else:
     client = None
 
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-2.0-flash"
 
 # ---------------- COMMON FUNCTION ---------------- #
 
 def ask_gemini(prompt):
 
-    if client is None:
-        return "⚠️ Gemini API key is not configured yet."
+    try:
 
-    response = client.models.generate_content(
-        model=MODEL,
-        contents=prompt
-    )
+        response = client.models.generate_content(
+            model=MODEL,
+            contents=prompt
+        )
 
-    return response.text
-    response = client.models.generate_content(
-        model=MODEL,
-        contents=prompt
-    )
-    return response.text
+        return response.text
+
+    except Exception as e:
+
+        return f"AI Error: {e}"
 
 
 # ---------------- AI TUTOR ---------------- #
