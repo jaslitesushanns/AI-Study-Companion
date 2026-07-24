@@ -1,68 +1,99 @@
-/* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-html, body, [class*="css"]{
-    font-family:'Poppins',sans-serif;
-}
+/* ===========================
+   AI Study Companion Theme
+=========================== */
 
 .stApp{
-    background:linear-gradient(135deg,#FFD6EC,#E4C1F9,#C8E7FF,#D7FFD9);
-    background-size:400% 400%;
-    animation:bg 15s ease infinite;
+    background:linear-gradient(135deg,#eef7ff,#f9f3ff);
 }
 
-@keyframes bg{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
+/* Title */
 
 .main-title{
-    font-size:48px;
-    font-weight:700;
     text-align:center;
-    color:#6A0DAD;
+    font-size:48px;
+    font-weight:bold;
+    color:#6C63FF;
+    margin-bottom:5px;
 }
 
 .subtitle{
     text-align:center;
-    color:#444;
-    font-size:18px;
+    font-size:22px;
+    color:#555;
     margin-bottom:30px;
 }
+
+/* Cards */
 
 .card{
     background:white;
     padding:25px;
     border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
     margin-bottom:20px;
 }
 
 .small-card{
-    background:#ffffff;
-    border-radius:15px;
-    padding:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    background:white;
+    padding:20px;
+    border-radius:18px;
     text-align:center;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
 }
+
+/* Buttons */
 
 .stButton>button{
     width:100%;
-    border-radius:15px;
     border:none;
+    border-radius:12px;
     padding:12px;
     font-size:16px;
     font-weight:bold;
+    background:#6C63FF;
     color:white;
-    background:linear-gradient(90deg,#ff4ecd,#7b61ff);
 }
 
 .stButton>button:hover{
-    transform:scale(1.03);
-    transition:.3s;
+    background:#5448ff;
+    color:white;
 }
 
+/* Inputs */
+
+.stTextInput>div>div>input{
+    border-radius:12px;
+}
+
+.stTextArea textarea{
+    border-radius:12px;
+}
+
+.stSelectbox{
+    border-radius:12px;
+}
+
+/* Sidebar */
+
 section[data-testid="stSidebar"]{
-    background:#fff8ff;
+    background:#6C63FF;
+}
+
+section[data-testid="stSidebar"] *{
+    color:white;
+}
+
+/* Metric Cards */
+
+[data-testid="metric-container"]{
+    background:white;
+    border-radius:18px;
+    padding:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Progress */
+
+.stProgress>div>div>div{
+    background:#6C63FF;
 }
