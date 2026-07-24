@@ -21,7 +21,7 @@ if "user" not in st.session_state:
     st.session_state.user = None
 
 # ---------------- TITLE ---------------- #
-st.title("🌈 AI Study Companion")
+st.title("📚 AI Study Companion")
 st.subheader("Your Smart AI Learning Partner 📚🤖")
 import streamlit as st
 from database import create_tables
@@ -41,7 +41,7 @@ if "logged_in" not in st.session_state:
 if "user" not in st.session_state:
     st.session_state.user = None
 
-st.title("🌈 AI Study Companion")
+st.title("📚 AI Study Companion")
 st.markdown("### Welcome to your Smart AI Learning Partner 🤖")
 
 if not st.session_state.logged_in:
