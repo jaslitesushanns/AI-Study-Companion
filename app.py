@@ -250,11 +250,11 @@ else:
             with col4:
                 st.metric("🎯 Goal", "Active")
 
-                st.markdown("---")
+            st.markdown("---")
 
-                st.subheader("📖 Profile")
+            st.subheader("📖 Profile")
 
-                st.info(f"""
+             st.info(f"""
 👤 Name : {user['username']}
 
 🎓 Class : {user['student_class']}
