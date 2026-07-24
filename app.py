@@ -378,7 +378,7 @@ elif menu == "🗓️ Timetable":
             user["goal"]
         )
 
-       st.success("Timetable Generated Successfully! 🎉")
+        st.success("Timetable Generated Successfully! 🎉")
 
 st.markdown(timetable)
 
