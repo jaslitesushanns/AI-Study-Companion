@@ -491,16 +491,30 @@ elif menu == "🗓️ Timetable":
 
         elif menu == "📝 AI Notes":
 
-            st.title("📝 AI Notes Generator")
+    st.title("📝 AI Notes Generator")
 
-            topic = st.text_input("Topic")
+    subject = st.text_input("📚 Subject")
 
-            if st.button("📖 Generate Notes"):
+    chapter = st.text_input("📖 Chapter / Lesson")
 
-                notes = generate_notes(topic)
+    notes_type = st.selectbox(
+        "📄 Notes Type",
+        [
+            "Short Notes",
+            "Detailed Notes",
+            "Exam Revision Notes"
+        ]
+    )
 
-                st.markdown(notes)
+    if st.button("📖 Generate Notes"):
 
+        notes = generate_notes(
+            subject,
+            chapter,
+            notes_type
+        )
+
+        st.markdown(notes)
         # ---------------- FLASHCARDS ---------------- #
 
         elif menu == "🧠 Flashcards":
