@@ -295,27 +295,49 @@ Keep them short, simple and exam-friendly.
 
 def generate_story(topic):
     prompt = f"""
-Explain
+    Explain
 
-{topic}
+    {topic}
 
-using an interesting story for students.
-"""
+    using an interesting story for students.
+    """
     return ask_gemini(prompt)
 
 
 # ---------------- QUIZ ---------------- #
 
-def generate_quiz(subject):
-    prompt = f"""
-Generate 10 MCQs on:
+def generate_story(
+    subject,
+    chapter,
+    age
+):
 
+    prompt = f"""
+You are an AI Story Teacher.
+
+Subject:
 {subject}
 
-Include answers at the end.
-"""
-    return ask_gemini(prompt)
+Chapter:
+{chapter}
 
+Student Level:
+{age}
+
+Create an interesting educational story that explains the chapter.
+
+Include:
+
+1. Characters
+2. Simple explanation
+3. Moral
+4. Important facts
+5. Quick revision points
+
+Make it fun and easy to remember.
+"""
+
+    return ask_gemini(prompt)
 
 # ---------------- EXAM ---------------- #
 
