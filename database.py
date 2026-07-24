@@ -1,75 +1,45 @@
 import sqlite3
 
+DATABASE_NAME = "study_companion.db"
 
-DATABASE = "students.db"
+def get_connection():
+    conn = sqlite3.connect(DATABASE_NAME, check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
-def create_database():
-
-    conn = sqlite3.connect(DATABASE)
+def create_tables():
+    conn = get_connection()
     cursor = conn.cursor()
 
+    # Users Table
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS students(
+    CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        age INTEGER,
-        course TEXT,
-        percentage REAL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        username TEXT,
+        student_class TEXT,
         board TEXT,
-        study_hours TEXT,
+        study_hours INTEGER,
         goal TEXT,
-        weak_subjects TEXT
+        weak_subjects TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
+    # Quiz Reports
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS reports (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        subject TEXT,
+        score INTEGER,
+        total_questions INTEGER,
+        report TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
 
     conn.commit()
     conn.close()
-
-
-def save_student(
-    name,
-    age,
-    course,
-    percentage,
-    board,
-    study_hours,
-    goal,
-    weak_subjects
-):
-
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    INSERT INTO students
-    (name, age, course, percentage, board, study_hours, goal, weak_subjects)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    """,
-    (
-        name,
-        age,
-        course,
-        percentage,
-        board,
-        study_hours,
-        goal,
-        weak_subjects
-    ))
-
-    conn.commit()
-    conn.close()
-
-
-def get_students():
-
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM students")
-
-    data = cursor.fetchall()
-
-    conn.close()
-
-    return data
