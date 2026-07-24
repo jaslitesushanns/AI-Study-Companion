@@ -544,17 +544,33 @@ elif menu == "🗓️ Timetable":
 
         # ---------------- STORY LEARNING ---------------- #
 
-        elif menu == "📚 Story Learning":
+       elif menu == "📚 Story Learning":
 
-            st.title("📚 AI Story Learning")
+    st.title("📚 AI Story Learning")
 
-            topic = st.text_input("Concept")
+    subject = st.text_input("📚 Subject")
 
-            if st.button("📖 Create Story"):
+    chapter = st.text_input("📖 Chapter")
 
-                story = generate_story(topic)
+    age = st.selectbox(
+        "👦 Student Level",
+        [
+            "Primary",
+            "Middle School",
+            "High School",
+            "College"
+        ]
+    )
 
-                st.markdown(story)
+    if st.button("📖 Generate Story"):
+
+        story = generate_story(
+            subject,
+            chapter,
+            age
+        )
+
+        st.markdown(story)
 
         # ---------------- QUIZ ---------------- #
 
