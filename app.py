@@ -804,49 +804,43 @@ elif menu == "🗓️ Timetable":
         st.markdown(answer)
                             # ---------------- SETTINGS ---------------- #
 
-        elif menu == "⚙️ Settings":
+       elif menu == "⚙️ Settings":
 
-            st.title("⚙️ Settings")
+    st.title("⚙️ Settings")
 
-            st.subheader("👤 Profile Information")
+    st.subheader("🎨 Theme")
 
-            st.write(
-                f"Username: {user['username']}"
-            )
+    theme = st.selectbox(
+        "Choose Theme",
+        [
+            "Light",
+            "Dark",
+            "Blue",
+            "Purple",
+            "Green"
+        ]
+    )
 
-            st.write(
-                f"Class: {user['student_class']}"
-            )
+    st.subheader("🔔 Notifications")
 
-            st.write(
-                f"Board: {user['board']}"
-            )
+    reminder = st.checkbox(
+        "Enable Study Reminder",
+        value=True
+    )
 
-            st.write(
-                f"Study Goal: {user['goal']}"
-            )
+    st.subheader("🎵 Study Music")
 
+    music = st.selectbox(
+        "Music",
+        [
+            "Lo-fi",
+            "Rain",
+            "Nature",
+            "Piano",
+            "None"
+        ]
+    )
 
-            st.subheader("🎨 Theme")
-
-            st.info(
-                "Your AI Study Companion uses a colorful student-friendly theme 🌈"
-            )
-
-
-            st.subheader("🔔 Reminder Settings")
-
-            reminder = st.checkbox(
-                "Enable daily study reminders",
-                value=True
-            )
-
-            if reminder:
-                st.success(
-                    "Daily reminders enabled 🔔"
-                )
-            else:
-                st.warning(
-                    "Reminders disabled"
-                )
-                
+    if st.button("💾 Save Settings"):
+        st.success("Settings Saved Successfully ✅")
+        
