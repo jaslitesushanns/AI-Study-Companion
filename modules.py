@@ -170,16 +170,39 @@ Return as a neat markdown table.
 
 # ---------------- SUBJECT PRIORITY ---------------- #
 
-def analyze_subject_priority(weak_subjects, goal):
+def analyze_subject_priority(
+    subjects,
+    weak_subjects,
+    exam_date,
+    goal
+):
+
     prompt = f"""
+You are an AI Study Planner.
+
+Subjects:
+{subjects}
+
 Weak Subjects:
 {weak_subjects}
+
+Exam Date:
+{exam_date}
 
 Goal:
 {goal}
 
-Suggest subject priority.
+Analyze:
+
+1. Which subject should be studied first.
+2. Priority ranking.
+3. Time allocation.
+4. Daily revision plan.
+5. Tips to improve weak subjects.
+
+Return the answer as a neat markdown table.
 """
+
     return ask_gemini(prompt)
 
 
