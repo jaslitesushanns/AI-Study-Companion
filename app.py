@@ -387,7 +387,7 @@ st.balloons()
 
         # ---------------- STUDY SESSION ---------------- #
 
-        elif menu == "📖 Study Session":
+    elif menu == "📖 Study Session":
 
     st.title("📖 AI Study Session Planner")
 
