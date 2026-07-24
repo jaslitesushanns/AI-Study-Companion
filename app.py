@@ -277,25 +277,25 @@ else:
         35
     )
 
-            st.progress(progress/100)
+        st.progress(progress/100)
 
-              st.markdown("---")
+        st.markdown("---")
 
-              st.subheader("📌 Today's Tasks")
+        st.subheader("📌 Today's Tasks")
 
-              st.checkbox("📖 Finish today's study plan")
+        st.checkbox("📖 Finish today's study plan")
 
-              st.checkbox("📝 Revise yesterday's chapter")
+        st.checkbox("📝 Revise yesterday's chapter")
 
-              st.checkbox("🎮 Play Memory Booster")
+        st.checkbox("🎮 Play Memory Booster")
 
-              st.checkbox("😴 Sleep before 10 PM")
+        st.checkbox("😴 Sleep before 10 PM")
 
-              st.markdown("---")
+        st.markdown("---")
 
-              st.subheader("💡 Daily Motivation")
+        st.subheader("💡 Daily Motivation")
 
-              st.success(
+        st.success(
         "Believe in yourself. Small progress every day leads to big success. 🌸"
     )
                     # ---------------- STUDY PLAN ---------------- #
