@@ -1,10 +1,13 @@
-streamlit
-google-generativeai
+streamlit>=1.40.0
+google-genai
 pandas
 numpy
-matplotlib
 plotly
+matplotlib
 reportlab
 Pillow
 bcrypt
 python-dotenv
+streamlit-option-menu
+streamlit-lottie
+streamlit-extras
