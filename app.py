@@ -222,84 +222,74 @@ else:
             st.rerun()
                     # ---------------- DASHBOARD ---------------- #
 
-        if menu == "🏠 Dashboard":
+       if menu == "🏠 Dashboard":
 
-            st.title("🏠 Dashboard")
+    st.title("🏠 Student Dashboard")
 
-            st.success(f"Welcome back, {user['username']}! 🌸")
+    st.success(f"Welcome back, {user['username']}! 🌸")
 
-            col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
-            with col1:
-                st.markdown("""
-                <div class="small-card">
-                    <h3>🔥 Study Streak</h3>
-                    <h1>0 Days</h1>
-                </div>
-                """, unsafe_allow_html=True)
+    with col1:
+        st.metric("🔥 Streak", "12 Days")
 
-            with col2:
-                st.markdown(f"""
-                <div class="small-card">
-                    <h3>⭐ XP Points</h3>
-                    <h1>{user['xp']}</h1>
-                </div>
-                """, unsafe_allow_html=True)
+    with col2:
+        st.metric("⭐ XP", user["xp"])
 
-            with col3:
-                st.markdown(f"""
-                <div class="small-card">
-                    <h3>⏰ Study Hours</h3>
-                    <h1>{user['study_hours']}</h1>
-                </div>
-                """, unsafe_allow_html=True)
+    with col3:
+        st.metric("📚 Study Hours", user["study_hours"])
 
-            st.markdown("---")
+    with col4:
+        st.metric("🎯 Goal", "Active")
 
-            st.subheader("📌 Today's Goal")
-            st.info(user["goal"])
+    st.markdown("---")
 
-            st.subheader("📚 Weak Subjects")
-            st.warning(user["weak_subjects"])
+    st.subheader("📖 Profile")
 
-            st.subheader("🤖 AI Recommendation")
+    st.info(f"""
+👤 Name : {user['username']}
 
-            st.success(
-                f"""
-Study for **{user['study_hours']} hour(s)** today.
+🎓 Class : {user['student_class']}
 
-Start with:
+🏫 Board : {user['board']}
 
-📖 {user['weak_subjects']}
+🎯 Goal : {user['goal']}
 
-Stay focused and complete today's goal:
-🎯 {user['goal']}
-"""
-            )
+💪 Weak Subjects : {user['weak_subjects']}
+""")
 
-            st.markdown("---")
+    st.markdown("---")
 
-            st.subheader("🔔 Today's Reminders")
+    st.subheader("📈 Overall Progress")
 
-            st.info("📚 Finish today's study session.")
-            st.info("💧 Drink water every hour.")
-            st.info("😴 Take a 10-minute break after 50 minutes.")
-            st.info("📝 Revise before sleeping.")
+    progress = st.slider(
+        "Completion",
+        0,
+        100,
+        35
+    )
 
-            st.markdown("---")
+    st.progress(progress/100)
 
-            st.subheader("📈 Progress")
+    st.markdown("---")
 
-            progress = st.slider(
-                "Overall Progress",
-                0,
-                100,
-                35
-            )
+    st.subheader("📌 Today's Tasks")
 
-            st.progress(progress / 100)
+    st.checkbox("📖 Finish today's study plan")
 
-            st.balloons()
+    st.checkbox("📝 Revise yesterday's chapter")
+
+    st.checkbox("🎮 Play Memory Booster")
+
+    st.checkbox("😴 Sleep before 10 PM")
+
+    st.markdown("---")
+
+    st.subheader("💡 Daily Motivation")
+
+    st.success(
+        "Believe in yourself. Small progress every day leads to big success. 🌸"
+    )
                     # ---------------- STUDY PLAN ---------------- #
 
       elif menu == "📅 Study Plan":
