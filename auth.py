@@ -1,83 +1,79 @@
-import sqlite3
-import hashlib
-
-DATABASE = "students.db"
-
-
-def create_users_table():
-
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
-        password TEXT
-    )
-    """)
-
-    conn.commit()
-    conn.close()
-
+import bcrypt
+from database import get_connection
 
 
 def hash_password(password):
-
-    return hashlib.sha256(
-        password.encode()
-    ).hexdigest()
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
 
+def verify_password(password, hashed_password):
+    return bcrypt.checkpw(password.encode(), hashed_password.encode())
 
-def register_user(username, password):
 
-    conn = sqlite3.connect(DATABASE)
+def register_user(email, password):
+    conn = get_connection()
     cursor = conn.cursor()
 
     try:
+        hashed = hash_password(password)
 
         cursor.execute("""
-        INSERT INTO users(username,password)
-        VALUES(?,?)
-        """,
-        (
-            username,
-            hash_password(password)
-        ))
+            INSERT INTO users (email, password)
+            VALUES (?, ?)
+        """, (email, hashed))
 
         conn.commit()
-        result = True
+        return True, "Account created successfully!"
 
-    except sqlite3.IntegrityError:
+    except Exception:
+        return False, "Email already exists."
 
-        result = False
-
-    conn.close()
-
-    return result
+    finally:
+        conn.close()
 
 
-
-def login_user(username, password):
-
-    conn = sqlite3.connect(DATABASE)
+def login_user(email, password):
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT * FROM users
-    WHERE username=? AND password=?
-    """,
-    (
-        username,
-        hash_password(password)
-    ))
+        SELECT * FROM users
+        WHERE email = ?
+    """, (email,))
 
     user = cursor.fetchone()
-
     conn.close()
 
     if user:
-        return True
-    else:
-        return False
+        if verify_password(password, user["password"]):
+            return user
+
+    return None
+
+
+def update_profile(user_id, username, student_class, board, study_hours, goal, weak_subjects):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE users
+        SET
+            username=?,
+            student_class=?,
+            board=?,
+            study_hours=?,
+            goal=?,
+            weak_subjects=?
+        WHERE id=?
+    """, (
+        username,
+        student_class,
+        board,
+        study_hours,
+        goal,
+        weak_subjects,
+        user_id
+    ))
+
+    conn.commit()
+    conn.close()
