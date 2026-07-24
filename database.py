@@ -44,3 +44,47 @@ def create_tables():
 
     conn.commit()
     conn.close()
+def save_report(user_id, subject, score, total, feedback):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT INTO reports(
+            user_id,
+            subject,
+            score,
+            total,
+            feedback
+        )
+        VALUES (?, ?, ?, ?, ?)
+    """,(
+        user_id,
+        subject,
+        score,
+        total,
+        feedback
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+def get_reports(user_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT *
+        FROM reports
+        WHERE user_id=?
+        ORDER BY created_at DESC
+    """,(user_id,))
+
+    reports = cur.fetchall()
+
+    conn.close()
+
+    return reports
+    
