@@ -2,6 +2,9 @@ streamlit
 google-generativeai
 pandas
 numpy
-reportlab
 matplotlib
 plotly
+reportlab
+Pillow
+bcrypt
+python-dotenv
