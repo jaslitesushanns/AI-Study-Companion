@@ -230,7 +230,7 @@ else:
         st.sidebar.caption("Made with ❤️ using Streamlit")
                     # ---------------- DASHBOARD ---------------- #
 
-        if menu == "🏠 Dashboard":
+    if menu == "🏠 Dashboard":
 
             st.title("🏠 Student Dashboard")
 
