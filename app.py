@@ -611,17 +611,48 @@ elif menu == "🗓️ Timetable":
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
-        elif menu == "🎯 Exam Simulator":
+      elif menu == "🎯 Exam Simulator":
 
-            st.title("🎯 Exam Simulator")
+    st.title("🎯 AI Exam Simulator")
 
-            subject = st.text_input("Exam Subject")
+    subject = st.text_input("📚 Subject")
 
-            if st.button("🚀 Start Exam"):
+    chapter = st.text_input("📖 Chapter")
 
-                exam = generate_exam(subject)
+    duration = st.slider(
+        "⏰ Exam Duration (Minutes)",
+        30,
+        180,
+        60
+    )
 
-                st.markdown(exam)
+    marks = st.slider(
+        "📝 Total Marks",
+        25,
+        100,
+        50
+    )
+
+    difficulty = st.selectbox(
+        "🎯 Difficulty",
+        [
+            "Easy",
+            "Medium",
+            "Hard"
+        ]
+    )
+
+    if st.button("🚀 Generate Exam Paper"):
+
+        exam = generate_exam(
+            subject,
+            chapter,
+            duration,
+            marks,
+            difficulty
+        )
+
+        st.markdown(exam)
 
             # ---------------- MEMORY BOOSTER ---------------- #
 
