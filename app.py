@@ -458,23 +458,35 @@ elif menu == "🗓️ Timetable":
 
         elif menu == "🤖 AI Tutor":
 
-            st.title("🤖 AI Tutor")
+    st.title("🤖 AI Study Tutor")
 
-            question = st.text_area(
-                "Ask anything..."
-            )
+    subject = st.text_input("📚 Subject")
 
-            if st.button("💬 Ask AI"):
+    chapter = st.text_input("📖 Chapter")
 
-                if question.strip() == "":
-                    st.warning("Please enter a question.")
+    question = st.text_area(
+        "❓ Ask your question"
+    )
 
-                else:
+    explain = st.selectbox(
+        "Explain as",
+        [
+            "Simple",
+            "Detailed",
+            "Exam Point of View"
+        ]
+    )
 
-                    answer = ask_ai(question)
+    if st.button("💬 Ask AI"):
 
-                    st.markdown(answer)
+        answer = ask_ai(
+            subject,
+            chapter,
+            question,
+            explain
+        )
 
+        st.markdown(answer)
         # ---------------- AI NOTES ---------------- #
 
         elif menu == "📝 AI Notes":
