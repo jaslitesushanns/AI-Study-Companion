@@ -254,7 +254,7 @@ else:
 
             st.subheader("📖 Profile")
 
-             st.info(f"""
+            st.info(f"""
 👤 Name : {user['username']}
 
 🎓 Class : {user['student_class']}
