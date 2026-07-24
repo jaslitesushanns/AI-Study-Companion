@@ -519,15 +519,28 @@ elif menu == "🗓️ Timetable":
 
         elif menu == "🧠 Flashcards":
 
-            st.title("🧠 AI Flashcards")
+    st.title("🧠 AI Flashcards")
 
-            topic = st.text_input("Flashcard Topic")
+    subject = st.text_input("📚 Subject")
 
-            if st.button("🎴 Generate Flashcards"):
+    chapter = st.text_input("📖 Chapter")
 
-                flashcards = generate_flashcards(topic)
+    cards = st.slider(
+        "🎴 Number of Flashcards",
+        5,
+        30,
+        10
+    )
 
-                st.markdown(flashcards)
+    if st.button("🎴 Generate Flashcards"):
+
+        flashcards = generate_flashcards(
+            subject,
+            chapter,
+            cards
+        )
+
+        st.markdown(flashcards)
 
         # ---------------- STORY LEARNING ---------------- #
 
