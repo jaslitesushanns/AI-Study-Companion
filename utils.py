@@ -1,36 +1,103 @@
-import google.generativeai as genai
-import os
+import pandas as pd
+import plotly.express as px
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 
 
-def configure_gemini(api_key):
+def create_pdf(title, content, filename):
 
-    genai.configure(api_key=api_key)
+    doc = SimpleDocTemplate(filename)
 
-    model = genai.GenerativeModel(
-        "gemini-1.5-flash"
+    styles = getSampleStyleSheet()
+
+    story = []
+
+    story.append(
+        Paragraph(
+            title,
+            styles["Heading1"]
+        )
     )
 
-    return model
+    story.append(
+        Spacer(1, 20)
+    )
+
+    story.append(
+        Paragraph(
+            content.replace("\n","<br/>"),
+            styles["BodyText"]
+        )
+    )
+
+    doc.build(story)
+
+    return filename
 
 
 
-def ask_gemini(model, prompt):
+def weekly_chart():
 
-    try:
+    data = pd.DataFrame({
+        "Day":[
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat",
+            "Sun"
+        ],
 
-        response = model.generate_content(prompt)
+        "Hours":[
+            2,
+            3,
+            4,
+            2,
+            5,
+            6,
+            4
+        ]
+    })
 
-        return response.text
 
-    except Exception as e:
+    fig = px.bar(
+        data,
+        x="Day",
+        y="Hours",
+        title="Weekly Study Hours"
+    )
 
-        return f"Error: {e}"
+    return fig
 
 
 
-def clean_response(text):
+def monthly_chart():
 
-    if text is None:
-        return ""
+    data = pd.DataFrame({
 
-    return text.strip()
+        "Month":[
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr"
+        ],
+
+        "Progress":[
+            40,
+            55,
+            70,
+            85
+        ]
+    })
+
+
+    fig = px.line(
+        data,
+        x="Month",
+        y="Progress",
+        markers=True,
+        title="Monthly Progress"
+    )
+
+    return fig
