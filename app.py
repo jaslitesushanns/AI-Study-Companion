@@ -767,26 +767,41 @@ elif menu == "🗓️ Timetable":
         )
         # ---------------- AI AGENT ---------------- #
 
-        elif menu == "🤖 AI Agent":
+      elif menu == "🤖 AI Agent":
 
-            st.title("🤖 AI Study Agent")
+    st.title("🤖 Personal AI Study Agent")
 
-            question = st.text_area(
-                "Ask your AI Agent anything 📚"
-            )
+    subject = st.text_input("📚 Subject")
 
-            if st.button("🚀 Ask Agent"):
+    chapter = st.text_input("📖 Chapter")
 
-                if question:
+    mood = st.selectbox(
+        "😊 Current Mood",
+        [
+            "Happy",
+            "Confused",
+            "Stressed",
+            "Tired",
+            "Motivated"
+        ]
+    )
 
-                    answer = ask_ai(question)
+    question = st.text_area(
+        "💬 What do you need help with?"
+    )
 
-                    st.success("AI Response")
+    if st.button("🚀 Ask AI Agent"):
 
-                    st.write(answer)
+        answer = ai_agent(
+            subject,
+            chapter,
+            mood,
+            question,
+            user["goal"],
+            user["weak_subjects"]
+        )
 
-                else:
-                    st.warning("Enter a question first.")
+        st.markdown(answer)
                             # ---------------- SETTINGS ---------------- #
 
         elif menu == "⚙️ Settings":
