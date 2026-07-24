@@ -230,16 +230,16 @@ else:
         st.sidebar.caption("Made with ❤️ using Streamlit")
                     # ---------------- DASHBOARD ---------------- #
 
-       if menu == "🏠 Dashboard":
+        if menu == "🏠 Dashboard":
 
-    st.title("🏠 Student Dashboard")
+            st.title("🏠 Student Dashboard")
 
-    st.success(f"Welcome back, {user['username']}! 🌸")
+            st.success(f"Welcome back, {user['username']}! 🌸")
 
-    col1, col2, col3, col4 = st.columns(4)
+            col1, col2, col3, col4 = st.columns(4)
 
-    with col1:
-        st.metric("🔥 Streak", "12 Days")
+            with col1:
+                st.metric("🔥 Streak", "12 Days")
 
     with col2:
         st.metric("⭐ XP", user["xp"])
