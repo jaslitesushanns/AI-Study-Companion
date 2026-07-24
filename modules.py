@@ -497,3 +497,47 @@ Return in markdown.
 """
 
     return ask_gemini(prompt)
+def ai_agent(
+    subject,
+    chapter,
+    mood,
+    question,
+    goal,
+    weak_subjects
+):
+
+    prompt = f"""
+You are an intelligent AI Study Companion.
+
+Student Goal:
+{goal}
+
+Weak Subjects:
+{weak_subjects}
+
+Current Mood:
+{mood}
+
+Subject:
+{subject}
+
+Chapter:
+{chapter}
+
+Question:
+{question}
+
+Your job is to:
+
+1. Answer the student's question.
+2. Explain in simple language.
+3. Give study tips.
+4. Suggest today's study plan.
+5. Encourage the student.
+6. Recommend revision strategy.
+7. Mention common mistakes to avoid.
+
+Return the response in beautiful markdown.
+"""
+
+    return ask_gemini(prompt)
