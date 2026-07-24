@@ -186,3 +186,65 @@ Include:
 - Long Answers
 """
     return ask_gemini(prompt)
+# ---------------- MEMORY BOOSTER ---------------- #
+
+def memory_booster(topic):
+
+    prompt = f"""
+Create a fun memory game for students.
+
+Topic:
+{topic}
+
+Include:
+- Memory tricks
+- Mini challenge
+- Recall questions
+"""
+
+    return ask_gemini(prompt)
+
+
+# ---------------- PROGRESS ANALYSIS ---------------- #
+
+def analyze_progress(score, total):
+
+    percentage = (score / total) * 100
+
+    prompt = f"""
+A student scored {score}/{total}.
+
+Percentage:
+{percentage}%
+
+Give:
+- Performance analysis
+- Improvement tips
+- Motivation
+"""
+
+    return ask_gemini(prompt)
+
+
+# ---------------- REPORT GENERATOR ---------------- #
+
+def generate_report(subject, score, total):
+
+    prompt = f"""
+Create a student report.
+
+Subject:
+{subject}
+
+Score:
+{score}/{total}
+
+Include:
+- Performance
+- Strengths
+- Weaknesses
+- Suggestions
+"""
+
+    return ask_gemini(prompt)
+    
