@@ -300,7 +300,7 @@ else:
     )
                     # ---------------- STUDY PLAN ---------------- #
 
-elif menu == "📅 Study Plan":
+ elif menu == "📅 Study Plan":
 
     st.title("📅 AI Study Plan")
 
