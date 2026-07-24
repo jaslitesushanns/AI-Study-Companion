@@ -432,18 +432,28 @@ elif menu == "🗓️ Timetable":
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
-        elif menu == "📊 Subject Priority":
+       elif menu == "📊 Subject Priority":
 
-            st.title("📊 Subject Priority")
+    st.title("📊 AI Subject Priority Analyzer")
 
-            if st.button("🎯 Analyze"):
+    subjects = st.text_input("📚 Subjects")
 
-                result = analyze_subject_priority(
-                    user["weak_subjects"],
-                    user["goal"]
-                )
+    weak_subjects = st.text_input("💪 Weak Subjects")
 
-                st.markdown(result)
+    exam_date = st.date_input("📅 Exam Date")
+
+    goal = st.text_input("🎯 Goal")
+
+    if st.button("📊 Analyze Priority"):
+
+        result = analyze_subject_priority(
+            subjects,
+            weak_subjects,
+            exam_date,
+            goal
+        )
+
+        st.markdown(result)
                         # ---------------- AI TUTOR ---------------- #
 
         elif menu == "🤖 AI Tutor":
