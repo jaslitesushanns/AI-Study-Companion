@@ -347,19 +347,45 @@ Stay focused and complete today's goal:
 
         st.markdown(plan)
         # ---------------- TIMETABLE ---------------- #
+elif menu == "🗓️ Timetable":
 
-        elif menu == "🗓️ Timetable":
+    st.title("🗓️ AI Smart Timetable")
 
-            st.title("🗓️ Smart Timetable")
+    wake_up = st.time_input("🌅 Wake-up Time")
 
-            if st.button("📅 Generate Timetable"):
+    school_start = st.time_input("🏫 School/College Start Time")
 
-                timetable = generate_timetable(
-                    user["study_hours"],
-                    user["weak_subjects"]
-                )
+    school_end = st.time_input("🏫 School/College End Time")
 
-                st.markdown(timetable)
+    tuition = st.text_input("📚 Tuition Timing (Optional)")
+
+    hobbies = st.text_input("🎮 Hobbies")
+
+    sleep = st.time_input("😴 Sleep Time")
+
+    study_hours = st.slider(
+        "⏰ Study Hours Per Day",
+        1,
+        12,
+        user["study_hours"]
+    )
+
+    if st.button("✨ Generate Smart Timetable"):
+
+        timetable = generate_timetable(
+            wake_up,
+            school_start,
+            school_end,
+            tuition,
+            hobbies,
+            sleep,
+            study_hours,
+            user["weak_subjects"],
+            user["goal"]
+        )
+
+        st.markdown(timetable)
+       
 
         # ---------------- STUDY SESSION ---------------- #
 
