@@ -30,15 +30,39 @@ def ask_gemini(prompt):
 
 # ---------------- AI TUTOR ---------------- #
 
-def ask_ai(question):
-    prompt = f"""
-You are a friendly AI Study Tutor.
+def ask_ai(
+    subject,
+    chapter,
+    question,
+    explain
+):
 
-Question:
+    prompt = f"""
+You are an expert AI Tutor.
+
+Subject:
+{subject}
+
+Chapter:
+{chapter}
+
+Student Question:
 {question}
 
-Explain clearly using simple English.
+Explain in:
+{explain} mode.
+
+Include:
+
+1. Simple explanation
+2. Real-life example
+3. Important points
+4. Exam tips
+5. Quick revision notes
+
+Use simple English.
 """
+
     return ask_gemini(prompt)
 
 
