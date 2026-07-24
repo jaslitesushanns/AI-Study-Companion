@@ -6,7 +6,7 @@ api_key = os.getenv("GEMINI_API_KEY")
 
 if api_key:
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.5-flash-lite")
+   model = genai.GenerativeModel("gemini-3.6-flash")
 else:
     model = None
 # ---------------- COMMON FUNCTION ---------------- #
