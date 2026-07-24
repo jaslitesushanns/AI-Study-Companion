@@ -342,8 +342,9 @@ st.sidebar.caption("Made with ❤️ using Streamlit")
             user["student_class"],
             user["board"]
         )
-
+        st.success("Study Plan Generated Successfully! 🎉")
         st.markdown(plan)
+        st.balloons()
         # ---------------- TIMETABLE ---------------- #
 elif menu == "🗓️ Timetable":
 
@@ -382,7 +383,11 @@ elif menu == "🗓️ Timetable":
             user["goal"]
         )
 
-        st.markdown(timetable)
+       st.success("Timetable Generated Successfully! 🎉")
+
+st.markdown(timetable)
+
+st.balloons()
        
 
         # ---------------- STUDY SESSION ---------------- #
@@ -426,7 +431,11 @@ elif menu == "🗓️ Timetable":
             goal
         )
 
-        st.markdown(session)
+        st.success("Study Session Generated Successfully! 🎉")
+
+st.markdown(session)
+
+st.balloons()
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
@@ -451,7 +460,11 @@ elif menu == "🗓️ Timetable":
             goal
         )
 
-        st.markdown(result)
+       st.success("Analysis Completed! 🎉")
+
+st.markdown(result)
+
+st.balloons()
                         # ---------------- AI TUTOR ---------------- #
 
         elif menu == "🤖 AI Tutor":
@@ -484,7 +497,11 @@ elif menu == "🗓️ Timetable":
             explain
         )
 
-        st.markdown(answer)
+        st.success("Response Generated! 🎉")
+
+st.markdown(answer)
+
+st.balloons()
         # ---------------- AI NOTES ---------------- #
 
         elif menu == "📝 AI Notes":
@@ -512,7 +529,11 @@ elif menu == "🗓️ Timetable":
             notes_type
         )
 
-        st.markdown(notes)
+        st.success("Notes Generated! 🎉")
+
+st.markdown(notes)
+
+st.balloons()
         # ---------------- FLASHCARDS ---------------- #
 
         elif menu == "🧠 Flashcards":
@@ -538,7 +559,11 @@ elif menu == "🗓️ Timetable":
             cards
         )
 
-        st.markdown(flashcards)
+        st.success("Flashcards Generated! 🎉")
+
+st.markdown(flashcards)
+
+st.balloons()
 
         # ---------------- STORY LEARNING ---------------- #
 
@@ -568,7 +593,11 @@ elif menu == "🗓️ Timetable":
             age
         )
 
-        st.markdown(story)
+        st.success("Story Generated! 🎉")
+
+st.markdown(story)
+
+st.balloons()
 
         # ---------------- QUIZ ---------------- #
 
@@ -605,7 +634,11 @@ elif menu == "🗓️ Timetable":
             questions
         )
 
-        st.markdown(quiz)
+        st.success("Quiz Generated! 🎉")
+
+st.markdown(quiz)
+
+st.balloons()
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
@@ -650,7 +683,11 @@ elif menu == "🗓️ Timetable":
             difficulty
         )
 
-        st.markdown(exam)
+        st.success("Exam Paper Generated! 🎉")
+
+st.markdown(exam)
+
+st.balloons()
 
             # ---------------- MEMORY BOOSTER ---------------- #
 
@@ -680,7 +717,11 @@ elif menu == "🗓️ Timetable":
             game
         )
 
-        st.markdown(result)
+        st.success("Memory Game Generated! 🎉")
+
+st.markdown(result)
+
+st.balloons()
 
 
         # ---------------- PROGRESS ---------------- #
@@ -718,7 +759,11 @@ elif menu == "🗓️ Timetable":
             hours
         )
 
-        st.markdown(result)
+       st.success("Progress Analysis Completed! 🎉")
+
+st.markdown(result)
+
+st.balloons()
 
         progress = completed / total
 
@@ -756,7 +801,11 @@ elif menu == "🗓️ Timetable":
             total
         )
 
-        st.markdown(report)
+       st.success("Report Generated! 🎉")
+
+st.markdown(report)
+
+st.balloons()
 
         st.download_button(
             "⬇ Download Report",
@@ -799,7 +848,11 @@ elif menu == "🗓️ Timetable":
             user["weak_subjects"]
         )
 
-        st.markdown(answer)
+      st.success("AI Agent Response Ready! 🎉")
+
+st.markdown(answer)
+
+st.balloons()
                             # ---------------- SETTINGS ---------------- #
 
        elif menu == "⚙️ Settings":
