@@ -1,13 +1,30 @@
 from google import genai
 import streamlit as st
 
-client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+import os
+
+api_key = os.getenv("GEMINI_API_KEY")
+
+if api_key:
+    client = genai.Client(api_key=api_key)
+else:
+    client = None
 
 MODEL = "gemini-2.5-flash"
 
 # ---------------- COMMON FUNCTION ---------------- #
 
 def ask_gemini(prompt):
+
+    if client is None:
+        return "⚠️ Gemini API key is not configured yet."
+
+    response = client.models.generate_content(
+        model=MODEL,
+        contents=prompt
+    )
+
+    return response.text
     response = client.models.generate_content(
         model=MODEL,
         contents=prompt
