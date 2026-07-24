@@ -391,15 +391,44 @@ elif menu == "🗓️ Timetable":
 
         elif menu == "📖 Study Session":
 
-            st.title("📖 AI Study Session")
+    st.title("📖 AI Study Session Planner")
 
-            if st.button("🚀 Generate Session"):
+    subject = st.text_input("📚 Subject")
 
-                session = generate_study_session(
-                    user["study_hours"]
-                )
+    chapter = st.text_input("📖 Chapter / Lesson")
 
-                st.markdown(session)
+    study_hours = st.slider(
+        "⏰ Study Duration (Hours)",
+        1,
+        8,
+        user["study_hours"]
+    )
+
+    energy = st.selectbox(
+        "⚡ Energy Level",
+        [
+            "Low",
+            "Medium",
+            "High"
+        ]
+    )
+
+    goal = st.text_input(
+        "🎯 Today's Goal",
+        placeholder="Example: Finish Chapter 5"
+    )
+
+    if st.button("🚀 Generate Study Session"):
+
+        session = generate_study_session(
+            subject,
+            chapter,
+            study_hours,
+            energy,
+            goal
+        )
+
+        st.markdown(session)
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
