@@ -266,9 +266,9 @@ else:
 💪 Weak Subjects : {user['weak_subjects']}
 """)
 
-             st.markdown("---")
+            st.markdown("---")
 
-             st.subheader("📈 Overall Progress")
+            st.subheader("📈 Overall Progress")
 
     progress = st.slider(
         "Completion",
