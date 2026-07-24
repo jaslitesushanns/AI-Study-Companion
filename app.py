@@ -277,7 +277,7 @@ else:
         35
     )
 
-              st.progress(progress/100)
+            st.progress(progress/100)
 
               st.markdown("---")
 
