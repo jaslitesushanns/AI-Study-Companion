@@ -189,9 +189,8 @@ else:
             st.rerun()
 
     else:
-
-        menu = st.sidebar.radio(
-            "📚 Navigation",
+         menu = st.sidebar.radio(
+                         "📚 Navigation",
             [
                 "🏠 Dashboard",
                 "📅 Study Plan",
@@ -222,41 +221,36 @@ else:
             st.rerun()
 
         st.sidebar.markdown("---")
-
         st.sidebar.success("🤖 AI Study Companion")
-
         st.sidebar.caption("Version 2.0")
-
         st.sidebar.caption("Made with ❤️ using Streamlit")
-                    # ---------------- DASHBOARD ---------------- #
+        # ---------------- DASHBOARD ---------------- #
 
-      # ---------------- DASHBOARD ---------------- #
+        if menu == "🏠 Dashboard":
 
-if menu == "🏠 Dashboard":
+            st.title("🏠 Student Dashboard")
 
-    st.title("🏠 Student Dashboard")
+            st.success(f"Welcome back, {user['username']}! 🌸")
 
-    st.success(f"Welcome back, {user['username']}! 🌸")
+            col1, col2, col3, col4 = st.columns(4)
 
-    col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("🔥 Streak", "12 Days")
 
-    with col1:
-        st.metric("🔥 Streak", "12 Days")
+            with col2:
+                st.metric("⭐ XP", user["xp"])
 
-    with col2:
-        st.metric("⭐ XP", user["xp"])
+            with col3:
+                st.metric("📚 Study Hours", user["study_hours"])
 
-    with col3:
-        st.metric("📚 Study Hours", user["study_hours"])
+            with col4:
+                st.metric("🎯 Goal", "Active")
 
-    with col4:
-        st.metric("🎯 Goal", "Active")
+            st.markdown("---")
 
-    st.markdown("---")
+            st.subheader("📖 Student Profile")
 
-    st.subheader("📖 Profile")
-
-    st.info(f"""
+            st.info(f"""
 👤 Name : {user['username']}
 
 🎓 Class : {user['student_class']}
@@ -268,625 +262,524 @@ if menu == "🏠 Dashboard":
 💪 Weak Subjects : {user['weak_subjects']}
 """)
 
-    st.markdown("---")
+            st.markdown("---")
 
-    st.subheader("📈 Overall Progress")
+            st.subheader("📈 Overall Progress")
 
-    progress = st.slider(
-        "Completion",
-        0,
-        100,
-        35
-    )
+            progress = st.slider(
+                "Completion",
+                0,
+                100,
+                35
+            )
 
-    st.progress(progress / 100)
+            st.progress(progress / 100)
 
-    st.markdown("---")
+            st.markdown("---")
 
-    st.subheader("📌 Today's Tasks")
+            st.subheader("📌 Today's Tasks")
 
-    st.checkbox("📖 Finish today's study plan")
-
-    st.checkbox("📝 Revise yesterday's chapter")
-
-    st.checkbox("🎮 Play Memory Booster")
-    if menu == "🏠 Dashboard":
-        st.checkbox("😴 Sleep before 10 PM")
+            st.checkbox("📖 Finish today's study plan")
+            st.checkbox("📝 Revise yesterday's chapter")
+            st.checkbox("🎮 Play Memory Booster")
+            st.checkbox("😴 Sleep before 10 PM")
                     # ---------------- STUDY PLAN ---------------- #
 
-    elif menu == "📅 Study Plan":
-         st.title("📅 AI Study Plan")
+        elif menu == "📅 Study Plan":
 
-    st.title("📅 AI Study Plan")
+            st.title("📅 AI Study Plan")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
 
-    chapters = st.text_area(
-        "📖 Chapter(s) / Lesson(s)",
-        placeholder="Example:\nChapter 1 - Electricity\nChapter 2 - Magnetism"
-    )
+            chapters = st.text_area(
+                "📖 Chapters / Lessons",
+                placeholder="Example:\nChapter 1\nChapter 2"
+            )
 
-    exam_date = st.date_input("📅 Exam Date")
+            exam_date = st.date_input("📅 Exam Date")
 
-    study_hours = st.slider(
-        "⏰ Study Hours Per Day",
-        1,
-        12,
-        user["study_hours"]
-    )
+            study_hours = st.slider(
+                "⏰ Study Hours Per Day",
+                1,
+                12,
+                user["study_hours"]
+            )
 
-    difficulty = st.selectbox(
-        "🎯 Difficulty Level",
-        [
-            "Easy",
-            "Medium",
-            "Hard"
-        ]
-    )
+            difficulty = st.selectbox(
+                "🎯 Difficulty",
+                ["Easy", "Medium", "Hard"]
+            )
 
-    if st.button("✨ Generate Study Plan"):
+            if st.button("✨ Generate Study Plan"):
 
-        plan = generate_study_plan(
-            subject,
-            chapters,
-            exam_date,
-            study_hours,
-            difficulty,
-            user["goal"],
-            user["weak_subjects"],
-            user["student_class"],
-            user["board"]
-        )
-        st.success("Study Plan Generated Successfully! 🎉")
-        st.markdown(plan)
-        st.balloons()
+                plan = generate_study_plan(
+                    subject,
+                    chapters,
+                    exam_date,
+                    study_hours,
+                    difficulty,
+                    user["goal"],
+                    user["weak_subjects"],
+                    user["student_class"],
+                    user["board"]
+                )
+
+                st.success("Study Plan Generated Successfully! 🎉")
+                st.markdown(plan)
+                st.balloons()
+
+
         # ---------------- TIMETABLE ---------------- #
-elif menu == "🗓️ Timetable":
 
-    st.title("🗓️ AI Smart Timetable")
+        elif menu == "🗓️ Timetable":
 
-    wake_up = st.time_input("🌅 Wake-up Time")
+            st.title("🗓️ AI Smart Timetable")
 
-    school_start = st.time_input("🏫 School/College Start Time")
+            wake_up = st.time_input("🌅 Wake-up Time")
+            school_start = st.time_input("🏫 School Start Time")
+            school_end = st.time_input("🏫 School End Time")
+            tuition = st.text_input("📚 Tuition Timing (Optional)")
+            hobbies = st.text_input("🎮 Hobbies")
+            sleep = st.time_input("😴 Sleep Time")
 
-    school_end = st.time_input("🏫 School/College End Time")
+            study_hours = st.slider(
+                "⏰ Study Hours",
+                1,
+                12,
+                user["study_hours"]
+            )
 
-    tuition = st.text_input("📚 Tuition Timing (Optional)")
+            if st.button("✨ Generate Timetable"):
 
-    hobbies = st.text_input("🎮 Hobbies")
+                timetable = generate_timetable(
+                    wake_up,
+                    school_start,
+                    school_end,
+                    tuition,
+                    hobbies,
+                    sleep,
+                    study_hours,
+                    user["weak_subjects"],
+                    user["goal"]
+                )
 
-    sleep = st.time_input("😴 Sleep Time")
+                st.success("Timetable Generated Successfully! 🎉")
+                st.markdown(timetable)
+                st.balloons()
+                        # ---------------- STUDY SESSION ---------------- #
 
-    study_hours = st.slider(
-        "⏰ Study Hours Per Day",
-        1,
-        12,
-        user["study_hours"]
-    )
+        elif menu == "📖 Study Session":
 
-    if st.button("✨ Generate Smart Timetable"):
+            st.title("📖 AI Study Session Planner")
 
-        timetable = generate_timetable(
-            wake_up,
-            school_start,
-            school_end,
-            tuition,
-            hobbies,
-            sleep,
-            study_hours,
-            user["weak_subjects"],
-            user["goal"]
-        )
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter / Lesson")
 
-        st.success("Timetable Generated Successfully! 🎉")
+            study_hours = st.slider(
+                "⏰ Study Duration (Hours)",
+                1,
+                8,
+                user["study_hours"]
+            )
 
-st.markdown(timetable)
+            energy = st.selectbox(
+                "⚡ Energy Level",
+                ["Low", "Medium", "High"]
+            )
 
-st.balloons()
-       
+            goal = st.text_input(
+                "🎯 Today's Goal",
+                placeholder="Example: Finish Chapter 5"
+            )
 
-        # ---------------- STUDY SESSION ---------------- #
+            if st.button("🚀 Generate Study Session"):
 
-    elif menu == "📖 Study Session":
+                session = generate_study_session(
+                    subject,
+                    chapter,
+                    study_hours,
+                    energy,
+                    goal
+                )
 
-        st.title("📖 AI Study Session Planner")
-
-    subject = st.text_input("📚 Subject")
-
-    chapter = st.text_input("📖 Chapter / Lesson")
-
-    study_hours = st.slider(
-        "⏰ Study Duration (Hours)",
-        1,
-        8,
-        user["study_hours"]
-    )
-
-    energy = st.selectbox(
-        "⚡ Energy Level",
-        [
-            "Low",
-            "Medium",
-            "High"
-        ]
-    )
-
-    goal = st.text_input(
-        "🎯 Today's Goal",
-        placeholder="Example: Finish Chapter 5"
-    )
-
-    if st.button("🚀 Generate Study Session"):
-
-        session = generate_study_session(
-            subject,
-            chapter,
-            study_hours,
-            energy,
-            goal
-        )
-
-        st.success("Study Session Generated Successfully! 🎉")
-
-st.markdown(session)
-
-st.balloons()
+                st.success("Study Session Generated Successfully! 🎉")
+                st.markdown(session)
+                st.balloons()
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
-       elif menu == "📊 Subject Priority":
+        elif menu == "📊 Subject Priority":
 
-    st.title("📊 AI Subject Priority Analyzer")
+            st.title("📊 AI Subject Priority Analyzer")
 
-    subjects = st.text_input("📚 Subjects")
+            subjects = st.text_input("📚 Subjects")
+            weak_subjects = st.text_input("💪 Weak Subjects")
+            exam_date = st.date_input("📅 Exam Date")
+            goal = st.text_input("🎯 Goal")
 
-    weak_subjects = st.text_input("💪 Weak Subjects")
+            if st.button("📊 Analyze Priority"):
 
-    exam_date = st.date_input("📅 Exam Date")
+                result = analyze_subject_priority(
+                    subjects,
+                    weak_subjects,
+                    exam_date,
+                    goal
+                )
 
-    goal = st.text_input("🎯 Goal")
+                st.success("Analysis Completed! 🎉")
+                st.markdown(result)
+                st.balloons()
 
-    if st.button("📊 Analyze Priority"):
-
-        result = analyze_subject_priority(
-            subjects,
-            weak_subjects,
-            exam_date,
-            goal
-        )
-
-       st.success("Analysis Completed! 🎉")
-
-st.markdown(result)
-
-st.balloons()
-                        # ---------------- AI TUTOR ---------------- #
+        # ---------------- AI TUTOR ---------------- #
 
         elif menu == "🤖 AI Tutor":
 
-    st.title("🤖 AI Study Tutor")
+            st.title("🤖 AI Study Tutor")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter")
 
-    chapter = st.text_input("📖 Chapter")
+            question = st.text_area("❓ Ask your question")
 
-    question = st.text_area(
-        "❓ Ask your question"
-    )
+            explain = st.selectbox(
+                "Explain as",
+                [
+                    "Simple",
+                    "Detailed",
+                    "Exam Point of View"
+                ]
+            )
 
-    explain = st.selectbox(
-        "Explain as",
-        [
-            "Simple",
-            "Detailed",
-            "Exam Point of View"
-        ]
-    )
+            if st.button("💬 Ask AI"):
 
-    if st.button("💬 Ask AI"):
+                answer = ask_ai(
+                    subject,
+                    chapter,
+                    question,
+                    explain
+                )
 
-        answer = ask_ai(
-            subject,
-            chapter,
-            question,
-            explain
-        )
-
-        st.success("Response Generated! 🎉")
-
-st.markdown(answer)
-
-st.balloons()
-        # ---------------- AI NOTES ---------------- #
+                st.success("Response Generated! 🎉")
+                st.markdown(answer)
+                st.balloons()
+                        # ---------------- AI NOTES ---------------- #
 
         elif menu == "📝 AI Notes":
 
-    st.title("📝 AI Notes Generator")
+            st.title("📝 AI Notes Generator")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter / Lesson")
 
-    chapter = st.text_input("📖 Chapter / Lesson")
+            notes_type = st.selectbox(
+                "📄 Notes Type",
+                ["Short Notes", "Detailed Notes", "Exam Revision Notes"]
+            )
 
-    notes_type = st.selectbox(
-        "📄 Notes Type",
-        [
-            "Short Notes",
-            "Detailed Notes",
-            "Exam Revision Notes"
-        ]
-    )
+            if st.button("📖 Generate Notes"):
 
-    if st.button("📖 Generate Notes"):
+                notes = generate_notes(
+                    subject,
+                    chapter,
+                    notes_type
+                )
 
-        notes = generate_notes(
-            subject,
-            chapter,
-            notes_type
-        )
+                st.success("Notes Generated Successfully! 🎉")
+                st.markdown(notes)
 
-        st.success("Notes Generated! 🎉")
-
-st.markdown(notes)
-
-st.balloons()
         # ---------------- FLASHCARDS ---------------- #
 
         elif menu == "🧠 Flashcards":
 
-    st.title("🧠 AI Flashcards")
+            st.title("🧠 AI Flashcards")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter")
 
-    chapter = st.text_input("📖 Chapter")
+            cards = st.slider(
+                "🎴 Number of Flashcards",
+                5,
+                30,
+                10
+            )
 
-    cards = st.slider(
-        "🎴 Number of Flashcards",
-        5,
-        30,
-        10
-    )
+            if st.button("🎴 Generate Flashcards"):
 
-    if st.button("🎴 Generate Flashcards"):
+                flashcards = generate_flashcards(
+                    subject,
+                    chapter,
+                    cards
+                )
 
-        flashcards = generate_flashcards(
-            subject,
-            chapter,
-            cards
-        )
-
-        st.success("Flashcards Generated! 🎉")
-
-st.markdown(flashcards)
-
-st.balloons()
+                st.success("Flashcards Generated Successfully! 🎉")
+                st.markdown(flashcards)
 
         # ---------------- STORY LEARNING ---------------- #
 
-       elif menu == "📚 Story Learning":
+        elif menu == "📚 Story Learning":
 
-    st.title("📚 AI Story Learning")
+            st.title("📚 Story Learning")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter")
 
-    chapter = st.text_input("📖 Chapter")
+            age = st.selectbox(
+                "👦 Student Level",
+                ["Primary", "Middle School", "High School", "College"]
+            )
 
-    age = st.selectbox(
-        "👦 Student Level",
-        [
-            "Primary",
-            "Middle School",
-            "High School",
-            "College"
-        ]
-    )
+            if st.button("📚 Generate Story"):
 
-    if st.button("📖 Generate Story"):
+                story = generate_story(
+                    subject,
+                    chapter,
+                    age
+                )
 
-        story = generate_story(
-            subject,
-            chapter,
-            age
-        ) 
-
-        st.success("Story Generated! 🎉")
-
-st.markdown(story)
-
-st.balloons()
+                st.success("Story Generated Successfully! 🎉")
+                st.markdown(story)
 
         # ---------------- QUIZ ---------------- #
 
-       elif menu == "❓ Quiz":
+        elif menu == "❓ Quiz":
 
-    st.title("❓ AI Quiz Generator")
+            st.title("❓ AI Quiz Generator")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter")
 
-    chapter = st.text_input("📖 Chapter")
+            difficulty = st.selectbox(
+                "🎯 Difficulty",
+                ["Easy", "Medium", "Hard"]
+            )
 
-    difficulty = st.selectbox(
-        "🎯 Difficulty",
-        [
-            "Easy",
-            "Medium",
-            "Hard"
-        ]
-    )
+            questions = st.slider(
+                "📝 Number of Questions",
+                5,
+                30,
+                10
+            )
 
-    questions = st.slider(
-        "📝 Number of Questions",
-        5,
-        30,
-        10
-    )
+            if st.button("📝 Generate Quiz"):
 
-    if st.button("📝 Generate Quiz"):
+                quiz = generate_quiz(
+                    subject,
+                    chapter,
+                    difficulty,
+                    questions
+                )
 
-        quiz = generate_quiz(
-            subject,
-            chapter,
-            difficulty,
-            questions
-        )
-
-        st.success("Quiz Generated! 🎉")
-
-st.markdown(quiz)
-
-st.balloons()
+                st.success("Quiz Generated Successfully! 🎉")
+                st.markdown(quiz)
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
-      elif menu == "🎯 Exam Simulator":
+        elif menu == "🎯 Exam Simulator":
 
-    st.title("🎯 AI Exam Simulator")
+            st.title("🎯 AI Exam Simulator")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter")
 
-    chapter = st.text_input("📖 Chapter")
+            duration = st.slider(
+                "⏰ Duration (Minutes)",
+                30,
+                180,
+                60
+            )
 
-    duration = st.slider(
-        "⏰ Exam Duration (Minutes)",
-        30,
-        180,
-        60
-    )
+            marks = st.slider(
+                "📝 Total Marks",
+                25,
+                100,
+                50
+            )
 
-    marks = st.slider(
-        "📝 Total Marks",
-        25,
-        100,
-        50
-    )
+            difficulty = st.selectbox(
+                "🎯 Difficulty",
+                ["Easy", "Medium", "Hard"]
+            )
 
-    difficulty = st.selectbox(
-        "🎯 Difficulty",
-        [
-            "Easy",
-            "Medium",
-            "Hard"
-        ]
-    )
+            if st.button("🚀 Generate Exam"):
 
-    if st.button("🚀 Generate Exam Paper"):
+                exam = generate_exam(
+                    subject,
+                    chapter,
+                    duration,
+                    marks,
+                    difficulty
+                )
 
-        exam = generate_exam(
-            subject,
-            chapter,
-            duration,
-            marks,
-            difficulty
-        )
+                st.success("Exam Generated Successfully! 🎉")
+                st.markdown(exam)
 
-        st.success("Exam Paper Generated! 🎉")
-
-st.markdown(exam)
-
-st.balloons()
-
-            # ---------------- MEMORY BOOSTER ---------------- #
+        # ---------------- MEMORY BOOSTER ---------------- #
 
         elif menu == "🎮 Memory Booster":
 
-    st.title("🎮 AI Memory Booster")
+            st.title("🎮 Memory Booster")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter")
 
-    chapter = st.text_input("📖 Chapter")
+            game = st.selectbox(
+                "🎲 Game Type",
+                [
+                    "Memory Match",
+                    "Fill in the Blanks",
+                    "Guess the Word",
+                    "Rapid Recall"
+                ]
+            )
 
-    game = st.selectbox(
-        "🎲 Game Type",
-        [
-            "Memory Match",
-            "Fill in the Blanks",
-            "Guess the Word",
-            "Rapid Recall"
-        ]
-    )
+            if st.button("🎮 Generate Game"):
 
-    if st.button("🧠 Generate Game"):
+                result = memory_booster(
+                    subject,
+                    chapter,
+                    game
+                )
 
-        result = memory_booster(
-            subject,
-            chapter,
-            game
-        )
-
-        st.success("Memory Game Generated! 🎉")
-
-st.markdown(result)
-
-st.balloons()
-
+                st.success("Game Generated Successfully! 🎉")
+                st.markdown(result)
 
         # ---------------- PROGRESS ---------------- #
 
-       elif menu == "📈 Progress":
+        elif menu == "📈 Progress":
 
-    st.title("📈 AI Progress Tracker")
+            st.title("📈 Progress Tracker")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
 
-    completed = st.number_input(
-        "✅ Completed Topics",
-        min_value=0,
-        value=0
-    )
+            completed = st.number_input(
+                "Completed Topics",
+                min_value=0,
+                value=0
+            )
 
-    total = st.number_input(
-        "📖 Total Topics",
-        min_value=1,
-        value=10
-    )
+            total = st.number_input(
+                "Total Topics",
+                min_value=1,
+                value=10
+            )
 
-    hours = st.number_input(
-        "⏰ Study Hours Completed",
-        min_value=0,
-        value=0
-    )
+            hours = st.number_input(
+                "Study Hours",
+                min_value=0,
+                value=0
+            )
 
-    if st.button("📊 Analyze Progress"):
+            if st.button("📊 Analyze Progress"):
 
-        result = analyze_progress(
-            subject,
-            completed,
-            total,
-            hours
-        )
+                result = analyze_progress(
+                    subject,
+                    completed,
+                    total,
+                    hours
+                )
 
-       st.success("Progress Analysis Completed! 🎉")
+                st.success("Progress Analysis Completed! 🎉")
+                st.markdown(result)
 
-st.markdown(result)
-
-st.balloons()
-
-        progress = completed / total
-
-        st.progress(progress)
-
-        st.metric(
-            "Completion",
-            f"{progress*100:.1f}%"
-        )
-
+                progress = completed / total
+                st.progress(progress)
+                st.metric("Completion", f"{progress*100:.1f}%")
 
         # ---------------- REPORTS ---------------- #
 
         elif menu == "📄 Reports":
 
-    st.title("📄 AI Study Report")
+            st.title("📄 Study Report")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
 
-    completed = st.number_input(
-        "Completed Topics",
-        min_value=0
-    )
+            completed = st.number_input(
+                "Completed Topics",
+                min_value=0
+            )
 
-    total = st.number_input(
-        "Total Topics",
-        min_value=1
-    )
+            total = st.number_input(
+                "Total Topics",
+                min_value=1
+            )
 
-    if st.button("📄 Generate Report"):
+            if st.button("📄 Generate Report"):
 
-        report = generate_report(
-            subject,
-            completed,
-            total
-        )
+                report = generate_report(
+                    subject,
+                    completed,
+                    total
+                )
 
-       st.success("Report Generated! 🎉")
+                st.success("Report Generated Successfully! 🎉")
+                st.markdown(report)
 
-st.markdown(report)
+                st.download_button(
+                    "⬇ Download Report",
+                    report,
+                    file_name="study_report.txt"
+                )
 
-st.balloons()
+        # ---------------- SETTINGS ---------------- #
 
-        st.download_button(
-            "⬇ Download Report",
-            report,
-            file_name="study_report.txt"
-        )
+        elif menu == "⚙️ Settings":
+
+            st.title("⚙️ Settings")
+
+            theme = st.selectbox(
+                "Theme",
+                ["Light", "Dark", "Blue", "Purple", "Green"]
+            )
+
+            reminder = st.checkbox(
+                "Enable Study Reminder",
+                value=True
+            )
+
+            music = st.selectbox(
+                "Study Music",
+                ["Lo-fi", "Rain", "Nature", "Piano", "None"]
+            )
+
+            if st.button("💾 Save Settings"):
+                st.success("Settings Saved Successfully ✅")
+
         # ---------------- AI AGENT ---------------- #
 
-      elif menu == "🤖 AI Agent":
+        elif menu == "🤖 AI Agent":
 
-    st.title("🤖 Personal AI Study Agent")
+            st.title("🤖 Personal AI Study Agent")
 
-    subject = st.text_input("📚 Subject")
+            subject = st.text_input("📚 Subject")
+            chapter = st.text_input("📖 Chapter")
 
-    chapter = st.text_input("📖 Chapter")
+            mood = st.selectbox(
+                "Current Mood",
+                [
+                    "Happy",
+                    "Confused",
+                    "Stressed",
+                    "Tired",
+                    "Motivated"
+                ]
+            )
 
-    mood = st.selectbox(
-        "😊 Current Mood",
-        [
-            "Happy",
-            "Confused",
-            "Stressed",
-            "Tired",
-            "Motivated"
-        ]
-    )
+            question = st.text_area("💬 What do you need help with?")
 
-    question = st.text_area(
-        "💬 What do you need help with?"
-    )
+            if st.button("🚀 Ask AI Agent"):
 
-    if st.button("🚀 Ask AI Agent"):
+                answer = ai_agent(
+                    subject,
+                    chapter,
+                    mood,
+                    question,
+                    user["goal"],
+                    user["weak_subjects"]
+                )
 
-        answer = ai_agent(
-            subject,
-            chapter,
-            mood,
-            question,
-            user["goal"],
-            user["weak_subjects"]
-        )
-
-      st.success("AI Agent Response Ready! 🎉")
-
-st.markdown(answer)
-
-st.balloons()
-                            # ---------------- SETTINGS ---------------- #
-
-       elif menu == "⚙️ Settings":
-
-    st.title("⚙️ Settings")
-
-    st.subheader("🎨 Theme")
-
-    theme = st.selectbox(
-        "Choose Theme",
-        [
-            "Light",
-            "Dark",
-            "Blue",
-            "Purple",
-            "Green"
-        ]
-    )
-
-    st.subheader("🔔 Notifications")
-
-    reminder = st.checkbox(
-        "Enable Study Reminder",
-        value=True
-    )
-
-    st.subheader("🎵 Study Music")
-
-    music = st.selectbox(
-        "Music",
-        [
-            "Lo-fi",
-            "Rain",
-            "Nature",
-            "Piano",
-            "None"
-        ]
-    )
-
-    if st.button("💾 Save Settings"):
-        st.success("Settings Saved Successfully ✅")
+                st.success("AI Agent Response Ready! 🎉")
+                st.markdown(answer)
+                
         
+
+
