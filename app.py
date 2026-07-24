@@ -574,17 +574,40 @@ elif menu == "🗓️ Timetable":
 
         # ---------------- QUIZ ---------------- #
 
-        elif menu == "❓ Quiz":
+       elif menu == "❓ Quiz":
 
-            st.title("❓ AI Quiz Generator")
+    st.title("❓ AI Quiz Generator")
 
-            subject = st.text_input("Subject")
+    subject = st.text_input("📚 Subject")
 
-            if st.button("📝 Generate Quiz"):
+    chapter = st.text_input("📖 Chapter")
 
-                quiz = generate_quiz(subject)
+    difficulty = st.selectbox(
+        "🎯 Difficulty",
+        [
+            "Easy",
+            "Medium",
+            "Hard"
+        ]
+    )
 
-                st.markdown(quiz)
+    questions = st.slider(
+        "📝 Number of Questions",
+        5,
+        30,
+        10
+    )
+
+    if st.button("📝 Generate Quiz"):
+
+        quiz = generate_quiz(
+            subject,
+            chapter,
+            difficulty,
+            questions
+        )
+
+        st.markdown(quiz)
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
