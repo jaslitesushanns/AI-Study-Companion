@@ -349,19 +349,48 @@ Keep the questions suitable for students.
     return ask_gemini(prompt)
 
 # ---------------- EXAM ---------------- #
+def generate_exam(
+    subject,
+    chapter,
+    duration,
+    marks,
+    difficulty
+):
 
-def generate_exam(subject):
     prompt = f"""
-Generate a 25-mark exam paper for:
+You are an AI Exam Paper Generator.
 
+Subject:
 {subject}
 
+Chapter:
+{chapter}
+
+Difficulty:
+{difficulty}
+
+Duration:
+{duration} minutes
+
+Total Marks:
+{marks}
+
+Create a complete exam paper.
+
 Include:
-- MCQs
-- Short Answers
-- Long Answers
+
+1. Multiple Choice Questions
+2. Short Answer Questions
+3. Long Answer Questions
+4. Total Marks
+5. Time Required
+6. Answer Key at the end
+
+Return the paper in neat markdown format.
 """
+
     return ask_gemini(prompt)
+
 # ---------------- MEMORY BOOSTER ---------------- #
 
 def memory_booster(topic):
