@@ -591,7 +591,7 @@ st.balloons()
             subject,
             chapter,
             age
-        )
+        ) 
 
         st.success("Story Generated! 🎉")
 
