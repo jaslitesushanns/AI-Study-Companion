@@ -207,7 +207,8 @@ else:
                 "🎮 Memory Booster",
                 "📈 Progress",
                 "📄 Reports",
-                "⚙️ Settings"
+                "⚙️ Settings",
+                "🤖 AI Agent"
             ]
         )
 
@@ -534,3 +535,73 @@ Stay focused and complete today's goal:
                     report,
                     file_name="study_report.txt"
                 )
+        # ---------------- AI AGENT ---------------- #
+
+        elif menu == "🤖 AI Agent":
+
+            st.title("🤖 AI Study Agent")
+
+            question = st.text_area(
+                "Ask your AI Agent anything 📚"
+            )
+
+            if st.button("🚀 Ask Agent"):
+
+                if question:
+
+                    answer = ask_ai(question)
+
+                    st.success("AI Response")
+
+                    st.write(answer)
+
+                else:
+                    st.warning("Enter a question first.")
+                            # ---------------- SETTINGS ---------------- #
+
+        elif menu == "⚙️ Settings":
+
+            st.title("⚙️ Settings")
+
+            st.subheader("👤 Profile Information")
+
+            st.write(
+                f"Username: {user['username']}"
+            )
+
+            st.write(
+                f"Class: {user['student_class']}"
+            )
+
+            st.write(
+                f"Board: {user['board']}"
+            )
+
+            st.write(
+                f"Study Goal: {user['goal']}"
+            )
+
+
+            st.subheader("🎨 Theme")
+
+            st.info(
+                "Your AI Study Companion uses a colorful student-friendly theme 🌈"
+            )
+
+
+            st.subheader("🔔 Reminder Settings")
+
+            reminder = st.checkbox(
+                "Enable daily study reminders",
+                value=True
+            )
+
+            if reminder:
+                st.success(
+                    "Daily reminders enabled 🔔"
+                )
+            else:
+                st.warning(
+                    "Reminders disabled"
+                )
+                
