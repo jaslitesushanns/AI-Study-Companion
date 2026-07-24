@@ -124,10 +124,47 @@ Return ONLY a markdown table.
 
 # ---------------- STUDY SESSION ---------------- #
 
-def generate_study_session(study_hours):
+def generate_study_session(
+    subject,
+    chapter,
+    study_hours,
+    energy,
+    goal
+):
+
     prompt = f"""
-Create a productive study session for {study_hours} hours.
+You are an AI Study Coach.
+
+Create a detailed study session.
+
+Subject:
+{subject}
+
+Chapter:
+{chapter}
+
+Study Time:
+{study_hours} hour(s)
+
+Energy Level:
+{energy}
+
+Today's Goal:
+{goal}
+
+Include:
+
+1. Warm-up (5 minutes)
+2. Main Study Session
+3. Practice Questions
+4. Short Breaks
+5. Revision
+6. Self Test
+7. Motivation
+
+Return as a neat markdown table.
 """
+
     return ask_gemini(prompt)
 
 
