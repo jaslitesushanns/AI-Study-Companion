@@ -212,14 +212,22 @@ else:
             ]
         )
 
-        st.sidebar.markdown("---")
-        st.sidebar.write(f"👤 {user['username']}")
-        st.sidebar.write(f"🎯 {user['goal']}")
+       st.sidebar.markdown("---")
+st.sidebar.write(f"👤 {user['username']}")
+st.sidebar.write(f"🎯 {user['goal']}")
 
-        if st.sidebar.button("🚪 Logout"):
-            st.session_state.logged_in = False
-            st.session_state.user = None
-            st.rerun()
+if st.sidebar.button("🚪 Logout"):
+    st.session_state.logged_in = False
+    st.session_state.user = None
+    st.rerun()
+
+st.sidebar.markdown("---")
+
+st.sidebar.success("🤖 AI Study Companion")
+
+st.sidebar.caption("Version 2.0")
+
+st.sidebar.caption("Made with ❤️ using Streamlit")
                     # ---------------- DASHBOARD ---------------- #
 
        if menu == "🏠 Dashboard":
