@@ -98,11 +98,63 @@ if not st.session_state.logged_in:
 
 else:
 
-    st.success("Login Successful 🎉")
+   user = st.session_state.user
 
-    st.write("Welcome!")
+if not is_profile_complete(user):
 
-    st.write(st.session_state.user["email"])
+    st.header("👤 Complete Your Profile")
+
+    username = st.text_input("Username")
+
+    student_class = st.selectbox(
+        "Class",
+        ["6","7","8","9","10","11","12","College"]
+    )
+
+    board = st.selectbox(
+        "Board",
+        ["State Board","CBSE","ICSE","IB","Other"]
+    )
+
+    study_hours = st.slider(
+        "Study Hours per Day",
+        1,
+        12,
+        2
+    )
+
+    goal = st.text_input("Your Goal")
+
+    weak_subjects = st.text_input(
+        "Weak Subjects (comma separated)"
+    )
+
+    if st.button("Save Profile"):
+
+        update_profile(
+            user["id"],
+            username,
+            student_class,
+            board,
+            study_hours,
+            goal,
+            weak_subjects
+        )
+
+        st.success("Profile Saved Successfully 🎉")
+
+        st.rerun()
+
+else:
+
+    st.success(f"Welcome {user['username']} 🎉")
+
+    st.write("Dashboard Coming Next...")
+
+    if st.button("Logout"):
+        st.session_state.logged_in = False
+        st.session_state.user = None
+        st.rerun()
 
     if st.button("Logout"):
         st.session_state.logged_in = False
