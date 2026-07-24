@@ -393,22 +393,38 @@ Return the paper in neat markdown format.
 
 # ---------------- MEMORY BOOSTER ---------------- #
 
-def memory_booster(topic):
+def memory_booster(
+    subject,
+    chapter,
+    game
+):
 
     prompt = f"""
-Create a fun memory game for students.
+You are an AI Educational Game Creator.
 
-Topic:
-{topic}
+Subject:
+{subject}
+
+Chapter:
+{chapter}
+
+Game Type:
+{game}
+
+Create an interactive learning game.
 
 Include:
-- Memory tricks
-- Mini challenge
-- Recall questions
+
+1. Instructions
+2. Questions
+3. Answers
+4. Score System
+5. Bonus Challenge
+
+Keep it fun and suitable for students.
 """
 
     return ask_gemini(prompt)
-
 
 # ---------------- PROGRESS ANALYSIS ---------------- #
 
