@@ -44,29 +44,66 @@ Explain clearly using simple English.
 
 # ---------------- STUDY PLAN ---------------- #
 
-def generate_study_plan(subjects, exam_date, study_hours, goal, weak_subjects):
+def generate_study_plan(
+    subject,
+    chapters,
+    exam_date,
+    study_hours,
+    difficulty,
+    goal,
+    weak_subjects,
+    student_class,
+    board
+):
+
     prompt = f"""
-Create a 7-day study plan.
+You are an expert AI Study Planner.
 
-Subjects:
-{subjects}
+Student Details:
 
-Exam Date:
-{exam_date}
+Class:
+{student_class}
 
-Study Hours:
-{study_hours}
+Board:
+{board}
 
 Goal:
 {goal}
 
+Subject:
+{subject}
+
+Chapters:
+{chapters}
+
 Weak Subjects:
 {weak_subjects}
 
-Return ONLY a markdown table.
-"""
-    return ask_gemini(prompt)
+Difficulty:
+{difficulty}
 
+Exam Date:
+{exam_date}
+
+Available Study Hours:
+{study_hours} hour(s) per day.
+
+Create a detailed study plan.
+
+Include:
+
+1. Daily timetable.
+2. Which chapter to study each day.
+3. Revision days.
+4. Practice test days.
+5. Break timings.
+6. Motivation for each day.
+7. Important tips.
+
+Return the answer as a neat markdown table.
+"""
+
+    return ask_gemini(prompt)
 
 # ---------------- TIMETABLE ---------------- #
 
