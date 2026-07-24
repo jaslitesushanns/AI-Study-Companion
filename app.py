@@ -230,31 +230,33 @@ else:
         st.sidebar.caption("Made with ❤️ using Streamlit")
                     # ---------------- DASHBOARD ---------------- #
 
-        if menu == "🏠 Dashboard":
+      # ---------------- DASHBOARD ---------------- #
 
-            st.title("🏠 Student Dashboard")
+if menu == "🏠 Dashboard":
 
-            st.success(f"Welcome back, {user['username']}! 🌸")
+    st.title("🏠 Student Dashboard")
 
-            col1, col2, col3, col4 = st.columns(4)
+    st.success(f"Welcome back, {user['username']}! 🌸")
 
-            with col1:
-                st.metric("🔥 Streak", "12 Days")
+    col1, col2, col3, col4 = st.columns(4)
 
-            with col2:
-                st.metric("⭐ XP", user["xp"])
+    with col1:
+        st.metric("🔥 Streak", "12 Days")
 
-            with col3:
-                st.metric("📚 Study Hours", user["study_hours"])
+    with col2:
+        st.metric("⭐ XP", user["xp"])
 
-            with col4:
-                st.metric("🎯 Goal", "Active")
+    with col3:
+        st.metric("📚 Study Hours", user["study_hours"])
 
-            st.markdown("---")
+    with col4:
+        st.metric("🎯 Goal", "Active")
 
-            st.subheader("📖 Profile")
+    st.markdown("---")
 
-            st.info(f"""
+    st.subheader("📖 Profile")
+
+    st.info(f"""
 👤 Name : {user['username']}
 
 🎓 Class : {user['student_class']}
@@ -266,9 +268,9 @@ else:
 💪 Weak Subjects : {user['weak_subjects']}
 """)
 
-            st.markdown("---")
+    st.markdown("---")
 
-            st.subheader("📈 Overall Progress")
+    st.subheader("📈 Overall Progress")
 
     progress = st.slider(
         "Completion",
@@ -277,7 +279,7 @@ else:
         35
     )
 
-    st.progress(progress/100)
+    st.progress(progress / 100)
 
     st.markdown("---")
 
@@ -290,14 +292,6 @@ else:
     st.checkbox("🎮 Play Memory Booster")
 
     st.checkbox("😴 Sleep before 10 PM")
-
-    st.markdown("---")
-
-    st.subheader("💡 Daily Motivation")
-
-    st.success(
-        "Believe in yourself. Small progress every day leads to big success. 🌸"
-    )
                     # ---------------- STUDY PLAN ---------------- #
 
          elif menu == "📅 Study Plan":
