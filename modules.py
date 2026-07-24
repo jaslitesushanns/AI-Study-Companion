@@ -264,19 +264,32 @@ Use simple student-friendly English.
 
 # ---------------- FLASHCARDS ---------------- #
 
-def generate_flashcards(topic):
+def generate_flashcards(
+    subject,
+    chapter,
+    cards
+):
+
     prompt = f"""
-Create 15 flashcards for:
+You are an AI Flashcard Generator.
 
-{topic}
+Subject:
+{subject}
 
-Return as:
+Chapter:
+{chapter}
 
-Question
-Answer
+Create {cards} flashcards.
+
+Each flashcard must contain:
+
+Question:
+Answer:
+
+Keep them short, simple and exam-friendly.
 """
-    return ask_gemini(prompt)
 
+    return ask_gemini(prompt)
 
 # ---------------- STORY LEARNING ---------------- #
 
