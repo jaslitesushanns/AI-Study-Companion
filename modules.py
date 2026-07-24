@@ -1,25 +1,24 @@
-from google import genai
+import google.generativeai as genai
 import streamlit as st
-
 import os
 
 api_key = os.getenv("GEMINI_API_KEY")
 
 if api_key:
-    client = genai.Client(api_key=api_key)
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel("gemini-1.5-flash")
 else:
-    client = None
-MODEL = "gemini-2.0-flash"
+    model = None
 # ---------------- COMMON FUNCTION ---------------- #
 
 def ask_gemini(prompt):
 
     try:
 
-        response = client.models.generate_content(
-            model=MODEL,
-            contents=prompt
-        )
+        if model is None:
+            return "❌ Gemini API key not found."
+
+        response = model.generate_content(prompt)
 
         return response.text
 
