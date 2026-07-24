@@ -454,11 +454,83 @@ Stay focused and complete today's goal:
 
                 st.markdown(exam)
 
-        # ---------------- MEMORY BOOSTER ---------------- #
+            # ---------------- MEMORY BOOSTER ---------------- #
 
         elif menu == "🎮 Memory Booster":
 
             st.title("🎮 Memory Booster")
 
-            st.success("🎯 Coming in the next step!")
-            
+            topic = st.text_input(
+                "📚 Enter topic"
+            )
+
+            if st.button("🧠 Create Memory Game"):
+
+                result = memory_booster(topic)
+
+                st.markdown(result)
+
+
+        # ---------------- PROGRESS ---------------- #
+
+        elif menu == "📈 Progress":
+
+            st.title("📈 My Progress")
+
+            score = st.number_input(
+                "Your Score",
+                min_value=0,
+                value=8
+            )
+
+            total = st.number_input(
+                "Total Marks",
+                min_value=1,
+                value=10
+            )
+
+            if st.button("📊 Analyze Progress"):
+
+                result = analyze_progress(
+                    score,
+                    total
+                )
+
+                st.markdown(result)
+
+
+        # ---------------- REPORTS ---------------- #
+
+        elif menu == "📄 Reports":
+
+            st.title("📄 Student Reports")
+
+            subject = st.text_input(
+                "📚 Subject"
+            )
+
+            score = st.number_input(
+                "Score",
+                min_value=0
+            )
+
+            total = st.number_input(
+                "Total",
+                min_value=1
+            )
+
+            if st.button("📝 Generate Report"):
+
+                report = generate_report(
+                    subject,
+                    score,
+                    total
+                )
+
+                st.markdown(report)
+
+                st.download_button(
+                    "📥 Download Report",
+                    report,
+                    file_name="study_report.txt"
+                )
