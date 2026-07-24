@@ -736,37 +736,35 @@ elif menu == "🗓️ Timetable":
 
         elif menu == "📄 Reports":
 
-            st.title("📄 Student Reports")
+    st.title("📄 AI Study Report")
 
-            subject = st.text_input(
-                "📚 Subject"
-            )
+    subject = st.text_input("📚 Subject")
 
-            score = st.number_input(
-                "Score",
-                min_value=0
-            )
+    completed = st.number_input(
+        "Completed Topics",
+        min_value=0
+    )
 
-            total = st.number_input(
-                "Total",
-                min_value=1
-            )
+    total = st.number_input(
+        "Total Topics",
+        min_value=1
+    )
 
-            if st.button("📝 Generate Report"):
+    if st.button("📄 Generate Report"):
 
-                report = generate_report(
-                    subject,
-                    score,
-                    total
-                )
+        report = generate_report(
+            subject,
+            completed,
+            total
+        )
 
-                st.markdown(report)
+        st.markdown(report)
 
-                st.download_button(
-                    "📥 Download Report",
-                    report,
-                    file_name="study_report.txt"
-                )
+        st.download_button(
+            "⬇ Download Report",
+            report,
+            file_name="study_report.txt"
+        )
         # ---------------- AI AGENT ---------------- #
 
         elif menu == "🤖 AI Agent":
