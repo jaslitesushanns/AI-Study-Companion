@@ -147,17 +147,43 @@ if not is_profile_complete(user):
 
 else:
 
-    st.success(f"Welcome {user['username']} 🎉")
+   else:
 
-    st.write("Dashboard Coming Next...")
+    menu = st.sidebar.radio(
+        "📚 Navigation",
+        [
+            "🏠 Dashboard",
+            "📅 Study Plan",
+            "🗓️ Smart Timetable",
+            "📖 Study Session",
+            "📊 Subject Priority",
+            "🤖 AI Tutor",
+            "📝 AI Notes",
+            "🧠 Flashcards",
+            "📚 Story Learning",
+            "❓ Quiz",
+            "🎯 Exam Simulator",
+            "🎮 Memory Booster",
+            "📈 Progress",
+            "📄 Reports",
+            "⚙️ Settings"
+        ]
+    )
 
-    if st.button("Logout"):
+    st.sidebar.markdown("---")
+    st.sidebar.write(f"👤 {user['username']}")
+    st.sidebar.write(f"🎯 Goal: {user['goal']}")
+
+    if st.sidebar.button("🚪 Logout"):
         st.session_state.logged_in = False
         st.session_state.user = None
         st.rerun()
 
-    if st.button("Logout"):
-        st.session_state.logged_in = False
-        st.session_state.user = None
-        st.rerun()
-        
+    if menu == "🏠 Dashboard":
+        st.title("🏠 Dashboard")
+        st.success(f"Welcome back, {user['username']}! 🎉")
+        st.info("Your AI Study Companion is ready.")
+
+    else:
+        st.title(menu)
+        st.info("This module will be built next.")
