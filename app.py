@@ -687,30 +687,49 @@ elif menu == "🗓️ Timetable":
 
         # ---------------- PROGRESS ---------------- #
 
-        elif menu == "📈 Progress":
+       elif menu == "📈 Progress":
 
-            st.title("📈 My Progress")
+    st.title("📈 AI Progress Tracker")
 
-            score = st.number_input(
-                "Your Score",
-                min_value=0,
-                value=8
-            )
+    subject = st.text_input("📚 Subject")
 
-            total = st.number_input(
-                "Total Marks",
-                min_value=1,
-                value=10
-            )
+    completed = st.number_input(
+        "✅ Completed Topics",
+        min_value=0,
+        value=0
+    )
 
-            if st.button("📊 Analyze Progress"):
+    total = st.number_input(
+        "📖 Total Topics",
+        min_value=1,
+        value=10
+    )
 
-                result = analyze_progress(
-                    score,
-                    total
-                )
+    hours = st.number_input(
+        "⏰ Study Hours Completed",
+        min_value=0,
+        value=0
+    )
 
-                st.markdown(result)
+    if st.button("📊 Analyze Progress"):
+
+        result = analyze_progress(
+            subject,
+            completed,
+            total,
+            hours
+        )
+
+        st.markdown(result)
+
+        progress = completed / total
+
+        st.progress(progress)
+
+        st.metric(
+            "Completion",
+            f"{progress*100:.1f}%"
+        )
 
 
         # ---------------- REPORTS ---------------- #
