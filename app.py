@@ -389,7 +389,7 @@ st.balloons()
 
     elif menu == "📖 Study Session":
 
-    st.title("📖 AI Study Session Planner")
+        st.title("📖 AI Study Session Planner")
 
     subject = st.text_input("📚 Subject")
 
