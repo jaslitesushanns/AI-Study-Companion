@@ -231,19 +231,34 @@ Return the answer as a neat markdown table.
 
 
 # ---------------- NOTES ---------------- #
+def generate_notes(
+    subject,
+    chapter,
+    notes_type
+):
 
-def generate_notes(topic):
     prompt = f"""
-Create detailed study notes for:
+Create {notes_type} for the student.
 
-{topic}
+Subject:
+{subject}
+
+Chapter:
+{chapter}
 
 Include:
-- Definition
-- Important Points
-- Examples
-- Summary
+
+1. Definition
+2. Important concepts
+3. Key formulas (if any)
+4. Examples
+5. Memory tricks
+6. 5-mark exam answer
+7. Quick revision summary
+
+Use simple student-friendly English.
 """
+
     return ask_gemini(prompt)
 
 
