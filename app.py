@@ -302,25 +302,50 @@ Stay focused and complete today's goal:
             st.balloons()
                     # ---------------- STUDY PLAN ---------------- #
 
-        elif menu == "📅 Study Plan":
+      elif menu == "📅 Study Plan":
 
-            st.title("📅 AI Study Plan")
+    st.title("📅 AI Study Plan")
 
-            subject = st.text_input("📚 Subjects (comma separated)")
-            exam_date = st.date_input("📅 Exam Date")
-            study_hours = st.slider("⏰ Study Hours", 1, 12, user["study_hours"])
+    subject = st.text_input("📚 Subject")
 
-            if st.button("✨ Generate Study Plan"):
-                plan = generate_study_plan(
-                    subject,
-                    exam_date,
-                    study_hours,
-                    user["goal"],
-                    user["weak_subjects"]
-                )
+    chapters = st.text_area(
+        "📖 Chapter(s) / Lesson(s)",
+        placeholder="Example:\nChapter 1 - Electricity\nChapter 2 - Magnetism"
+    )
 
-                st.markdown(plan)
+    exam_date = st.date_input("📅 Exam Date")
 
+    study_hours = st.slider(
+        "⏰ Study Hours Per Day",
+        1,
+        12,
+        user["study_hours"]
+    )
+
+    difficulty = st.selectbox(
+        "🎯 Difficulty Level",
+        [
+            "Easy",
+            "Medium",
+            "Hard"
+        ]
+    )
+
+    if st.button("✨ Generate Study Plan"):
+
+        plan = generate_study_plan(
+            subject,
+            chapters,
+            exam_date,
+            study_hours,
+            difficulty,
+            user["goal"],
+            user["weak_subjects"],
+            user["student_class"],
+            user["board"]
+        )
+
+        st.markdown(plan)
         # ---------------- TIMETABLE ---------------- #
 
         elif menu == "🗓️ Timetable":
