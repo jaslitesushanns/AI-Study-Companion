@@ -77,3 +77,9 @@ def update_profile(user_id, username, student_class, board, study_hours, goal, w
 
     conn.commit()
     conn.close()
+def is_profile_complete(user):
+    return (
+        user["username"] is not None and
+        user["student_class"] is not None and
+        user["board"] is not None
+    )
