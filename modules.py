@@ -428,20 +428,38 @@ Keep it fun and suitable for students.
 
 # ---------------- PROGRESS ANALYSIS ---------------- #
 
-def analyze_progress(score, total):
-
-    percentage = (score / total) * 100
+def analyze_progress(
+    subject,
+    completed,
+    total,
+    hours
+):
 
     prompt = f"""
-A student scored {score}/{total}.
+You are an AI Study Progress Analyzer.
 
-Percentage:
-{percentage}%
+Subject:
+{subject}
 
-Give:
-- Performance analysis
-- Improvement tips
-- Motivation
+Completed Topics:
+{completed}
+
+Total Topics:
+{total}
+
+Study Hours:
+{hours}
+
+Analyze:
+
+1. Progress Percentage
+2. Strong Areas
+3. Weak Areas
+4. Suggestions
+5. Weekly Goal
+6. Motivation
+
+Return the result in markdown.
 """
 
     return ask_gemini(prompt)
