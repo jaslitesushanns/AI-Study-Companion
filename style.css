@@ -1,1 +1,68 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+html, body, [class*="css"]{
+    font-family:'Poppins',sans-serif;
+}
+
+.stApp{
+    background:linear-gradient(135deg,#FFD6EC,#E4C1F9,#C8E7FF,#D7FFD9);
+    background-size:400% 400%;
+    animation:bg 15s ease infinite;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.main-title{
+    font-size:48px;
+    font-weight:700;
+    text-align:center;
+    color:#6A0DAD;
+}
+
+.subtitle{
+    text-align:center;
+    color:#444;
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+
+.small-card{
+    background:#ffffff;
+    border-radius:15px;
+    padding:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    text-align:center;
+}
+
+.stButton>button{
+    width:100%;
+    border-radius:15px;
+    border:none;
+    padding:12px;
+    font-size:16px;
+    font-weight:bold;
+    color:white;
+    background:linear-gradient(90deg,#ff4ecd,#7b61ff);
+}
+
+.stButton>button:hover{
+    transform:scale(1.03);
+    transition:.3s;
+}
+
+section[data-testid="stSidebar"]{
+    background:#fff8ff;
+}
