@@ -306,14 +306,15 @@ def generate_story(topic):
 
 # ---------------- QUIZ ---------------- #
 
-def generate_story(
+def generate_quiz(
     subject,
     chapter,
-    age
+    difficulty,
+    questions
 ):
 
     prompt = f"""
-You are an AI Story Teacher.
+You are an AI Quiz Generator.
 
 Subject:
 {subject}
@@ -321,20 +322,28 @@ Subject:
 Chapter:
 {chapter}
 
-Student Level:
-{age}
+Difficulty:
+{difficulty}
 
-Create an interesting educational story that explains the chapter.
+Generate {questions} multiple choice questions.
 
-Include:
+Each question should contain:
 
-1. Characters
-2. Simple explanation
-3. Moral
-4. Important facts
-5. Quick revision points
+Question
 
-Make it fun and easy to remember.
+A)
+
+B)
+
+C)
+
+D)
+
+Correct Answer
+
+Explanation
+
+Keep the questions suitable for students.
 """
 
     return ask_gemini(prompt)
