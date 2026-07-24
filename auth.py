@@ -12,14 +12,14 @@ def verify_password(password, hashed_password):
 
 def register_user(email, password):
     conn = get_connection()
-    cursor = conn.cursor()
+    cur = conn.cursor()
 
     try:
         hashed = hash_password(password)
 
-        cursor.execute("""
-            INSERT INTO users (email, password)
-            VALUES (?, ?)
+        cur.execute("""
+            INSERT INTO users(email, password)
+            VALUES(?, ?)
         """, (email, hashed))
 
         conn.commit()
@@ -34,28 +34,32 @@ def register_user(email, password):
 
 def login_user(email, password):
     conn = get_connection()
-    cursor = conn.cursor()
+    cur = conn.cursor()
 
-    cursor.execute("""
-        SELECT * FROM users
-        WHERE email = ?
-    """, (email,))
+    cur.execute("SELECT * FROM users WHERE email=?", (email,))
+    user = cur.fetchone()
 
-    user = cursor.fetchone()
     conn.close()
 
-    if user:
-        if verify_password(password, user["password"]):
-            return user
+    if user and verify_password(password, user["password"]):
+        return user
 
     return None
 
 
-def update_profile(user_id, username, student_class, board, study_hours, goal, weak_subjects):
+def update_profile(
+    user_id,
+    username,
+    student_class,
+    board,
+    study_hours,
+    goal,
+    weak_subjects
+):
     conn = get_connection()
-    cursor = conn.cursor()
+    cur = conn.cursor()
 
-    cursor.execute("""
+    cur.execute("""
         UPDATE users
         SET
             username=?,
@@ -77,9 +81,23 @@ def update_profile(user_id, username, student_class, board, study_hours, goal, w
 
     conn.commit()
     conn.close()
-def is_profile_complete(user):
+
+
+def get_user(user_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    user = cur.fetchone()
+
+    conn.close()
+
+    return user
+
+
+def profile_completed(user):
     return (
-        user["username"] is not None and
-        user["student_class"] is not None and
-        user["board"] is not None
+        user["username"] is not None
+        and user["student_class"] is not None
+        and user["board"] is not None
     )
