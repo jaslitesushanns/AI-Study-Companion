@@ -9,9 +9,7 @@ if api_key:
     client = genai.Client(api_key=api_key)
 else:
     client = None
-
-MODEL = "gemini-2.5-flash"
-
+MODEL = "gemini-2.0-flash"
 # ---------------- COMMON FUNCTION ---------------- #
 
 def ask_gemini(prompt):
