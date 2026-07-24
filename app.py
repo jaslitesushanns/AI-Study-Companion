@@ -1,6 +1,6 @@
 import streamlit as st
 from database import create_tables
-from auth import register_user, login_user
+from auth import register_user, login_user, update_profile, is_profile_complete
 
 # ---------------- PAGE CONFIG ---------------- #
 st.set_page_config(
