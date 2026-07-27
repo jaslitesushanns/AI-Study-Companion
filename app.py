@@ -607,7 +607,7 @@ else:
                     questions
                 )
 
-                 st.markdown(quiz)
+                st.markdown(quiz)
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
