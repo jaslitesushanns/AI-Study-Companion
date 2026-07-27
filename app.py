@@ -791,17 +791,33 @@ else:
 
         elif menu == "🤖 AI Agent":
 
-            st.title("🤖 Personal AI Study Agent")
+            st.title("🤖 AI Study Agent")
 
-            prompt = st.text_area(
-                "Ask anything..."
+            subject = st.text_input("📚 Subject")
+
+            chapter = st.text_input("📖 Chapter")
+
+            mood = st.selectbox(
+                "😊 Current Mood",
+                [
+                    "Motivated",
+                    "Okay",
+                    "Tired",
+                    "Stressed"
+                ]
             )
 
-            if st.button("Ask Agent"):
+            question = st.text_area("❓ Ask your question")
+
+            if st.button("🚀 Ask AI Agent"):
 
                 answer = ai_agent(
-                    prompt
+                    subject,
+                    chapter,
+                    mood,
+                    question,
+                    user["goal"],
+                    user["weak_subjects"]
                 )
 
                 st.markdown(answer)
-                
