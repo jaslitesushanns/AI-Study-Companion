@@ -607,7 +607,7 @@ else:
                     questions
                 )
 
-                st.markdown(quiz)
+                 st.markdown(quiz)
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
@@ -658,7 +658,7 @@ else:
                     difficulty
                 )
 
-                              st.markdown(exam)
+                st.markdown(exam)
 
         # ---------------- MEMORY BOOSTER ---------------- #
 
