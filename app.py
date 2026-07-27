@@ -692,9 +692,9 @@ else:
                 st.markdown(game)
         # ---------------- PROGRESS ---------------- #
 
-        elif menu == "📈 Progress":
+                elif menu == "📈 Progress":
 
-            st.title("📈 Progress Tracker")
+            st.title("📈 AI Progress Tracker")
 
             st.subheader("📅 Weekly Study Chart")
             st.plotly_chart(
@@ -708,18 +708,43 @@ else:
                 use_container_width=True
             )
 
-            completed = st.slider(
-                "Completed Topics",
-                0,
-                100,
-                35
+            st.markdown("---")
+
+            subject = st.text_input("📚 Subject")
+
+            completed = st.number_input(
+                "✅ Completed Topics",
+                min_value=0,
+                value=5
             )
 
-            progress = analyze_progress(
-                completed
+            total = st.number_input(
+                "📖 Total Topics",
+                min_value=1,
+                value=10
             )
 
-            st.markdown(progress)
+            hours = st.slider(
+                "⏰ Total Study Hours",
+                1,
+                200,
+                20
+            )
+
+            if st.button("📊 Analyze Progress"):
+
+                progress = analyze_progress(
+                    subject,
+                    completed,
+                    total,
+                    hours
+                )
+
+                st.success("Progress Analysis Completed! 🎉")
+
+                st.markdown(progress)
+
+                st.progress(completed / total)
 
         # ---------------- REPORTS ---------------- #
 
