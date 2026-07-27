@@ -748,9 +748,9 @@ else:
 
         # ---------------- REPORTS ---------------- #
 
-                elif menu == "📄 Reports":
+            elif menu == "📄 Reports":
 
-                     st.title("📄 AI Study Report")
+                st.title("📄 AI Study Report")
 
             subject = st.text_input("📚 Subject")
 
