@@ -748,31 +748,33 @@ else:
 
         # ---------------- REPORTS ---------------- #
 
-        elif menu == "📄 Reports":
+                elif menu == "📄 Reports":
 
-            st.title("📄 AI Reports")
+            st.title("📄 AI Study Report")
 
-            report = generate_report(user)
+            subject = st.text_input("📚 Subject")
 
-            st.markdown(report)
+            completed = st.number_input(
+                "✅ Completed Topics",
+                min_value=0,
+                value=5
+            )
 
-            if st.button("📥 Download PDF"):
+            total = st.number_input(
+                "📖 Total Topics",
+                min_value=1,
+                value=10
+            )
 
-                filename = create_pdf(
-                    "AI Study Report",
-                    report,
-                    "study_report.pdf"
+            if st.button("📄 Generate Report"):
+
+                report = generate_report(
+                    subject,
+                    completed,
+                    total
                 )
 
-                with open(filename, "rb") as file:
-
-                    st.download_button(
-                        "⬇ Download Report",
-                        file,
-                        file_name="study_report.pdf",
-                        mime="application/pdf"
-                    )
-
+                st.markdown(report)
         # ---------------- SETTINGS ---------------- #
 
         elif menu == "⚙️ Settings":
