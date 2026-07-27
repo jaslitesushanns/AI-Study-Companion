@@ -661,30 +661,34 @@ else:
                 st.markdown(exam)
                         # ---------------- MEMORY BOOSTER ---------------- #
 
-        elif menu == "🎮 Memory Booster":
+               elif menu == "🎮 Memory Booster":
 
-            st.title("🎮 Memory Booster")
+            st.title("🎮 AI Memory Booster")
 
-            topic = st.text_input("📚 Topic")
+            subject = st.text_input("📚 Subject")
 
-            level = st.selectbox(
-                "Difficulty",
+            chapter = st.text_input("📖 Chapter")
+
+            game_type = st.selectbox(
+                "🎮 Game Type",
                 [
-                    "Easy",
-                    "Medium",
-                    "Hard"
+                    "Memory Match",
+                    "Flashcards",
+                    "True or False",
+                    "Fill in the Blanks",
+                    "Rapid Fire"
                 ]
             )
 
-            if st.button("Start Memory Booster"):
+            if st.button("🚀 Start Memory Booster"):
 
                 game = memory_booster(
-                    topic,
-                    level
+                    subject,
+                    chapter,
+                    game_type
                 )
 
                 st.markdown(game)
-
         # ---------------- PROGRESS ---------------- #
 
         elif menu == "📈 Progress":
