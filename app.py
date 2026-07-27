@@ -658,10 +658,11 @@ else:
                     difficulty
                 )
 
-                st.markdown(exam)
-                        # ---------------- MEMORY BOOSTER ---------------- #
+                              st.markdown(exam)
 
-               elif menu == "🎮 Memory Booster":
+        # ---------------- MEMORY BOOSTER ---------------- #
+
+        elif menu == "🎮 Memory Booster":
 
             st.title("🎮 AI Memory Booster")
 
