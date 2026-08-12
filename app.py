@@ -363,7 +363,7 @@ if not profile_completed(user):
           🎯 Examination Goal : {user['goal']}
                """)
 
-              st.markdown("---")
+            st.markdown("---")
 
             st.subheader("📈 Overall Progress")
             progress = user["progress"] or 0
