@@ -342,7 +342,7 @@ if not profile_completed(user):
             with col3:
                 st.metric("📚 Study Hours", user["study_hours"])
 
-           with col4:
+            with col4:
                st.metric("🎯 Goal", "Active")
 
                st.markdown("---")
