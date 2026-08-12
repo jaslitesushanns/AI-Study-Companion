@@ -342,32 +342,30 @@ if not profile_completed(user):
             with col3:
                 st.metric("📚 Study Hours", user["study_hours"])
 
-            with col4:
-                st.metric("🎯 Goal", "Active")
+           with col4:
+               st.metric("🎯 Goal", "Active")
 
-            st.markdown("---")
+               st.markdown("---")
 
-            st.subheader("👤 Profile")
+               st.subheader("👤 Profile")
 
-            st.info(f"""
-st.info(f"""
-👤 Name : {user['username']}
+               st.info(f"""
+          👤 Name : {user['username']}
 
-🎓 Class : {user['student_class']}
+          🎓 Class : {user['student_class']}
 
-🏫 Board : {user['board']}
+          🏫 Board : {user['board']}
 
-📚 Subjects : {user['subjects']}
+          📚 Subjects : {user['subjects']}
 
-📖 Weak Subjects : {user['weak_subjects']}
+          📖 Weak Subjects : {user['weak_subjects']}
 
-🎯 Examination Goal : {user['goal']}
-""")
+          🎯 Examination Goal : {user['goal']}
+               """)
 
-            st.markdown("---")
+              st.markdown("---")
 
             st.subheader("📈 Overall Progress")
-
             progress = user["progress"] or 0
 
             st.metric(
