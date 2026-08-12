@@ -161,14 +161,14 @@ if not st.session_state.logged_in:
 
                 st.error(message)
 
-else:
+        else:
 
-    user = get_user(
-        st.session_state.user["id"]
-    )            
+           user = get_user(
+               st.session_state.user["id"]
+          )            
     # ---------------- PROFILE ---------------- #
 
-if not profile_completed(user):
+       if not profile_completed(user):
 
     st.title("👤 Complete Your Profile")
 
