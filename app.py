@@ -309,7 +309,7 @@ else:
 
                 st.rerun()
 
-           else:
+        else:
 
     # ---------------- SIDEBAR ---------------- #
 
