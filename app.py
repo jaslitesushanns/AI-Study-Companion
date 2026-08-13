@@ -333,7 +333,7 @@ else:
             )
         # ---------------- DASHBOARD ---------------- #
 
-    if menu == "🏠 Dashboard":
+            if menu == "🏠 Dashboard":
 
             st.title("🏠 Student Dashboard")
 
