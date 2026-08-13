@@ -176,141 +176,138 @@ if not st.session_state.logged_in:
                         "Please go to the Login tab and log in."
                     )
 
-                else:
+               else:
 
-                    st.error(message)
+            st.error(message)
 
-    # ---------------- PROFILE ---------------- #
-    
-if not profile_completed(user):
+else:
 
-     st.title("👤 Complete Your Profile")
-
-     st.write(
-        "Tell us about yourself so the AI can personalize "
-        "your study experience."
+    user = get_user(
+        st.session_state.user["id"]
     )
+     # ---------------- PROFILE ---------------- #
 
-    # ---------------- BASIC INFORMATION ---------------- #
-    
-    username = st.text_input(
-        "👤 Full Name",
-        value=user["username"] or ""
-    )
+    if not profile_completed(user):
 
-    student_class = st.text_input(
-        "🎓 Class",
-        value=user["student_class"] or ""
-    )
+        st.title("👤 Complete Your Profile")
 
-    board_options = [
-        "State Board",
-        "CBSE",
-        "ICSE",
-        "IB",
-        "Other"
-    ]
+        st.write(
+            "Tell us about yourself so the AI can personalize "
+            "your study experience."
+        )
 
-    current_board = user["board"]
+        # ---------------- BASIC INFORMATION ---------------- #
 
-    if current_board in board_options:
-        board_index = board_options.index(current_board)
-    else:
-        board_index = 0
+        username = st.text_input(
+            "👤 Full Name",
+            value=user["username"] or ""
+        )
 
-    board = st.selectbox(
-        "🏫 Board",
-        board_options,
-        index=board_index
-    )
+        student_class = st.text_input(
+            "🎓 Class",
+            value=user["student_class"] or ""
+        )
 
-    # ---------------- STUDY INFORMATION ---------------- #
+        board_options = [
+            "State Board",
+            "CBSE",
+            "ICSE",
+            "IB",
+            "Other"
+        ]
 
-    study_hours = st.slider(
-        "⏰ Daily Study Hours",
-        min_value=1,
-        max_value=12,
-        value=user["study_hours"] if user["study_hours"] else 2
-    )
+        current_board = user["board"]
 
-    subjects = st.text_input(
-        "📚 Subjects You Study",
-        value=user["subjects"] or "",
-        placeholder="Example: Mathematics, Physics, Chemistry, English"
-    )
-
-    st.caption(
-        "Enter all the subjects you are currently studying."
-    )
-
-    weak_subjects = st.text_input(
-        "📖 Weak Subjects",
-        value=user["weak_subjects"] or "",
-        placeholder="Example: Physics, Chemistry"
-    )
-
-    st.caption(
-        "Enter the subjects you need the most help with."
-    )
-
-    # ---------------- EXAMINATION GOAL ---------------- #
-
-    goal = st.text_input(
-        "🎯 Examination Goal",
-        value=user["goal"] or "",
-        placeholder="Example: Score above 90% in my upcoming examinations"
-    )
-
-    st.caption(
-        "Your goal should describe what you want to achieve "
-        "in your upcoming examinations."
-    )
-
-    st.markdown("---")
-
-    # ---------------- SAVE PROFILE ---------------- #
-
-    if st.button("💾 Save Profile"):
-
-        if not username.strip():
-
-            st.error("Please enter your full name.")
-
-        elif not student_class.strip():
-
-            st.error("Please enter your class.")
-
-        elif not subjects.strip():
-
-            st.error("Please enter the subjects you study.")
-
-        elif not weak_subjects.strip():
-
-            st.error("Please enter your weak subjects.")
-
-        elif not goal.strip():
-
-            st.error("Please enter your examination goal.")
-
+        if current_board in board_options:
+            board_index = board_options.index(current_board)
         else:
+            board_index = 0
 
-            update_profile(
-                user["id"],
-                username.strip(),
-                student_class.strip(),
-                board,
-                study_hours,
-                goal.strip(),
-                subjects.strip(),
-                weak_subjects.strip()
-            )
+        board = st.selectbox(
+            "🏫 Board",
+            board_options,
+            index=board_index
+        )
 
-            st.success(
-                "Profile Saved Successfully! 🎉"
-            )
+        # ---------------- STUDY INFORMATION ---------------- #
 
-            st.rerun()
+        study_hours = st.slider(
+            "⏰ Daily Study Hours",
+            1,
+            12,
+            user["study_hours"] if user["study_hours"] else 2
+        )
 
+        subjects = st.text_input(
+            "📚 Subjects You Study",
+            value=user["subjects"] or "",
+            placeholder="Example: Mathematics, Physics, Chemistry, English"
+        )
+
+        st.caption(
+            "Enter all the subjects you are currently studying."
+        )
+
+        weak_subjects = st.text_input(
+            "📖 Weak Subjects",
+            value=user["weak_subjects"] or "",
+            placeholder="Example: Physics, Chemistry"
+        )
+
+        st.caption(
+            "Enter the subjects you need the most help with."
+        )
+
+        # ---------------- EXAMINATION GOAL ---------------- #
+
+        goal = st.text_input(
+            "🎯 Examination Goal",
+            value=user["goal"] or "",
+            placeholder="Example: Score above 90% in my upcoming examinations"
+        )
+
+        st.caption(
+            "Your goal should describe what you want to achieve "
+            "in your upcoming examinations."
+        )
+
+        st.markdown("---")
+
+        # ---------------- SAVE PROFILE ---------------- #
+
+        if st.button("💾 Save Profile"):
+
+            if not username.strip():
+                st.error("Please enter your full name.")
+
+            elif not student_class.strip():
+                st.error("Please enter your class.")
+
+            elif not subjects.strip():
+                st.error("Please enter the subjects you study.")
+
+            elif not weak_subjects.strip():
+                st.error("Please enter your weak subjects.")
+
+            elif not goal.strip():
+                st.error("Please enter your examination goal.")
+
+            else:
+
+                update_profile(
+                    user["id"],
+                    username.strip(),
+                    student_class.strip(),
+                    board,
+                    study_hours,
+                    goal.strip(),
+                    subjects.strip(),
+                    weak_subjects.strip()
+                )
+
+                st.success("Profile Saved Successfully! 🎉")
+
+                st.rerun()
 
 else:
 
