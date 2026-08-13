@@ -161,12 +161,26 @@ if not st.session_state.logged_in:
 
                 st.error(message)
 
-        else:
+       else:
 
-            user = get_user(
+    if st.session_state.user is None:
+
+        st.session_state.logged_in = False
+
+        st.rerun()
+
+    user = get_user(
         st.session_state.user["id"]
     )
 
+    if user is None:
+
+        st.session_state.logged_in = False
+        st.session_state.user = None
+
+        st.error("Your account could not be loaded. Please log in again.")
+
+        st.rerun()
     if user is None:
         st.error("Unable to load your profile. Please log in again.")
 
