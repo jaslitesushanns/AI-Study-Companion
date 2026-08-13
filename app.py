@@ -295,7 +295,6 @@ if not st.session_state.logged_in:
 
                 st.rerun()
 
-        
             else:
 
         # ---------------- SIDEBAR ---------------- #
