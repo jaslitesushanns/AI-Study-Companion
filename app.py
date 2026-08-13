@@ -503,7 +503,7 @@ else:
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
-        elif menu == "📊 Subject Priority":
+    elif menu == "📊 Subject Priority":
 
             st.title("📊 Subject Priority Analyzer")
 
@@ -529,7 +529,7 @@ else:
 
         # ---------------- AI TUTOR ---------------- #
 
-        elif menu == "🤖 AI Tutor":
+    elif menu == "🤖 AI Tutor":
 
             st.title("🤖 AI Tutor")
 
@@ -568,7 +568,7 @@ else:
                 st.markdown(answer)
                         # ---------------- AI NOTES ---------------- #
 
-        elif menu == "📝 AI Notes":
+    elif menu == "📝 AI Notes":
 
             st.title("📝 AI Notes Generator")
 
@@ -596,7 +596,7 @@ else:
 
         # ---------------- FLASHCARDS ---------------- #
 
-        elif menu == "🧠 Flashcards":
+    elif menu == "🧠 Flashcards":
 
             st.title("🧠 AI Flashcards")
 
@@ -629,7 +629,7 @@ else:
 
         # ---------------- STORY LEARNING ---------------- #
 
-        elif menu == "📚 Story Learning":
+    elif menu == "📚 Story Learning":
 
             st.title("📚 Story Learning")
 
@@ -643,7 +643,7 @@ else:
 
         # ---------------- QUIZ ---------------- #
 
-        elif menu == "❓ Quiz":
+    elif menu == "❓ Quiz":
 
             st.title("❓ AI Quiz Generator")
 
@@ -686,7 +686,7 @@ else:
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
-        elif menu == "🎯 Exam Simulator":
+    elif menu == "🎯 Exam Simulator":
 
             st.title("🎯 AI Exam Simulator")
 
@@ -737,7 +737,7 @@ else:
 
         # ---------------- MEMORY BOOSTER ---------------- #
 
-        elif menu == "🎮 Memory Booster":
+     elif menu == "🎮 Memory Booster":
 
             st.title("🎮 AI Memory Booster")
 
@@ -767,7 +767,7 @@ else:
                 st.markdown(game)
         # ---------------- PROGRESS ---------------- #
 
-        elif menu == "📈 Progress":
+    elif menu == "📈 Progress":
 
             st.title("📈 AI Progress Tracker")
 
@@ -823,7 +823,7 @@ else:
 
         # ---------------- REPORTS ---------------- #
 
-        elif menu == "📄 Reports":
+    elif menu == "📄 Reports":
 
             st.title("📄 AI Study Report")
 
@@ -852,7 +852,7 @@ else:
                 st.markdown(report)
         # ---------------- SETTINGS ---------------- #
 
-        elif menu == "⚙️ Settings":
+    elif menu == "⚙️ Settings":
 
             st.title("⚙️ Settings")
 
@@ -864,7 +864,7 @@ else:
 
         # ---------------- AI AGENT ---------------- #
 
-        elif menu == "🤖 AI Agent":
+    elif menu == "🤖 AI Agent":
 
             st.title("🤖 AI Study Agent")
 
