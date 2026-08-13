@@ -397,7 +397,7 @@ else:
             st.checkbox("😴 Sleep before 10 PM")
                     # ---------------- STUDY PLAN ---------------- #
 
-        elif menu == "📅 Study Plan":
+    elif menu == "📅 Study Plan":
 
             st.title("📅 AI Study Plan Generator")
 
