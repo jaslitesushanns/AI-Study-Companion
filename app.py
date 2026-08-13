@@ -176,9 +176,6 @@ if not st.session_state.logged_in:
                         "Please go to the Login tab and log in."
                     )
 
-        else:
-
-             st.error(message)
 
 else:
 
