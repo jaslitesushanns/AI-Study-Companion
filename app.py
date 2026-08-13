@@ -306,32 +306,31 @@ else:
 
                 st.rerun()
 
-        else:
+               else:
 
-    # ---------------- SIDEBAR ---------------- #
+            # ---------------- SIDEBAR ---------------- #
 
-              menu = st.sidebar.radio(
-        "📚 Navigation",
-        [
-            "🏠 Dashboard",
-            "📅 Study Plan",
-            "🗓️ Timetable",
-            "📖 Study Session",
-            "📊 Subject Priority",
-            "🤖 AI Tutor",
-            "📝 AI Notes",
-            "🧠 Flashcards",
-            "📚 Story Learning",
-            "❓ Quiz",
-            "🎯 Exam Simulator",
-            "🎮 Memory Booster",
-            "📈 Progress",
-            "📄 Reports",
-            "⚙️ Settings",
-            "🤖 AI Agent"
-        ]
-    )
-
+            menu = st.sidebar.radio(
+                "📚 Navigation",
+                [
+                    "🏠 Dashboard",
+                    "📅 Study Plan",
+                    "🗓️ Timetable",
+                    "📖 Study Session",
+                    "📊 Subject Priority",
+                    "🤖 AI Tutor",
+                    "📝 AI Notes",
+                    "🧠 Flashcards",
+                    "📚 Story Learning",
+                    "❓ Quiz",
+                    "🎯 Exam Simulator",
+                    "🎮 Memory Booster",
+                    "📈 Progress",
+                    "📄 Reports",
+                    "⚙️ Settings",
+                    "🤖 AI Agent"
+                ]
+            )
         # ---------------- DASHBOARD ---------------- #
 
     if menu == "🏠 Dashboard":
