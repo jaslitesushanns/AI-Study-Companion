@@ -192,7 +192,7 @@ if not profile_completed(user):
     )
 
     # ---------------- BASIC INFORMATION ---------------- #
-
+    
     username = st.text_input(
         "👤 Full Name",
         value=user["username"] or ""
