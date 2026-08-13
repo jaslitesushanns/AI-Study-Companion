@@ -161,7 +161,7 @@ if not st.session_state.logged_in:
 
                 st.error(message)
 
-       else:
+        else:
 
     if st.session_state.user is None:
 
