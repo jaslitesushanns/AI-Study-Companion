@@ -337,7 +337,7 @@ else:
 
                 st.title("🏠 Student Dashboard")
 
-            st.success(f"Welcome back, {user['username']}! 🌸")
+                st.success(f"Welcome back, {user['username']}! 🌸")
 
             col1, col2, col3, col4 = st.columns(4)
 
