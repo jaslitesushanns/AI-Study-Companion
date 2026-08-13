@@ -178,7 +178,7 @@ if not st.session_state.logged_in:
 
         else:
 
-            st.error(message)
+             st.error(message)
 
 else:
 
