@@ -131,6 +131,8 @@ if not st.session_state.logged_in:
 
     # ---------- SIGNUP ---------- #
 
+       # ---------- SIGNUP ---------- #
+
     with tab2:
 
         st.subheader("Create Account")
@@ -148,46 +150,35 @@ if not st.session_state.logged_in:
 
         if st.button("Create Account"):
 
-            success, message = register_user(
-                signup_email,
-                signup_password
-            )
+            if not signup_email.strip():
 
-            if success:
+                st.error("Please enter your email.")
 
-                st.success(message)
+            elif not signup_password:
+
+                st.error("Please enter a password.")
+
+            elif len(signup_password) < 6:
+
+                st.error("Password must be at least 6 characters.")
 
             else:
 
-                st.error(message)
+                success, message = register_user(
+                    signup_email.strip(),
+                    signup_password
+                )
 
-        else:
+                if success:
 
-            if st.session_state.user is None:
+                    st.success(
+                        "Account created successfully! 🎉 "
+                        "Please go to the Login tab and log in."
+                    )
 
-               st.session_state.logged_in = False
+                else:
 
-               st.rerun()
-
-    user = get_user(
-        st.session_state.user["id"]
-    )
-
-    if user is None:
-
-        st.session_state.logged_in = False
-        st.session_state.user = None
-
-        st.error("Your account could not be loaded. Please log in again.")
-
-        st.rerun()
-    if user is None:
-        st.error("Unable to load your profile. Please log in again.")
-
-        st.session_state.logged_in = False
-        st.session_state.user = None
-
-        st.rerun()
+                    st.error(message)
 
     # ---------------- PROFILE ---------------- #
 
