@@ -313,7 +313,7 @@ else:
 
     # ---------------- SIDEBAR ---------------- #
 
-    menu = st.sidebar.radio(
+              menu = st.sidebar.radio(
         "📚 Navigation",
         [
             "🏠 Dashboard",
