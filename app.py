@@ -335,7 +335,7 @@ else:
 
             if menu == "🏠 Dashboard":
 
-            st.title("🏠 Student Dashboard")
+                st.title("🏠 Student Dashboard")
 
             st.success(f"Welcome back, {user['username']}! 🌸")
 
