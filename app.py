@@ -181,8 +181,8 @@ if not st.session_state.logged_in:
                     st.error(message)
 
     # ---------------- PROFILE ---------------- #
-
-if not profile_completed(user):
+    
+    if not profile_completed(user):
 
     st.title("👤 Complete Your Profile")
 
