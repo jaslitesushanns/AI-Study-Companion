@@ -177,11 +177,15 @@ if not st.session_state.logged_in:
                     )
 
 
-        else:
+               else:
+
+            if st.session_state.user is None:
+                st.session_state.logged_in = False
+                st.rerun()
 
             user = get_user(
                 st.session_state.user["id"]
-             )
+            )
      # ---------------- PROFILE ---------------- #
 
     menu = None
