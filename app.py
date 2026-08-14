@@ -686,7 +686,7 @@ elif menu == "❓ Quiz":
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
-    elif menu == "🎯 Exam Simulator":
+elif menu == "🎯 Exam Simulator":
 
             st.title("🎯 AI Exam Simulator")
 
