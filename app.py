@@ -399,7 +399,7 @@ else:
 
         st.title("📅 AI Study Plan Generator")
 
-            subject = st.text_input("📚 Subject")
+        subject = st.text_input("📚 Subject")
 
             chapters = st.text_area(
                 "📖 Chapters"
