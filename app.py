@@ -737,7 +737,7 @@ elif menu == "🎯 Exam Simulator":
 
         # ---------------- MEMORY BOOSTER ---------------- #
 
-    elif menu == "🎮 Memory Booster":
+elif menu == "🎮 Memory Booster":
 
             st.title("🎮 AI Memory Booster")
 
