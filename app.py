@@ -274,7 +274,7 @@ if not profile_completed(user):
 
         # ---------------- SAVE PROFILE ---------------- #
 
-        if st.button("💾 Save Profile"):
+    if st.button("💾 Save Profile"):
 
             if not username.strip():
                 st.error("Please enter your full name.")
