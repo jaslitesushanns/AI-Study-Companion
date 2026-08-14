@@ -643,7 +643,7 @@ elif menu == "📚 Story Learning":
 
         # ---------------- QUIZ ---------------- #
 
-    elif menu == "❓ Quiz":
+elif menu == "❓ Quiz":
 
             st.title("❓ AI Quiz Generator")
 
