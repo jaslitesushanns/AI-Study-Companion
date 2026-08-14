@@ -425,7 +425,7 @@ else:
                 ]
             )
 
-            if st.button("✨ Generate Study Plan"):
+        if st.button("✨ Generate Study Plan"):
 
                 result = generate_study_plan(
                     subject,
