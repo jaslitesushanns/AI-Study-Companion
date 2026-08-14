@@ -445,7 +445,7 @@ elif menu == "📅 Study Plan":
 
         # ---------------- TIMETABLE ---------------- #
 
-    elif menu == "🗓️ Timetable":
+elif menu == "🗓️ Timetable":
 
             st.title("🗓️ Smart Timetable")
 
