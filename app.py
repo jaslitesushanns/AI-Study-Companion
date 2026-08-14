@@ -568,7 +568,7 @@ elif menu == "🤖 AI Tutor":
                 st.markdown(answer)
                         # ---------------- AI NOTES ---------------- #
 
-    elif menu == "📝 AI Notes":
+elif menu == "📝 AI Notes":
 
             st.title("📝 AI Notes Generator")
 
