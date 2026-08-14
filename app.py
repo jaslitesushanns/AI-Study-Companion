@@ -180,8 +180,8 @@ if not st.session_state.logged_in:
         else:
 
             user = get_user(
-               st.session_state.user["id"]
-            )
+                st.session_state.user["id"]
+             )
      # ---------------- PROFILE ---------------- #
 
     menu = None
