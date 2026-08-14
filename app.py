@@ -187,10 +187,10 @@ else:
           st.session_state.user["id"]
       )
 
-    if user is None:
-        st.session_state.logged_in = False
-        st.session_state.user = None
-        st.rerun()
+      if user is None:
+          st.session_state.logged_in = False
+          st.session_state.user = None
+          st.rerun()
 
     # ---------------- PROFILE ---------------- #
 
