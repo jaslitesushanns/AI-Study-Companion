@@ -183,8 +183,8 @@ if not st.session_state.logged_in:
                       st.session_state.logged_in = False
                       st.rerun()
 
-          user = get_user(
-    st.session_state.user["id"]
+         user = get_user(
+          st.session_state.user["id"]
 )
 
 if user is None:
