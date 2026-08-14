@@ -183,27 +183,28 @@ if not st.session_state.logged_in:
                       st.rerun()
 
 else:
-      user = get_user(
-          st.session_state.user["id"]
-      )
 
-      if user is None:
-          st.session_state.logged_in = False
-          st.session_state.user = None
-          st.rerun()
+    user = get_user(
+        st.session_state.user["id"]
+    )
+
+    if user is None:
+        st.session_state.logged_in = False
+        st.session_state.user = None
+        st.rerun()
 
     # ---------------- PROFILE ---------------- #
 
-menu = None
+    menu = None
 
-if not profile_completed(user):
+    if not profile_completed(user):
 
-    st.title("👤 Complete Your Profile")
+        st.title("👤 Complete Your Profile")
 
-    st.write(
-        "Tell us about yourself so the AI can personalize "
-        "your study experience."
-    )
+        st.write(
+            "Tell us about yourself so the AI can personalize "
+            "your study experience."
+        )
 
         # ---------------- BASIC INFORMATION ---------------- #
 
