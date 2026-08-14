@@ -852,7 +852,7 @@ elif menu == "📄 Reports":
                 st.markdown(report)
         # ---------------- SETTINGS ---------------- #
 
-    elif menu == "⚙️ Settings":
+elif menu == "⚙️ Settings":
 
             st.title("⚙️ Settings")
 
@@ -864,7 +864,7 @@ elif menu == "📄 Reports":
 
         # ---------------- AI AGENT ---------------- #
 
-    elif menu == "🤖 AI Agent":
+elif menu == "🤖 AI Agent":
 
             st.title("🤖 AI Study Agent")
 
