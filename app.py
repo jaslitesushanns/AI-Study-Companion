@@ -406,54 +406,55 @@ else:
             st.checkbox("📝 Revise yesterday's lesson")
             st.checkbox("🎮 Play Memory Booster")
             st.checkbox("😴 Sleep before 10 PM")
-                    # ---------------- STUDY PLAN ---------------- #
+                # ---------------- STUDY PLAN ---------------- #
 
-if menu == "📅 Study Plan":
+    if menu == "📅 Study Plan":
 
         st.title("📅 AI Study Plan Generator")
 
-        subject = st.text_input("📚 Subject")
+        subject = st.text_input(
+            "📚 Subject"
+        )
 
         chapters = st.text_area(
-                "📖 Chapters"
-            )
+            "📖 Chapters"
+        )
 
         exam_date = st.date_input(
-                "📅 Exam Date"
-            )
+            "📅 Exam Date"
+        )
 
         study_hours = st.slider(
-                "⏰ Study Hours",
-                1,
-                12,
-                user["study_hours"]
-            )
+            "⏰ Study Hours",
+            1,
+            12,
+            user["study_hours"]
+        )
 
         difficulty = st.selectbox(
-                "Difficulty",
-                [
-                    "Easy",
-                    "Medium",
-                    "Hard"
-                ]
-            )
+            "Difficulty",
+            [
+                "Easy",
+                "Medium",
+                "Hard"
+            ]
+        )
 
         if st.button("✨ Generate Study Plan"):
 
-                result = generate_study_plan(
-                    subject,
-                    chapters,
-                    exam_date,
-                    study_hours,
-                    difficulty,
-                    user["goal"],
-                    user["weak_subjects"],
-                    user["student_class"],
-                    user["board"]
-                )
+            result = generate_study_plan(
+                subject,
+                chapters,
+                exam_date,
+                study_hours,
+                difficulty,
+                user["goal"],
+                user["weak_subjects"],
+                user["student_class"],
+                user["board"]
+            )
 
-                st.markdown(result)
-
+            st.markdown(result)
         # ---------------- TIMETABLE ---------------- #
 
 elif menu == "🗓️ Timetable":
