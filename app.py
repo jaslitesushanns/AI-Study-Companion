@@ -401,7 +401,7 @@ if not st.session_state.logged_in:
             st.checkbox("😴 Sleep before 10 PM")
                     # ---------------- STUDY PLAN ---------------- #
 
-elif menu == "📅 Study Plan":
+if menu == "📅 Study Plan":
 
         st.title("📅 AI Study Plan Generator")
 
