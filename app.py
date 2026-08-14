@@ -767,7 +767,7 @@ elif menu == "🎮 Memory Booster":
                 st.markdown(game)
         # ---------------- PROGRESS ---------------- #
 
-    elif menu == "📈 Progress":
+elif menu == "📈 Progress":
 
             st.title("📈 AI Progress Tracker")
 
