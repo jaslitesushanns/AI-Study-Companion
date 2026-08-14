@@ -184,9 +184,11 @@ else:
     )
      # ---------------- PROFILE ---------------- #
 
-    if not profile_completed(user):
+    menu = None
 
-        st.title("👤 Complete Your Profile")
+if not profile_completed(user):
+
+    st.title("👤 Complete Your Profile")
 
         st.write(
             "Tell us about yourself so the AI can personalize "
