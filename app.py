@@ -397,7 +397,7 @@ else:
 
     elif menu == "📅 Study Plan":
 
-            st.title("📅 AI Study Plan Generator")
+        st.title("📅 AI Study Plan Generator")
 
             subject = st.text_input("📚 Subject")
 
