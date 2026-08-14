@@ -219,7 +219,7 @@ if not profile_completed(user):
 
     if current_board in board_options:
             board_index = board_options.index(current_board)
-        else:
+    else:
             board_index = 0
 
         board = st.selectbox(
