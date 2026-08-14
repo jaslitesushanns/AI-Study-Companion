@@ -215,7 +215,7 @@ if not profile_completed(user):
             "Other"
         ]
 
-        current_board = user["board"]
+    current_board = user["board"]
 
         if current_board in board_options:
             board_index = board_options.index(current_board)
