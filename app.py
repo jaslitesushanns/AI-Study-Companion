@@ -202,12 +202,12 @@ if not profile_completed(user):
             value=user["username"] or ""
         )
 
-        student_class = st.text_input(
+    student_class = st.text_input(
             "🎓 Class",
             value=user["student_class"] or ""
         )
 
-        board_options = [
+    board_options = [
             "State Board",
             "CBSE",
             "ICSE",
