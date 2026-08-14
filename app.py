@@ -194,9 +194,9 @@ else:
 
     # ---------------- PROFILE ---------------- #
 
-    menu = None
+menu = None
 
-    if not profile_completed(user):
+if not profile_completed(user):
 
             st.title("👤 Complete Your Profile")
 
