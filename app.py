@@ -596,7 +596,7 @@ elif menu == "📝 AI Notes":
 
         # ---------------- FLASHCARDS ---------------- #
 
-    elif menu == "🧠 Flashcards":
+elif menu == "🧠 Flashcards":
 
             st.title("🧠 AI Flashcards")
 
