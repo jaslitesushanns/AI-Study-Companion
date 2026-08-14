@@ -190,7 +190,7 @@ if not profile_completed(user):
 
     st.title("👤 Complete Your Profile")
 
-        st.write(
+    st.write(
             "Tell us about yourself so the AI can personalize "
             "your study experience."
         )
