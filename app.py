@@ -823,7 +823,7 @@ elif menu == "📈 Progress":
 
         # ---------------- REPORTS ---------------- #
 
-    elif menu == "📄 Reports":
+elif menu == "📄 Reports":
 
             st.title("📄 AI Study Report")
 
