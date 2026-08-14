@@ -230,7 +230,7 @@ if not profile_completed(user):
 
         # ---------------- STUDY INFORMATION ---------------- #
 
-        study_hours = st.slider(
+    study_hours = st.slider(
             "⏰ Daily Study Hours",
             1,
             12,
