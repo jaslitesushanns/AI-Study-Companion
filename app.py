@@ -479,7 +479,7 @@ else:
                 st.markdown(timetable)
                         # ---------------- STUDY SESSION ---------------- #
 
-elif menu == "📖 Study Session":
+    if menu == "📖 Study Session":
 
             st.title("📖 AI Study Session Planner")
 
