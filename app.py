@@ -177,20 +177,20 @@ if not st.session_state.logged_in:
                     )
 
 
-else:
+        else:
 
-    user = get_user(
-        st.session_state.user["id"]
-    )
+            user = get_user(
+               st.session_state.user["id"]
+            )
      # ---------------- PROFILE ---------------- #
 
     menu = None
 
-if not profile_completed(user):
+        if not profile_completed(user):
 
-    st.title("👤 Complete Your Profile")
+            st.title("👤 Complete Your Profile")
 
-    st.write(
+            st.write(
             "Tell us about yourself so the AI can personalize "
             "your study experience."
         )
