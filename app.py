@@ -503,7 +503,7 @@ elif menu == "📖 Study Session":
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
-    elif menu == "📊 Subject Priority":
+elif menu == "📊 Subject Priority":
 
             st.title("📊 Subject Priority Analyzer")
 
