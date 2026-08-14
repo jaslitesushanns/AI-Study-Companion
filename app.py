@@ -529,7 +529,7 @@ elif menu == "📊 Subject Priority":
 
         # ---------------- AI TUTOR ---------------- #
 
-    elif menu == "🤖 AI Tutor":
+elif menu == "🤖 AI Tutor":
 
             st.title("🤖 AI Tutor")
 
