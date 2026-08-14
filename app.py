@@ -184,7 +184,7 @@ if not st.session_state.logged_in:
 
     user = get_user(
         st.session_state.user["id"]
-)
+    )
 
 if user is None:
     st.session_state.logged_in = False
