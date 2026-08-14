@@ -198,12 +198,12 @@ menu = None
 
 if not profile_completed(user):
 
-            st.title("👤 Complete Your Profile")
+    st.title("👤 Complete Your Profile")
 
-            st.write(
-            "Tell us about yourself so the AI can personalize "
-            "your study experience."
-        )
+    st.write(
+        "Tell us about yourself so the AI can personalize "
+        "your study experience."
+    )
 
         # ---------------- BASIC INFORMATION ---------------- #
 
