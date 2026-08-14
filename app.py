@@ -409,14 +409,14 @@ else:
                 "📅 Exam Date"
             )
 
-            study_hours = st.slider(
+        study_hours = st.slider(
                 "⏰ Study Hours",
                 1,
                 12,
                 user["study_hours"]
             )
 
-            difficulty = st.selectbox(
+        difficulty = st.selectbox(
                 "Difficulty",
                 [
                     "Easy",
