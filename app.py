@@ -401,7 +401,7 @@ else:
 
         subject = st.text_input("📚 Subject")
 
-            chapters = st.text_area(
+        chapters = st.text_area(
                 "📖 Chapters"
             )
 
