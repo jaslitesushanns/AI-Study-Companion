@@ -237,23 +237,23 @@ if not profile_completed(user):
             user["study_hours"] if user["study_hours"] else 2
         )
 
-        subjects = st.text_input(
+    subjects = st.text_input(
             "📚 Subjects You Study",
             value=user["subjects"] or "",
             placeholder="Example: Mathematics, Physics, Chemistry, English"
         )
 
-        st.caption(
+    st.caption(
             "Enter all the subjects you are currently studying."
         )
 
-        weak_subjects = st.text_input(
+    weak_subjects = st.text_input(
             "📖 Weak Subjects",
             value=user["weak_subjects"] or "",
             placeholder="Example: Physics, Chemistry"
         )
 
-        st.caption(
+    st.caption(
             "Enter the subjects you need the most help with."
         )
 
