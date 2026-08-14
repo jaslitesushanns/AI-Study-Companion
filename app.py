@@ -629,7 +629,7 @@ elif menu == "🧠 Flashcards":
 
         # ---------------- STORY LEARNING ---------------- #
 
-    elif menu == "📚 Story Learning":
+elif menu == "📚 Story Learning":
 
             st.title("📚 Story Learning")
 
