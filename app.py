@@ -222,7 +222,7 @@ if not profile_completed(user):
     else:
             board_index = 0
 
-        board = st.selectbox(
+    board = st.selectbox(
             "🏫 Board",
             board_options,
             index=board_index
