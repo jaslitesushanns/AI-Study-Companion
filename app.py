@@ -259,18 +259,18 @@ if not profile_completed(user):
 
         # ---------------- EXAMINATION GOAL ---------------- #
 
-        goal = st.text_input(
+    goal = st.text_input(
             "🎯 Examination Goal",
             value=user["goal"] or "",
             placeholder="Example: Score above 90% in my upcoming examinations"
         )
 
-        st.caption(
+    st.caption(
             "Your goal should describe what you want to achieve "
             "in your upcoming examinations."
         )
 
-        st.markdown("---")
+    st.markdown("---")
 
         # ---------------- SAVE PROFILE ---------------- #
 
