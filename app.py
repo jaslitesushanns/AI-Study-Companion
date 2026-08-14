@@ -308,7 +308,7 @@ if not profile_completed(user):
 
                 st.rerun()
 
-        else:
+    else:
 
             # ---------------- SIDEBAR ---------------- #
 
