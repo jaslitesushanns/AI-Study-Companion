@@ -405,7 +405,7 @@ else:
                 "📖 Chapters"
             )
 
-            exam_date = st.date_input(
+        exam_date = st.date_input(
                 "📅 Exam Date"
             )
 
