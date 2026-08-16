@@ -565,6 +565,8 @@ Return the response in beautiful markdown.
 
 # ---------------- SMART TIMETABLE ---------------- #
 
+# ---------------- SMART TIMETABLE ---------------- #
+
 def generate_timetable(
     study_hours,
     subjects,
@@ -575,9 +577,14 @@ def generate_timetable(
     prompt = f"""
 You are an expert AI Smart Timetable Planner.
 
-IMPORTANT RULE:
-Use ONLY the subjects provided below.
-Do NOT invent, add, or assume any other subjects.
+IMPORTANT RULES:
+
+1. Use ONLY the subjects provided by the student.
+2. Do NOT invent, add, or assume any other subjects.
+3. Use the exact examination dates provided.
+4. Give higher priority to subjects with earlier examination dates.
+5. Give extra attention to weak subjects.
+6. Balance the timetable according to the available study hours.
 
 Subjects the student is studying:
 {subjects}
@@ -585,23 +592,26 @@ Subjects the student is studying:
 Weak Subjects:
 {weak_subjects}
 
+Exam Dates for Each Subject:
+{subject_exam_dates}
+
 Available Study Hours:
 {study_hours} hour(s) per day.
 
 Create a balanced weekly study timetable.
 
-Give extra attention to the weak subjects.
-
 The timetable should:
 
 1. Use only the student's actual subjects.
 2. Give more study time to weak subjects.
-3. Distribute the remaining subjects fairly.
-4. Include revision time.
-5. Include practice/question-solving time.
-6. Include short breaks.
-7. Avoid overloading the student.
-8. Keep the timetable realistic.
+3. Give higher priority to subjects with earlier examination dates.
+4. Distribute the remaining subjects fairly.
+5. Include revision time.
+6. Include practice/question-solving time.
+7. Include short breaks.
+8. Avoid overloading the student.
+9. Keep the timetable realistic and student-friendly.
+10. Consider both examination urgency and subject weakness when allocating study time.
 
 Return ONLY a neat markdown table with:
 
