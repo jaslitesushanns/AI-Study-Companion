@@ -457,7 +457,7 @@ else:
             st.markdown(result)
         # ---------------- TIMETABLE ---------------- #
 
-       if menu == "🗓️ Timetable":
+    if menu == "🗓️ Timetable":
 
         st.title("🗓️ Smart Timetable")
 
