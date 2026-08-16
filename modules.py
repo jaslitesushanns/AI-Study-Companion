@@ -66,6 +66,9 @@ Use simple English.
 
 # ---------------- STUDY PLAN ---------------- #
 
+from datetime import date
+
+
 def generate_study_plan(
     subject,
     chapters,
@@ -78,8 +81,34 @@ def generate_study_plan(
     board
 ):
 
+    today = date.today()
+
+    if hasattr(exam_date, "date"):
+        exam_date = exam_date.date()
+
+    days_remaining = (exam_date - today).days
+
+    if days_remaining < 0:
+        days_remaining = 0
+
     prompt = f"""
 You are an expert AI Study Planner.
+
+IMPORTANT DATE RULES:
+
+Today's date:
+{today}
+
+Actual examination date:
+{exam_date}
+
+Number of days remaining:
+{days_remaining}
+
+You MUST use the exact examination date provided above.
+Do NOT assume a different examination date.
+Do NOT invent an examination date.
+Do NOT create study days after the examination date.
 
 Student Details:
 
@@ -104,13 +133,10 @@ Weak Subjects:
 Difficulty:
 {difficulty}
 
-Exam Date:
-{exam_date}
-
 Available Study Hours:
 {study_hours} hour(s) per day.
 
-Create a detailed study plan.
+Create a detailed study plan that fits within the exact number of days remaining before the examination.
 
 Include:
 
@@ -122,25 +148,11 @@ Include:
 6. Motivation for each day.
 7. Important tips.
 
+Make sure the final study/revision day is before the examination date.
+
 Return the answer as a neat markdown table.
 """
 
-    return ask_gemini(prompt)
-
-# ---------------- TIMETABLE ---------------- #
-
-def generate_timetable(study_hours, weak_subjects):
-    prompt = f"""
-Create a weekly timetable.
-
-Study Hours:
-{study_hours}
-
-Weak Subjects:
-{weak_subjects}
-
-Return ONLY a markdown table.
-"""
     return ask_gemini(prompt)
 
 
