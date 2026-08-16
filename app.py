@@ -515,30 +515,44 @@ else:
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
-    if menu == "📊 Subject Priority":
+       if menu == "📊 Subject Priority":
 
-            st.title("📊 Subject Priority Analyzer")
+        st.title("📊 Subject Priority Analyzer")
 
-            subjects = st.text_input(
-                "Subjects (comma separated)"
-            )
+        subjects_input = st.text_input(
+            "📚 Subjects",
+            placeholder="Physics, Chemistry, Mathematics, Biology"
+        )
 
-            exam_date = st.date_input(
-                "Exam Date",
-                key="priority_date"
-            )
+        if subjects_input:
 
-            if st.button("Analyze"):
+            subjects_list = [
+                subject.strip()
+                for subject in subjects_input.split(",")
+                if subject.strip()
+            ]
+
+            st.subheader("📅 Examination Dates")
+
+            subject_exam_dates = {}
+
+            for subject in subjects_list:
+
+                subject_exam_dates[subject] = st.date_input(
+                    f"📅 {subject} Exam Date",
+                    key=f"exam_date_{subject}"
+                )
+
+            if st.button("✨ Analyze Subject Priority"):
 
                 result = analyze_subject_priority(
-                    subjects,
+                    subjects_input,
                     user["weak_subjects"],
-                    exam_date,
+                    subject_exam_dates,
                     user["goal"]
                 )
 
                 st.markdown(result)
-
         # ---------------- AI TUTOR ---------------- #
 
     if menu == "🤖 AI Tutor":
