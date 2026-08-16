@@ -457,26 +457,28 @@ else:
             st.markdown(result)
         # ---------------- TIMETABLE ---------------- #
 
-    if menu == "🗓️ Timetable":
+       if menu == "🗓️ Timetable":
 
-            st.title("🗓️ Smart Timetable")
+        st.title("🗓️ Smart Timetable")
 
-            study_hours = st.slider(
-                "Study Hours",
-                1,
-                12,
-                user["study_hours"],
-                key="tt"
+        study_hours = st.slider(
+            "Study Hours",
+            1,
+            12,
+            user["study_hours"],
+            key="tt"
+        )
+
+        if st.button("Generate Timetable"):
+
+            timetable = generate_timetable(
+                study_hours,
+                user["subjects"],
+                user["weak_subjects"],
+                st.session_state.get("subject_exam_dates", {})
             )
 
-            if st.button("Generate Timetable"):
-
-                timetable = generate_timetable(
-                    study_hours,
-                    user["subjects"],
-                    user["weak_subjects"]
-                )
-                st.markdown(timetable)
+            st.markdown(timetable)
                         # ---------------- STUDY SESSION ---------------- #
 
     if menu == "📖 Study Session":
