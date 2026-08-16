@@ -207,38 +207,49 @@ Return as a neat markdown table.
 def analyze_subject_priority(
     subjects,
     weak_subjects,
-    exam_date,
+    subject_exam_dates,
     goal
 ):
 
     prompt = f"""
 You are an AI Study Planner.
 
-Subjects:
+The student has the following subjects:
+
 {subjects}
 
 Weak Subjects:
 {weak_subjects}
 
-Exam Date:
-{exam_date}
+Exam dates for each subject:
+
+{subject_exam_dates}
 
 Goal:
 {goal}
 
-Analyze:
+Analyze the student's subjects and create an intelligent priority ranking.
 
-1. Which subject should be studied first.
-2. Priority ranking.
-3. Time allocation.
-4. Daily revision plan.
-5. Tips to improve weak subjects.
+For each subject, consider:
 
-Return the answer as a neat markdown table.
+1. How soon its examination is.
+2. Whether it is a weak subject.
+3. The amount of preparation required.
+4. The student's available preparation time.
+5. The urgency of the examination.
+
+Give higher priority to subjects with earlier examination dates
+and subjects that are weak or require more preparation.
+
+Return the result as a neat markdown table with:
+
+| Subject | Exam Date | Priority | Reason | Recommended Study Time |
+
+Do not invent examination dates.
+Use the exact examination dates provided by the student.
 """
 
     return ask_gemini(prompt)
-
 
 # ---------------- NOTES ---------------- #
 def generate_notes(
