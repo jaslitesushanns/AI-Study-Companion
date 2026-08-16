@@ -515,7 +515,7 @@ else:
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
-       if menu == "📊 Subject Priority":
+    if menu == "📊 Subject Priority":
 
         st.title("📊 Subject Priority Analyzer")
 
