@@ -480,6 +480,7 @@ else:
             )
 
             st.markdown(timetable)
+            st.balloons()
                         # ---------------- STUDY SESSION ---------------- #
 
     if menu == "📖 Study Session":
@@ -515,6 +516,7 @@ else:
                 )
 
                 st.markdown(session)
+                st.balloons()
 
         # ---------------- SUBJECT PRIORITY ---------------- #
 
@@ -558,6 +560,7 @@ else:
                 )
 
                 st.markdown(result)
+                st.balloons()
         # ---------------- AI TUTOR ---------------- #
 
     if menu == "🤖 AI Tutor":
@@ -714,6 +717,7 @@ else:
                 )
 
                 st.markdown(quiz)
+                st.balloons()
 
         # ---------------- EXAM SIMULATOR ---------------- #
 
