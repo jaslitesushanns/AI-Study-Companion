@@ -454,7 +454,8 @@ else:
                 user["board"]
             )
 
-            st.markdown(result)
+                st.markdown(result)
+                st.balloons()
         # ---------------- TIMETABLE ---------------- #
 
     if menu == "🗓️ Timetable":
