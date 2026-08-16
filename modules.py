@@ -567,33 +567,44 @@ Return the response in beautiful markdown.
 
 def generate_timetable(
     study_hours,
+    subjects,
     weak_subjects
 ):
 
     prompt = f"""
 You are an expert AI Smart Timetable Planner.
 
-Student's available study hours:
-{study_hours} hour(s) per day.
+IMPORTANT RULE:
+Use ONLY the subjects provided below.
+Do NOT invent, add, or assume any other subjects.
+
+Subjects the student is studying:
+{subjects}
 
 Weak Subjects:
 {weak_subjects}
 
+Available Study Hours:
+{study_hours} hour(s) per day.
+
 Create a balanced weekly study timetable.
+
+Give extra attention to the weak subjects.
 
 The timetable should:
 
-1. Use the available study hours effectively.
-2. Give extra attention to weak subjects.
-3. Include revision time.
-4. Include practice/question-solving time.
-5. Include short breaks.
-6. Avoid overloading the student.
-7. Keep the timetable realistic and student-friendly.
+1. Use only the student's actual subjects.
+2. Give more study time to weak subjects.
+3. Distribute the remaining subjects fairly.
+4. Include revision time.
+5. Include practice/question-solving time.
+6. Include short breaks.
+7. Avoid overloading the student.
+8. Keep the timetable realistic.
 
 Return ONLY a neat markdown table with:
 
 | Time | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday |
 """
-    
+
     return ask_gemini(prompt)
