@@ -568,7 +568,8 @@ Return the response in beautiful markdown.
 def generate_timetable(
     study_hours,
     subjects,
-    weak_subjects
+    weak_subjects,
+    subject_exam_dates
 ):
 
     prompt = f"""
