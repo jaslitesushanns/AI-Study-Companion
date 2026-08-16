@@ -542,6 +542,8 @@ else:
                     f"📅 {subject} Exam Date",
                     key=f"exam_date_{subject}"
                 )
+            
+            st.session_state.subject_exam_dates = subject_exam_dates
 
             if st.button("✨ Analyze Subject Priority"):
 
