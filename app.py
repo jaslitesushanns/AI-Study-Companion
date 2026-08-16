@@ -473,9 +473,9 @@ else:
 
                 timetable = generate_timetable(
                     study_hours,
+                    user["subjects"],
                     user["weak_subjects"]
                 )
-
                 st.markdown(timetable)
                         # ---------------- STUDY SESSION ---------------- #
 
