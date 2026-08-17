@@ -646,7 +646,7 @@ else:
 
         # ---------------- FLASHCARDS ---------------- #
 
-       if menu == "🧠 Flashcards":
+    if menu == "🧠 Flashcards":
 
         st.title("🧠 AI Flashcards")
 
