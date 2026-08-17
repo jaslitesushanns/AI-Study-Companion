@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 import google.generativeai as genai
+import json
 
 from auth import (
     register_user,
@@ -644,7 +645,7 @@ else:
 
                 st.markdown(notes)
 
-        # ---------------- FLASHCARDS ---------------- #
+       # ---------------- FLASHCARDS ---------------- #
 
     if menu == "🧠 Flashcards":
 
@@ -676,17 +677,41 @@ else:
             )
 
             try:
-                flashcards_data = json.loads(flashcards)
+
+                cleaned_flashcards = flashcards.strip()
+
+                if cleaned_flashcards.startswith("```"):
+                    cleaned_flashcards = cleaned_flashcards.replace(
+                        "```json",
+                        ""
+                    ).replace(
+                        "```",
+                        ""
+                    ).strip()
+
+                flashcards_data = json.loads(
+                    cleaned_flashcards
+                )
+
+                if not isinstance(flashcards_data, list):
+                    raise ValueError(
+                        "Flashcards are not in list format."
+                    )
 
                 st.session_state.flashcards = flashcards_data
                 st.session_state.flashcard_answers = {}
 
-                st.success("🎴 Flashcards generated!")
+                st.success(
+                    "🎴 Flashcards generated successfully!"
+                )
+
+                st.balloons()
 
             except Exception:
+
                 st.error(
-                    "The AI returned an unexpected format. "
-                    "Please try generating the flashcards again."
+                    "The AI returned an unexpected flashcard format. "
+                    "Please try again."
                 )
 
         if "flashcards" in st.session_state:
@@ -710,12 +735,14 @@ else:
 
                     st.session_state.flashcard_answers[i] = True
 
-                if st.session_state.flashcard_answers.get(i, False):
+                if st.session_state.flashcard_answers.get(
+                    i,
+                    False
+                ):
 
                     st.success(
                         f"**Answer:** {card['answer']}"
                     )
-
         # ---------------- STORY LEARNING ---------------- #
 
     if menu == "📚 Story Learning":
