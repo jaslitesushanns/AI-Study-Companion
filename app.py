@@ -646,36 +646,75 @@ else:
 
         # ---------------- FLASHCARDS ---------------- #
 
-    if menu == "🧠 Flashcards":
+       if menu == "🧠 Flashcards":
 
-            st.title("🧠 AI Flashcards")
+        st.title("🧠 AI Flashcards")
 
-            subject = st.text_input(
-                "Subject",
-                key="flash_subject"
+        subject = st.text_input(
+            "Subject",
+            key="flash_subject"
+        )
+
+        chapter = st.text_input(
+            "Chapter",
+            key="flash_chapter"
+        )
+
+        cards = st.slider(
+            "Number of Flashcards",
+            5,
+            30,
+            10
+        )
+
+        if st.button("✨ Generate Flashcards"):
+
+            flashcards = generate_flashcards(
+                subject,
+                chapter,
+                cards
             )
 
-            chapter = st.text_input(
-                "Chapter",
-                key="flash_chapter"
-            )
+            try:
+                flashcards_data = json.loads(flashcards)
 
-            cards = st.slider(
-                "Number of Flashcards",
-                5,
-                30,
-                10
-            )
+                st.session_state.flashcards = flashcards_data
+                st.session_state.flashcard_answers = {}
 
-            if st.button("Generate Flashcards"):
+                st.success("🎴 Flashcards generated!")
 
-                flashcards = generate_flashcards(
-                    subject,
-                    chapter,
-                    cards
+            except Exception:
+                st.error(
+                    "The AI returned an unexpected format. "
+                    "Please try generating the flashcards again."
                 )
 
-                st.markdown(flashcards)
+        if "flashcards" in st.session_state:
+
+            for i, card in enumerate(
+                st.session_state.flashcards
+            ):
+
+                st.subheader(
+                    f"🃏 Flashcard {i + 1}"
+                )
+
+                st.write(
+                    f"**Question:** {card['question']}"
+                )
+
+                if st.button(
+                    "👀 Reveal Answer",
+                    key=f"reveal_{i}"
+                ):
+
+                    st.session_state.flashcard_answers[i] = True
+
+                if st.session_state.flashcard_answers.get(i, False):
+
+                    st.success(
+                        f"**Answer:** {card['answer']}"
+                    )
 
         # ---------------- STORY LEARNING ---------------- #
 
