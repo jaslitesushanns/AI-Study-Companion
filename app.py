@@ -661,11 +661,22 @@ else:
             key="flash_chapter"
         )
 
+        difficulty = st.selectbox(
+            "Difficulty",
+            [
+                "Easy",
+                "Medium",
+                "Hard"
+            ],
+            key="flash_difficulty"
+        )
+
         cards = st.slider(
             "Number of Flashcards",
             5,
             30,
-            10
+            10,
+            key="flash_cards"
         )
 
         if st.button("✨ Generate Flashcards"):
@@ -673,7 +684,8 @@ else:
             flashcards = generate_flashcards(
                 subject,
                 chapter,
-                cards
+                cards,
+                difficulty
             )
 
             try:
