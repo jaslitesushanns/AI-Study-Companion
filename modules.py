@@ -300,18 +300,30 @@ Subject:
 Chapter:
 {chapter}
 
-Create {cards} flashcards.
+Create exactly {cards} flashcards.
 
-Each flashcard must contain:
+IMPORTANT:
+Return ONLY valid JSON.
+Do not use markdown.
+Do not add explanations.
 
-Question:
-Answer:
+Use this exact format:
 
-Keep them short, simple and exam-friendly.
+[
+    {{
+        "question": "Question here",
+        "answer": "Answer here"
+    }}
+]
+
+Rules:
+- Create exactly {cards} flashcards.
+- Keep questions short and exam-friendly.
+- Keep answers accurate, short and simple.
+- Each flashcard must have exactly one question and one answer.
 """
 
     return ask_gemini(prompt)
-
 # ---------------- STORY LEARNING ---------------- #
 
 def generate_story(topic):
