@@ -896,59 +896,61 @@ else:
                 st.markdown(game)
         # ---------------- PROGRESS ---------------- #
 
+   # ---------------- PROGRESS TRACKER ---------------- #
+
     if menu == "📈 Progress":
 
-            st.title("📈 AI Progress Tracker")
+        st.title("📈 AI Progress Tracker")
 
-            st.subheader("📅 Weekly Study Chart")
-            st.plotly_chart(
-                weekly_chart(),
-                use_container_width=True
+        subject = st.text_input(
+            "📚 Subject"
+        )
+
+        completed = st.number_input(
+            "✅ Completed Topics",
+            min_value=0,
+            value=0
+        )
+
+        total = st.number_input(
+            "📖 Total Topics",
+            min_value=1,
+            value=10
+        )
+
+        hours = st.slider(
+            "⏰ Total Study Hours",
+            0,
+            200,
+            0
+        )
+
+        if st.button("📊 Analyze Progress"):
+
+            progress = analyze_progress(
+                subject,
+                completed,
+                total,
+                hours
             )
 
-            st.subheader("📊 Monthly Progress")
-            st.plotly_chart(
-                monthly_chart(),
-                use_container_width=True
+            st.success(
+                "Progress Analysis Completed! 🎉"
             )
 
-            st.markdown("---")
+            st.markdown(progress)
 
-            subject = st.text_input("📚 Subject")
+            progress_percentage = completed / total
 
-            completed = st.number_input(
-                "✅ Completed Topics",
-                min_value=0,
-                value=5
+            st.progress(
+                progress_percentage
             )
 
-            total = st.number_input(
-                "📖 Total Topics",
-                min_value=1,
-                value=10
+            st.write(
+                f"📈 **Current Progress: {progress_percentage * 100:.0f}%**"
             )
 
-            hours = st.slider(
-                "⏰ Total Study Hours",
-                1,
-                200,
-                20
-            )
-
-            if st.button("📊 Analyze Progress"):
-
-                progress = analyze_progress(
-                    subject,
-                    completed,
-                    total,
-                    hours
-                )
-
-                st.success("Progress Analysis Completed! 🎉")
-
-                st.markdown(progress)
-
-                st.progress(completed / total)
+            st.balloons()
 
         # ---------------- REPORTS ---------------- #
 
