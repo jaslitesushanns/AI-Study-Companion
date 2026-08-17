@@ -288,7 +288,8 @@ Use simple student-friendly English.
 def generate_flashcards(
     subject,
     chapter,
-    cards
+    cards,
+    difficulty
 ):
 
     prompt = f"""
@@ -299,6 +300,9 @@ Subject:
 
 Chapter:
 {chapter}
+
+Difficulty:
+{difficulty}
 
 Create exactly {cards} flashcards.
 
@@ -317,9 +321,14 @@ Use this exact format:
 ]
 
 Rules:
+
 - Create exactly {cards} flashcards.
+- Difficulty level must be: {difficulty}.
+- Easy = basic definitions and simple concepts.
+- Medium = understanding and application questions.
+- Hard = challenging conceptual and exam-style questions.
 - Keep questions short and exam-friendly.
-- Keep answers accurate, short and simple.
+- Keep answers accurate, clear and concise.
 - Each flashcard must have exactly one question and one answer.
 """
 
