@@ -27,6 +27,22 @@ st.set_page_config(
     page_icon="📚",
     layout="wide"
 )
+st.markdown("""
+<div style="
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    margin-bottom: 25px;
+">
+    <h1 style="color: white; margin-bottom: 8px;">
+        📚 AI Powered Study Companion
+    </h1>
+    <p style="color: white; font-size: 18px; margin: 0;">
+        Learn smarter • Plan better • Achieve more 🚀
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------- DATABASE ---------------- #
 
