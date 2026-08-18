@@ -1064,74 +1064,14 @@ else:
 
     if menu == "⚙️ Settings":
 
-        st.title("⚙️ Settings")
+            st.title("⚙️ Settings")
 
-        st.subheader("👤 Profile Information")
+            st.info("Profile settings will be added here.")
 
-        st.write(
-            f"**Student Name:** {user['name']}"
-        )
+            if st.button("Reset Progress"):
 
-        st.write(
-            f"**Class:** {user['student_class']}"
-        )
+                st.warning("Feature coming soon.")
 
-        st.write(
-            f"**Board:** {user['board']}"
-        )
-
-        st.write(
-            f"**Percentage:** {user['percentage']}"
-        )
-
-        st.write(
-            f"**Study Hours:** {user['study_hours']}"
-        )
-
-        st.write(
-            f"**Goal:** {user['goal']}"
-        )
-
-        st.write(
-            f"**Subjects:** {user['subjects']}"
-        )
-
-        st.write(
-            f"**Weak Subjects:** {user['weak_subjects']}"
-        )
-
-        st.markdown("---")
-
-        st.subheader("📚 Study Preferences")
-
-        new_study_hours = st.slider(
-            "⏰ Daily Study Hours",
-            1,
-            12,
-            user["study_hours"],
-            key="settings_study_hours"
-        )
-
-        if st.button("💾 Save Study Preferences"):
-
-            user["study_hours"] = new_study_hours
-
-            st.success(
-                "✅ Study preferences updated!"
-            )
-
-            st.balloons()
-
-        st.markdown("---")
-
-        st.subheader("🔄 Progress")
-
-        if st.button("Reset Progress"):
-
-            st.warning(
-                "⚠️ Progress reset functionality will be connected "
-                "to your saved account data."
-            )
         # ---------------- AI AGENT ---------------- #
 
     if menu == "🤖 AI Agent":
