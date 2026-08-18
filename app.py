@@ -771,48 +771,126 @@ else:
 
         # ---------------- QUIZ ---------------- #
 
+    # ---------------- AI QUIZ ---------------- #
+
     if menu == "❓ Quiz":
 
-            st.title("❓ AI Quiz Generator")
+        st.title("❓ AI Quiz Generator")
 
-            subject = st.text_input(
-                "Subject",
-                key="quiz_subject"
+        subject = st.text_input(
+            "Subject",
+            key="quiz_subject"
+        )
+
+        chapter = st.text_input(
+            "Chapter",
+            key="quiz_chapter"
+        )
+
+        difficulty = st.selectbox(
+            "Difficulty",
+            [
+                "Easy",
+                "Medium",
+                "Hard"
+            ],
+            key="quiz_difficulty"
+        )
+
+        questions = st.slider(
+            "Number of Questions",
+            5,
+            20,
+            10,
+            key="quiz_questions"
+        )
+
+        if st.button("✨ Generate Quiz"):
+
+            quiz = generate_quiz(
+                subject,
+                chapter,
+                difficulty,
+                questions
             )
 
-            chapter = st.text_input(
-                "Chapter",
-                key="quiz_chapter"
-            )
+            try:
 
-            difficulty = st.selectbox(
-                "Difficulty",
-                [
-                    "Easy",
-                    "Medium",
-                    "Hard"
-                ]
-            )
+                cleaned_quiz = quiz.strip()
 
-            questions = st.slider(
-                "Questions",
-                5,
-                20,
-                10
-            )
+                if cleaned_quiz.startswith("```"):
+                    cleaned_quiz = cleaned_quiz.replace(
+                        "```json",
+                        ""
+                    ).replace(
+                        "```",
+                        ""
+                    ).strip()
 
-            if st.button("Generate Quiz"):
-
-                quiz = generate_quiz(
-                    subject,
-                    chapter,
-                    difficulty,
-                    questions
+                quiz_data = json.loads(
+                    cleaned_quiz
                 )
 
-                st.markdown(quiz)
+                if not isinstance(quiz_data, list):
+                    raise ValueError(
+                        "Quiz is not in list format."
+                    )
+
+                st.session_state.quiz = quiz_data
+                st.session_state.quiz_answers = {}
+
+                st.success(
+                    "📝 Quiz generated successfully!"
+                )
+
                 st.balloons()
 
+            except Exception:
+
+                st.error(
+                    "The AI returned an unexpected quiz format. "
+                    "Please try again."
+                )
+
+        if "quiz" in st.session_state:
+
+            for i, question in enumerate(
+                st.session_state.quiz
+            ):
+
+                st.subheader(
+                    f"❓ Question {i + 1}"
+                )
+
+                st.write(
+                    question["question"]
+                )
+
+                selected_answer = st.radio(
+                    "Choose your answer:",
+                    question["options"],
+                    key=f"quiz_option_{i}"
+                )
+
+                if st.button(
+                    "👀 Reveal Answer",
+                    key=f"quiz_reveal_{i}"
+                ):
+
+                    st.session_state.quiz_answers[i] = True
+
+                if st.session_state.quiz_answers.get(
+                    i,
+                    False
+                ):
+
+                    st.success(
+                        f"✅ Correct Answer: {question['answer']}"
+                    )
+
+                    st.info(
+                        f"💡 Explanation: {question['explanation']}"
+                    ) 
         # ---------------- EXAM SIMULATOR ---------------- #
 
     if menu == "🎯 Exam Simulator":
