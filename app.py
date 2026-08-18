@@ -1060,7 +1060,7 @@ else:
 
                 st.markdown(report)
 
-    # ---------------- SETTINGS ---------------- #
+   # ---------------- SETTINGS ---------------- #
 
     if menu == "⚙️ Settings":
 
@@ -1069,35 +1069,35 @@ else:
         st.subheader("👤 Profile Information")
 
         st.write(
-            f"**Student Name:** {user.get('student_name', 'Not set')}"
+            f"**Student Name:** {user['name']}"
         )
 
         st.write(
-            f"**Class:** {user.get('student_class', 'Not set')}"
+            f"**Class:** {user['student_class']}"
         )
 
         st.write(
-            f"**Board:** {user.get('board', 'Not set')}"
+            f"**Board:** {user['board']}"
         )
 
         st.write(
-            f"**Percentage:** {user.get('percentage', 'Not set')}"
+            f"**Percentage:** {user['percentage']}"
         )
 
         st.write(
-            f"**Study Hours:** {user.get('study_hours', 'Not set')}"
+            f"**Study Hours:** {user['study_hours']}"
         )
 
         st.write(
-            f"**Goal:** {user.get('goal', 'Not set')}"
+            f"**Goal:** {user['goal']}"
         )
 
         st.write(
-            f"**Subjects:** {user.get('subjects', 'Not set')}"
+            f"**Subjects:** {user['subjects']}"
         )
 
         st.write(
-            f"**Weak Subjects:** {user.get('weak_subjects', 'Not set')}"
+            f"**Weak Subjects:** {user['weak_subjects']}"
         )
 
         st.markdown("---")
@@ -1108,13 +1108,8 @@ else:
             "⏰ Daily Study Hours",
             1,
             12,
-            int(user.get("study_hours", 2)),
+            user["study_hours"],
             key="settings_study_hours"
-        )
-
-        st.info(
-            "Your current profile information is displayed above. "
-            "Study preferences can be adjusted here."
         )
 
         if st.button("💾 Save Study Preferences"):
@@ -1137,7 +1132,6 @@ else:
                 "⚠️ Progress reset functionality will be connected "
                 "to your saved account data."
             )
-
         # ---------------- AI AGENT ---------------- #
 
     if menu == "🤖 AI Agent":
