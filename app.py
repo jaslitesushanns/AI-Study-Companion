@@ -1059,17 +1059,84 @@ else:
                 )
 
                 st.markdown(report)
-        # ---------------- SETTINGS ---------------- #
+
+    # ---------------- SETTINGS ---------------- #
 
     if menu == "⚙️ Settings":
 
-            st.title("⚙️ Settings")
+        st.title("⚙️ Settings")
 
-            st.info("Profile settings will be added here.")
+        st.subheader("👤 Profile Information")
 
-            if st.button("Reset Progress"):
+        st.write(
+            f"**Student Name:** {user.get('student_name', 'Not set')}"
+        )
 
-                st.warning("Feature coming soon.")
+        st.write(
+            f"**Class:** {user.get('student_class', 'Not set')}"
+        )
+
+        st.write(
+            f"**Board:** {user.get('board', 'Not set')}"
+        )
+
+        st.write(
+            f"**Percentage:** {user.get('percentage', 'Not set')}"
+        )
+
+        st.write(
+            f"**Study Hours:** {user.get('study_hours', 'Not set')}"
+        )
+
+        st.write(
+            f"**Goal:** {user.get('goal', 'Not set')}"
+        )
+
+        st.write(
+            f"**Subjects:** {user.get('subjects', 'Not set')}"
+        )
+
+        st.write(
+            f"**Weak Subjects:** {user.get('weak_subjects', 'Not set')}"
+        )
+
+        st.markdown("---")
+
+        st.subheader("📚 Study Preferences")
+
+        new_study_hours = st.slider(
+            "⏰ Daily Study Hours",
+            1,
+            12,
+            int(user.get("study_hours", 2)),
+            key="settings_study_hours"
+        )
+
+        st.info(
+            "Your current profile information is displayed above. "
+            "Study preferences can be adjusted here."
+        )
+
+        if st.button("💾 Save Study Preferences"):
+
+            user["study_hours"] = new_study_hours
+
+            st.success(
+                "✅ Study preferences updated!"
+            )
+
+            st.balloons()
+
+        st.markdown("---")
+
+        st.subheader("🔄 Progress")
+
+        if st.button("Reset Progress"):
+
+            st.warning(
+                "⚠️ Progress reset functionality will be connected "
+                "to your saved account data."
+            )
 
         # ---------------- AI AGENT ---------------- #
 
