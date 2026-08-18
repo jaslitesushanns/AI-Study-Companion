@@ -346,7 +346,7 @@ def generate_story(topic):
     return ask_gemini(prompt)
 
 
-# ---------------- QUIZ ---------------- #
+# ---------------- AI QUIZ ---------------- #
 
 def generate_quiz(
     subject,
@@ -356,7 +356,7 @@ def generate_quiz(
 ):
 
     prompt = f"""
-You are an AI Quiz Generator.
+You are an expert AI Quiz Generator.
 
 Subject:
 {subject}
@@ -367,25 +367,39 @@ Chapter:
 Difficulty:
 {difficulty}
 
-Generate {questions} multiple choice questions.
+Create exactly {questions} multiple-choice questions.
 
-Each question should contain:
+IMPORTANT:
+Return ONLY valid JSON.
+Do not use markdown.
+Do not add explanations outside the JSON.
 
-Question
+Use this exact format:
 
-A)
+[
+    {{
+        "question": "Question here",
+        "options": [
+            "Option A",
+            "Option B",
+            "Option C",
+            "Option D"
+        ],
+        "answer": "Correct answer",
+        "explanation": "Short explanation"
+    }}
+]
 
-B)
+Rules:
 
-C)
-
-D)
-
-Correct Answer
-
-Explanation
-
-Keep the questions suitable for students.
+- Create exactly {questions} questions.
+- Each question must have exactly 4 options.
+- Only ONE option must be correct.
+- The correct answer must exactly match one of the options.
+- Difficulty must be {difficulty}.
+- Keep questions suitable for students.
+- Make the options plausible.
+- Do not reveal the correct answer outside the JSON.
 """
 
     return ask_gemini(prompt)
