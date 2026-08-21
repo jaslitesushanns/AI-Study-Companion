@@ -108,7 +108,9 @@ if not st.session_state.logged_in:
 
     st.title("📚 AI Powered Study Companion")
 
-    tab1, tab2 = st.tabs(["🔐 Login", "📝 Sign Up"])
+    tab1, tab2 = st.tabs(
+        ["🔐 Login", "📝 Sign Up"]
+    )
 
     # ---------- LOGIN ---------- #
 
@@ -139,16 +141,19 @@ if not st.session_state.logged_in:
                 st.session_state.logged_in = True
                 st.session_state.user = dict(user)
 
-                st.success("Login Successful 🎉")
+                st.success(
+                    "Login Successful 🎉"
+                )
+
                 st.rerun()
 
             else:
 
-                st.error("Invalid Email or Password")
+                st.error(
+                    "Invalid Email or Password"
+                )
 
     # ---------- SIGNUP ---------- #
-
-       # ---------- SIGNUP ---------- #
 
     with tab2:
 
@@ -169,15 +174,21 @@ if not st.session_state.logged_in:
 
             if not signup_email.strip():
 
-                st.error("Please enter your email.")
+                st.error(
+                    "Please enter your email."
+                )
 
             elif not signup_password:
 
-                st.error("Please enter a password.")
+                st.error(
+                    "Please enter a password."
+                )
 
             elif len(signup_password) < 6:
 
-                st.error("Password must be at least 6 characters.")
+                st.error(
+                    "Password must be at least 6 characters."
+                )
 
             else:
 
@@ -189,15 +200,13 @@ if not st.session_state.logged_in:
                 if success:
 
                     st.success(
-                        "Account created successfully! 🎉 "
+                        f"{message} 🎉 "
                         "Please go to the Login tab and log in."
                     )
 
+                else:
 
-
-                    if st.session_state.user is None:
-                      st.session_state.logged_in = False
-                      st.rerun()
+                    st.error(message)
 
 else:
 
@@ -206,10 +215,11 @@ else:
     )
 
     if user is None:
+
         st.session_state.logged_in = False
         st.session_state.user = None
-        st.rerun()
 
+        st.rerun()
     # ---------------- PROFILE ---------------- #
 
     menu = None
